@@ -1,1 +1,23 @@
-<table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
+<div class="container">
+    <div class="portfolio-header">
+        <button class="p-button-raised p-button-info" pButton type="button" label="Back" (click)="goBack()"></button>
+        <button class="p-button-raised p-button-success" pButton type="button" label="Refresh Data" (click)="refresh()"></button>
+    </div>
+    
+    <div class="portfolio-container">
+        <p-table [columns]="portfolioColumns" [value]="portfolioData" styleClass="p-datatable-sm" sortMode="multiple">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" pSortableColumn="col.field">
+                        {{col.header}} <p-sortIcon field="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-portfolioData let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">{{portfolioData[col.field]}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

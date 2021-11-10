@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  title = 'Portfolio visualization tools';
+  title = 'Portfolio visualization tools'; //TODO localisation
 
   constructor() { }
 

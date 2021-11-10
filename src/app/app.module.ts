@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { ButtonModule } from "primeng/button";
+import {TableModule} from 'primeng/table';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-
-import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,12 @@ import { DataTablesModule } from 'angular-datatables';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    DataTablesModule
+    ButtonModule,
+    TableModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
-//DataTablesModule.forRoot();
