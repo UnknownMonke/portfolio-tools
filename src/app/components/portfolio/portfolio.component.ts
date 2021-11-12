@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../services/portfolio.service';
-import { Location } from '@angular/common';
 
 import { Equity } from 'src/app/dto/equity';
 
@@ -14,14 +13,19 @@ export class PortfolioComponent implements OnInit {
   portfolioData: Equity[] = [];
   portfolioColumns: any[] = [];
 
+  loading: boolean = true;
+
   constructor(
-    private portfolioService: PortfolioService,
-    private location: Location
+    private portfolioService: PortfolioService
   ) {}
 
   ngOnInit(): void {
     this.portfolioData = this.loadPortfolio();
+    console.log(this.portfolioData);
 
+    this.loading = false;
+
+    // filed name must be identical to the dto field name
     this.portfolioColumns = [
       { field: 'name', header: 'Name'},
       { field: 'ticker', header: 'Ticker'},
@@ -33,11 +37,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   loadPortfolio(): Equity[] {
-    return this.portfolioService.load();
-  }
-
-  goBack(): void {
-    this.location.back();
+    return this.portfolioService.load()
+      .filter(data => data.active);
   }
 
   refresh(): void {

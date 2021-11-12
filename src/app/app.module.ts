@@ -10,6 +10,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
+import { GeographicExposureComponent } from './components/geographic-exposure/geographic-exposure.component';
+import { LastPageDirective } from './directives/last-page.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    GeographicExposureComponent,
+    LastPageDirective
   ],
   imports: [
     BrowserModule,

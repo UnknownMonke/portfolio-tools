@@ -1,21 +1,50 @@
 <div class="container">
     <div class="portfolio-header">
-        <button class="p-button-raised p-button-info" pButton type="button" label="Back" (click)="goBack()"></button>
-        <button class="p-button-raised p-button-success" pButton type="button" label="Refresh Data" (click)="refresh()"></button>
-    </div>
+        <div class="central">
+            <button class="p-button-raised p-button-info" pButton type="button" label="Back" appLastPage></button>
+            <button class="p-button-raised p-button-success" pButton type="button" label="Refresh Data" (click)="refresh()"></button>
+        </div>
+        <div class="right">
+            <button class="p-button-raised p-button-rounded p-button-success" pButton type="button" label="Geographic repartition" routerLink="/geography"></button>
+        </div>
+   </div>
     
     <div class="portfolio-container">
-        <p-table [columns]="portfolioColumns" [value]="portfolioData" styleClass="p-datatable-sm" sortMode="multiple">
+        <p-table 
+            [columns]="portfolioColumns" 
+            [value]="portfolioData"
+            [loading]="loading"
+            [paginator]="true"
+            [rows]="20"
+            [showCurrentPageReport]="true" 
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+            [rowsPerPageOptions]="[20,50,100]"
+            styleClass="p-datatable-sm" 
+            sortMode="multiple">
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th *ngFor="let col of columns" pSortableColumn="col.field">
-                        {{col.header}} <p-sortIcon field="col.field"></p-sortIcon>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
                     </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-portfolioData let-columns="columns">
                 <tr>
-                    <td *ngFor="let col of columns">{{portfolioData[col.field]}}</td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount != null" [ngIfElse]="elseBlock">
+                            <span>{{portfolioData.amount | currency: 'EUR'}}</span>
+                        </ng-template>
+                        <ng-template #elseBlock>
+                            <span>€0.00</span>
+                        </ng-template>
+                        <span *ngSwitchDefault>{{portfolioData[col.field]}}</span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
+                <tr>
+                    <td [attr.colspan]="columns.length">No records found</td>
                 </tr>
             </ng-template>
         </p-table>

@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
 
-    .portfolio-header {
+    .geography-header {
         margin: 16px;
         display: inline-flex;
 
@@ -12,14 +12,9 @@
                 margin-right: 8px;
             }
         }
-
-        .right {
-            margin-left: auto;
-        }
     }
 
-    .portfolio-container {
+    .geography-container {
         margin: 16px 32px;
     }
 }
-

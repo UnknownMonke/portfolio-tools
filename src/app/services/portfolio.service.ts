@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Equity } from '../dto/equity';
 import { EQUITIES } from '../dto/mock-equities';
+import Utils from '../common/utils';
 import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
 const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;
 
+// service de login et récupération du portfolio et des balances DeGiro
 @Injectable({
   providedIn: 'root'
 })
@@ -39,14 +41,17 @@ export class PortfolioService {
     //gestion du JSON reçu ici
     let portfolioData: Equity[] = [];
 
-    EQUITIES.forEach(function(position) {
+    EQUITIES
+    .filter(val => val.positionType === "PRODUCT")
+    .forEach(function(position) {
       const equity: Equity = {
         equityId: Number(position.id),
         name: position.productData?.name,
         ticker: position.productData?.symbol,
         type: position.productData?.productType,
+        active: Utils.validateVariable(position.size),
         quantity: position.size,
-        amount: position.value
+        amount: Utils.validateVariable(position.value) ? position.value : 0
       };
 
       portfolioData.push(equity);
