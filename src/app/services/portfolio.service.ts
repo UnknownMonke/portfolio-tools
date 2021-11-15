@@ -6,13 +6,13 @@ import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
 const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;
 
-// service de login et récupération du portfolio et des balances DeGiro
+//service de login et récupération du portfolio et des balances DeGiro
 @Injectable({
   providedIn: 'root'
 })
 export class PortfolioService {
 
-  constructor() { }
+  constructor() {}
 
   //private portfolioUrl = 'portfolio';
 
@@ -35,7 +35,7 @@ export class PortfolioService {
       })
       console.log(portfolio)
     })();*/
-    console.log(EQUITIES); //TODO login et sécurité
+    //console.log(EQUITIES); //TODO login et sécurité
 
 
     //gestion du JSON reçu ici

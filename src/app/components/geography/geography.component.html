@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="geography-header">
+        <div class="central">
+            <button class="p-button-raised p-button-info" pButton type="button" label="Back" appLastPage></button>
+        </div>
+   </div>
+    
+    <app-geographic-exposure [geographicData]="geographicData" [geographicTotal]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure> <!--child components-->
+    <app-geographic-graph [graphData]="geographicTotal" [regionMap]="regionMap"></app-geographic-graph>
+</div>

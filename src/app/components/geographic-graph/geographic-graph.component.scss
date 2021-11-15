@@ -1,0 +1,11 @@
+.graph-container {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    margin: 16px 32px;
+
+    .chart-container {
+        width: 50%;
+        height: 50%;
+    }
+}

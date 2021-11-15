@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Geographies } from 'src/app/dto/geographies';
-import { GEOGRAPHY } from 'src/app/dto/mock-geography';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-geographic-exposure',
@@ -9,30 +7,19 @@ import { GEOGRAPHY } from 'src/app/dto/mock-geography';
 })
 export class GeographicExposureComponent implements OnInit {
 
-  geographicData: any[] = [];
+  @Input() geographicData: any[] = [];
+  @Input() geographicTotal: any = {};
+  @Input() regionMap: any[] = [];
+
   geographicColumns: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.geographicData = this.loadGeography();
-    
-    console.log(this.geographicData);
-
     this.geographicColumns = [
-      { field: 'name', header: 'Name'},
-      { field: 'usa', header: 'USA'},
-      { field: 'can', header: 'Canada'},
-      { field: 'euw', header: 'EU West'},
-      { field: 'nor', header: 'Nordic'},
-      { field: 'eue', header: 'EU East'},
-      { field: 'jap', header: 'Japan'},
-      { field: 'chi', header: 'China'}
-    ]
+      {field: 'name', header: 'Name'},
+      {field: 'value', header: 'Amount'}
+    ];
+    this.regionMap.forEach(region => this.geographicColumns.push(region));
   }
-
-  loadGeography(): any[] {
-    return GEOGRAPHY;
-  }
-
 }

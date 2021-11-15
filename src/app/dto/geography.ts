@@ -1,4 +1,4 @@
 export interface Geography {
-    region: string,
-    exposure: number
+  region: string,
+  exposure: number
 }

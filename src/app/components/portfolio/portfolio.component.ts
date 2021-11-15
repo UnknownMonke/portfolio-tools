@@ -21,11 +21,11 @@ export class PortfolioComponent implements OnInit {
 
   ngOnInit(): void {
     this.portfolioData = this.loadPortfolio();
-    console.log(this.portfolioData);
+    //console.log(this.portfolioData);
 
     this.loading = false;
 
-    // filed name must be identical to the dto field name
+    //field name must be identical to the dto field name
     this.portfolioColumns = [
       { field: 'name', header: 'Name'},
       { field: 'ticker', header: 'Ticker'},
@@ -33,7 +33,6 @@ export class PortfolioComponent implements OnInit {
       { field: 'quantity', header: 'Quantity'},
       { field: 'amount', header: 'Total amount'}
     ]
-
   }
 
   loadPortfolio(): Equity[] {
@@ -44,5 +43,4 @@ export class PortfolioComponent implements OnInit {
   refresh(): void {
     alert('refreshed'); //TODO customAlert
   }
-
 }

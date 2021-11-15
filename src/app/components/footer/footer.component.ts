@@ -9,9 +9,9 @@ import { environment } from 'src/environments/environment';
 export class FooterComponent implements OnInit {
   currentVersion = environment.VERSION;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
+    
   }
-
 }
