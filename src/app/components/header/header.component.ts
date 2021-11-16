@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppTitleService } from 'src/app/services/app-title.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs';
 
@@ -10,13 +9,12 @@ import { filter, map } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
   title: string = ""; 
 
   constructor(
-    private appTitleService: AppTitleService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +27,6 @@ export class HeaderComponent implements OnInit {
       .pipe(
         filter((event: any) => event instanceof NavigationEnd),
         map(() => {
-          console.log(this.activatedRoute);
           let child = this.activatedRoute.firstChild;
           while(child) {
             if(child.firstChild) {
@@ -42,10 +39,9 @@ export class HeaderComponent implements OnInit {
           }
           return null;
         })
-      ).subscribe((data: any) => {
-        console.log(data)
+      ).subscribe((data: any) => { //analog to jQuery ".on()"
         if(data) {
-          this.title = data.title;
+          this.title = data;
         }
       }
     );

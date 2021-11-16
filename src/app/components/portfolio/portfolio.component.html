@@ -31,7 +31,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-portfolioData let-columns="columns">
                 <tr>
-                    <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
+                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioData.equityId}}">
+                            {{portfolioData.name}}
+                        </span>
                         <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount != null" [ngIfElse]="elseBlock">
                             <span>{{portfolioData.amount | currency: 'EUR'}}</span>
                         </ng-template>

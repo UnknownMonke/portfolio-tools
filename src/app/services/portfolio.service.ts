@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Equity } from '../dto/equity';
-import { EQUITIES } from '../dto/mock-equities';
+import { Equity } from '../models/equity';
+import { EQUITIES } from '../common/constants/mock-equities';
 import Utils from '../common/utils';
 import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
@@ -44,17 +44,29 @@ export class PortfolioService {
     EQUITIES
     .filter(val => val.positionType === "PRODUCT")
     .forEach(function(position) {
-      const equity: Equity = {
-        equityId: Number(position.id),
-        name: position.productData?.name,
-        ticker: position.productData?.symbol,
-        type: position.productData?.productType,
-        active: Utils.validateVariable(position.size),
-        quantity: position.size,
-        amount: Utils.validateVariable(position.value) ? position.value : 0
-      };
+      /*const equity: Equity = new Equity(
+        Number(position.id),
+        position.productData?.name? position.productData.name : '', //TODO exceptions
+        position.productData?.symbol? position.productData.symbol : '',
+        position.productData?.productType? position.productData.productType : '',
+        Utils.validateVariable(position.size),
+        position.productData?.currency? position.productData.currency : '',
+        position.size? position.size : 0,
+        Utils.validateVariable(position.value) ? position.value? position.value : 0 : 0
+      );*/
 
-      portfolioData.push(equity);
+      /*const equity: Equity = {
+        equityId: Number(position.id),
+        position.productData?.name? position.productData.name : '', //TODO exceptions
+        position.productData?.symbol? position.productData.symbol : '',
+        position.productData?.productType? position.productData.productType : '',
+        Utils.validateVariable(position.size),
+        position.productData?.currency? position.productData.currency : '',
+        position.size? position.size : 0,
+        Utils.validateVariable(position.value) ? position.value? position.value : 0 : 0
+      };*/
+
+      //portfolioData.push(equity);
     })
 
     return portfolioData;

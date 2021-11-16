@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Constants from 'src/app/common/constants';
+import Constants from 'src/app/common/constants/constants';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({

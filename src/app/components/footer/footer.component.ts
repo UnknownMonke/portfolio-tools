@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  
   currentVersion = environment.VERSION;
 
   constructor() {}

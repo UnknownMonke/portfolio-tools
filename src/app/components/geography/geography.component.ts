@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Geographies } from 'src/app/dto/geographies';
-import { GEOGRAPHY } from 'src/app/dto/mock-geography';
+import { Geographies } from 'src/app/models/geographies';
+import { GEOGRAPHY } from 'src/app/common/constants/mock-geography';
 
 @Component({
   selector: 'app-geography',
