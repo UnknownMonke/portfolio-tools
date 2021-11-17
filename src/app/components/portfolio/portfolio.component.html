@@ -1,26 +1,26 @@
 <div class="container">
     <div class="portfolio-header">
         <div class="central">
-            <button class="p-button-raised p-button-info" pButton type="button" label="Back" appLastPage></button>
-            <button class="p-button-raised p-button-success" pButton type="button" label="Refresh Data" (click)="refresh()"></button>
+            <button pButton class="p-button-raised p-button-info" label="Back" appLastPage></button>
+            <button pButton class="p-button-raised p-button-success" label="Refresh Data" (click)="refresh()"></button>
         </div>
         <div class="right">
-            <button class="p-button-raised p-button-rounded p-button-success" pButton type="button" label="Geographic repartition" routerLink="/geography"></button>
+            <button pButton class="p-button-raised p-button-rounded p-button-success" label="Geographic repartition" routerLink="/geography"></button>
         </div>
    </div>
-    
+
     <div class="portfolio-container">
-        <p-table 
-            [columns]="portfolioColumns" 
+        <p-table
+            [columns]="portfolioColumns"
             [value]="portfolioData"
             [loading]="loading"
             [paginator]="true"
             [rows]="20"
-            [showCurrentPageReport]="true" 
+            [showCurrentPageReport]="true"
             responsiveLayout="scroll"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[20,50,100]"
-            styleClass="p-datatable-sm" 
+            styleClass="p-datatable-sm"
             sortMode="multiple">
             <ng-template pTemplate="header" let-columns>
                 <tr>

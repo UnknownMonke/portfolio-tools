@@ -6,7 +6,9 @@ import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
 const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;
 
-//service de login et récupération du portfolio et des balances DeGiro
+/**
+ * service de login et récupération du portfolio et des balances DeGiro
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -28,9 +30,9 @@ export class PortfolioService {
       const jsessionId = degiro.getJSESSIONID();
       console.log(jsessionId);
 
-      
-      const portfolio = await degiro.getPortfolio({ 
-        type: PORTFOLIO_POSITIONS_TYPE_ENUM.ALL, 
+
+      const portfolio = await degiro.getPortfolio({
+        type: PORTFOLIO_POSITIONS_TYPE_ENUM.ALL,
         getProductDetails: true,
       })
       console.log(portfolio)
@@ -71,7 +73,7 @@ export class PortfolioService {
 
     return portfolioData;
   }
-  
+
   /*leave(): void {
     (async () => {
       const degiro = new DeGiro({});

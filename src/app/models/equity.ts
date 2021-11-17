@@ -1,7 +1,9 @@
 import { Geography } from "./geography";
 import { Sector } from "./sector";
 
-//contient les détails sur l'équité, y compris sa répartition géographique et sectorielle
+/**
+ * contient les détails sur l'équité, y compris sa répartition géographique et sectorielle
+ */
 export interface Equity {
   equityId: number;
   name: string;

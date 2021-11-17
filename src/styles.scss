@@ -6,3 +6,7 @@ body {
 .p-paginator {
     justify-content: end !important;
 }
+
+.p-button:enabled:active, .p-button:enabled:focus {
+    box-shadow: none !important;
+}

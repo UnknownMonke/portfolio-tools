@@ -1,14 +1,20 @@
+//core
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 //primeng
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -28,10 +34,10 @@ import { SectorComponent } from './components/sector/sector.component';
 import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
 
 //services
-import { InMemoryDataService } from './services/in-memory-data.service';
 import { GeographyMappingComponent } from './components/geography-mapping/geography-mapping.component';
 
 @NgModule({
+  //import des composants de l'application
   declarations: [
     AppComponent,
     DashboardComponent,
@@ -49,6 +55,7 @@ import { GeographyMappingComponent } from './components/geography-mapping/geogra
     EquityDetailComponent,
     GeographyMappingComponent
   ],
+  //import des composants source
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -56,11 +63,18 @@ import { GeographyMappingComponent } from './components/geography-mapping/geogra
     TableModule,
     ChartModule,
     MenuModule,
+    TooltipModule,
+    DialogModule,
+    ConfirmDialogModule,
+    InputTextModule,
     AppRoutingModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  //import des services source
+  providers: [
+    ConfirmationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
@@ -68,6 +82,7 @@ export class AppModule { }
 // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
 // and returns simulated server responses.
 // Remove it when a real server is ready to receive requests.
-HttpClientInMemoryWebApiModule.forRoot(
-  InMemoryDataService, { dataEncapsulation: false }
-)
+
+// HttpClientInMemoryWebApiModule.forRoot(
+//   InMemoryDataService, { dataEncapsulation: false }
+// )
