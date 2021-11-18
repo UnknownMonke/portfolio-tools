@@ -16,12 +16,9 @@ export class GeographyMappingComponent implements OnInit {
     id: "0",
     name: ""
   };
-
   modify: boolean = false;
   submitted: boolean = false; //form validation
-
   dialogTitle: string = "";
-
   geographyList: Geography[] = [];
 
   @Input() selectedGeography: Geography = this.emptyGeography;
@@ -56,7 +53,7 @@ export class GeographyMappingComponent implements OnInit {
 
   getGeographies(): void {
     this.geographyService.getGeography()
-      .subscribe((data: Geography[]) => { // Ssubscribe will actually launch the request
+      .subscribe((data: Geography[]) => { // Subscribe will actually launch the request
         this.geographyList = data;
       });
   }
@@ -66,16 +63,16 @@ export class GeographyMappingComponent implements OnInit {
 
     if(geography.name.trim()) {
 
-      this.modify = false; //le dialog écoute le changement d'attribut et se fermera
+      this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
 
       if(geography.id !== "0") {
         this.geographyService.editGeography(geography);
 
-        //update data property
-        this.geographyList[this.findById(geography.id)].name = geography.name;
+        // Update data property
+        this.geographyList[this.findIndexFromId(geography.id)].name = geography.name;
       } else {
         this.geographyService.addGeography(geography.name.trim());
-        //update data property
+        // Update data property
         this.geographyList.push(geography);
       }
     }
@@ -91,13 +88,13 @@ export class GeographyMappingComponent implements OnInit {
         //TODO alert message
         console.log(geography);
 
-        //update data property
-        this.geographyList = this.geographyList.splice(this.findById(geography.id), 1);
+        // Update data property
+        this.geographyList = this.geographyList.splice(this.findIndexFromId(geography.id), 1);
       }
     });
   }
 
-  findById(id: string): number {
+  findIndexFromId(id: string): number {
     const idList = this.geographyList.map(geography => geography.id);
     return idList.indexOf(
       idList.filter(curr_id => curr_id = id)[0]
