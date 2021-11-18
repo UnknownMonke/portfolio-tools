@@ -78,7 +78,8 @@
               "browserTarget": "portfolio-tools:build:production"
             },
             "development": {
-              "browserTarget": "portfolio-tools:build:development"
+              "browserTarget": "portfolio-tools:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

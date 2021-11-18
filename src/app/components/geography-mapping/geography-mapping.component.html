@@ -51,7 +51,7 @@
     <ng-template pTemplate="content">
         <div class="p-field">
             <label for="name" class="inline-block mb-2">Name</label>
-            <input type="text" pInputText id="name" *ngIf="selectedGeography && selectedGeography.name" [(ngModel)]="selectedGeography.name" required autofocus/>
+            <input type="text" pInputText id="name" [(ngModel)]="selectedGeography.name" required autofocus/>
             <small class="p-error" *ngIf="submitted && !selectedGeography.name">Name is required.</small>
         </div>
     </ng-template>

@@ -1,4 +1,4 @@
 export interface Geography {
-  id: number;
+  id: string;
   name: string;
 }

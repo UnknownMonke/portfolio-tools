@@ -10,7 +10,7 @@ import { filter, map } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  title: string = ""; 
+  title: string = "";
 
   constructor(
     private router: Router,
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     this.observeNavigation();
   }
 
-  //subscribe à la navigation pour mettre à jour le titre du header
+  // Subscribe à la navigation pour mettre à jour le titre du header
   observeNavigation(): void {
     this.router.events
       .pipe(
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
           }
           return null;
         })
-      ).subscribe((data: any) => { //analog to jQuery ".on()"
+      ).subscribe((data: any) => { // Analog to jQuery ".on()"
         if(data) {
           this.title = data;
         }

@@ -1,11 +1,11 @@
-//core
+// Core
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-//primeng
+// PrimeNG
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
 import { ChartModule } from 'primeng/chart';
@@ -16,7 +16,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 
-//components
+// Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -33,11 +33,11 @@ import { SectorGraphComponent } from './components/sector-graph/sector-graph.com
 import { SectorComponent } from './components/sector/sector.component';
 import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
 
-//services
+// Services
 import { GeographyMappingComponent } from './components/geography-mapping/geography-mapping.component';
 
 @NgModule({
-  //import des composants de l'application
+  // Import des composants de l'application
   declarations: [
     AppComponent,
     DashboardComponent,
@@ -55,7 +55,7 @@ import { GeographyMappingComponent } from './components/geography-mapping/geogra
     EquityDetailComponent,
     GeographyMappingComponent
   ],
-  //import des composants source
+  // Import des composants source
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -71,7 +71,7 @@ import { GeographyMappingComponent } from './components/geography-mapping/geogra
     FormsModule,
     HttpClientModule
   ],
-  //import des services source
+  // Import des services source
   providers: [
     ConfirmationService
   ],

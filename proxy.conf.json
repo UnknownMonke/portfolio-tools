@@ -1,0 +1,7 @@
+{
+  "/geography/edit": {
+      "target": "http://localhost:4000/api/",
+      "secure": false,
+      "logLevel": "debug"
+  }
+}
