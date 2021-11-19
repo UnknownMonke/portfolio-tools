@@ -15,6 +15,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
+import { TreeModule } from 'primeng/tree';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -23,18 +24,18 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { GeographicExposureComponent } from './components/geographic-exposure/geographic-exposure.component';
+import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
 import { LastPageDirective } from './directives/last-page.directive';
-import { GeographicGraphComponent } from './components/geographic-graph/geographic-graph.component';
-import { GeographyComponent } from './components/geography/geography.component';
-import { SectorMappingComponent } from './components/sector-mapping/sector-mapping.component';
-import { SectorExposureComponent } from './components/sector-exposure/sector-exposure.component';
-import { SectorGraphComponent } from './components/sector-graph/sector-graph.component';
-import { SectorComponent } from './components/sector/sector.component';
+import { GeographicGraphComponent } from './components/geography/geographic-graph/geographic-graph.component';
+import { GeographyComponent } from './components/geography/geography-wrapper/geography.component';
+import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
+import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
+import { SectorGraphComponent } from './components/sector/sector-graph/sector-graph.component';
+import { SectorComponent } from './components/sector/sector-wrapper/sector.component';
 import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
 
 // Services
-import { GeographyMappingComponent } from './components/geography-mapping/geography-mapping.component';
+import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 
 @NgModule({
   // Import des composants de l'application
@@ -67,6 +68,7 @@ import { GeographyMappingComponent } from './components/geography-mapping/geogra
     DialogModule,
     ConfirmDialogModule,
     InputTextModule,
+    TreeModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule

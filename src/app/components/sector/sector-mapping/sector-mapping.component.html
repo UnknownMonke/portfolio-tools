@@ -1,0 +1,9 @@
+<div class="container m-4">
+    <div class="mb-4">
+        <button pButton pRipple class="p-button-raised p-button-info" label="Back" appLastPage></button>
+        <button pButton pRipple class="p-button-text mx-2" label="Expand all" (click)="expandAll()"></button>
+        <button pButton pRipple class="p-button-text" label="Collapse all" (click)="collapseAll()"></button>
+    </div>
+
+    <p-tree [value]="sectorData"></p-tree>
+</div>

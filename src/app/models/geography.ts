@@ -1,4 +1,4 @@
 export interface Geography {
-  id: string;
+  _id: string; // Identique au nom du champ id autogénéré par Mongo
   name: string;
 }

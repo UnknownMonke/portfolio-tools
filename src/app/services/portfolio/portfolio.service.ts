@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Equity } from '../models/equity';
-import { EQUITIES } from '../common/constants/mock-equities';
-import Utils from '../common/utils';
+import { Equity } from '../../models/equity';
+import { EQUITIES } from '../../common/constants/mock-equities';
+import Utils from '../../common/utils';
 import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
 const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;

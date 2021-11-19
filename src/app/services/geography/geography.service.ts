@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable, of, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Geography } from '../models/geography';
-import { APIEntry } from '../common/enums/api';
+import { Geography } from '../../models/geography';
+import { APIEntry } from '../../common/enums/api';
 
 
 @Injectable({
@@ -11,11 +11,9 @@ import { APIEntry } from '../common/enums/api';
 })
 export class GeographyService {
 
-  httpOptions: any = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-    })
-  };
+  headers: any = new HttpHeaders({
+    'Content-Type':  'application/json',
+  });
 
   constructor(
     private httpClient: HttpClient
@@ -30,34 +28,35 @@ export class GeographyService {
       );
   }
 
-  //TODO cast dans le bon type
   addGeography(name: string): Observable<Geography> {
     const body = {
       name: name
     };
     return this.httpClient
-      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, body, this.httpOptions)
+      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
       .pipe(
         catchError(this.handleError<any>())
       );
   }
 
   // Retourne le statut de la requête, si ok l'update se fait via la valeur du front
-  editGeography(geography: Geography): void {
-    this.httpClient
-      .post(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography.id}`, geography, this.httpOptions)
+  editGeography(geography: Geography): Observable<number> {
+    return this.httpClient
+      .post<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: this.headers, observe: 'response' })
       .pipe(
-        catchError(this.handleError<string>())
+        map(response => response.status),
+        catchError(this.handleError<any>())
       );
   }
 
   // Retourne le statut de la requête, si ok l'update se fait via la valeur du front
-  deleteGeography(geography: Geography): void {
-    this.httpClient
-    .post(`${APIEntry.GEOGRAPHY_ENTRY}/delete/${geography.id}`, geography, this.httpOptions)
-    .pipe(
-      catchError(this.handleError<string>())
-    );
+  deleteGeography(geography: Geography): Observable<number> {
+    return this.httpClient
+      .delete<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/delete/${geography._id}`, { headers: this.headers, observe: 'response' })
+      .pipe(
+        map(response => response.status),
+        catchError(this.handleError<any>())
+      );
   }
 
   private handleError<T>(response?: T) {

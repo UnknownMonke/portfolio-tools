@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -9,21 +7,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class DashboardComponent implements OnInit {
 
-  items: MenuItem[] = [];
-
   constructor() {}
 
-  ngOnInit(): void {
-    // Menu de management
-    this.items = [
-      {
-        label: 'Edit Geographies',
-        routerLink: ['/geography/edit']
-      },
-      {
-        label: 'Edit Sectors',
-        routerLink: ['/sector/edit']
-      }
-    ]
-  }
+  ngOnInit(): void {}
 }

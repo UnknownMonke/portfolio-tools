@@ -3,10 +3,22 @@
     width: 100%;
     height: 48px;
 
+    .context-menu {
+        height: 100%;
+        width: 100%;
+        display: inline-flex;
+        justify-content: flex-start;
+        position: absolute;
+        height: 48px;
+        top: 0;
+
+        button {
+            height: 100%;
+        }
+    }
+
     .title {
         font-family: Heebo, sans-serif;
-        position: relative;
-        z-index: 300;
         display: inline-flex;
         width: 100%;
         justify-content: center;

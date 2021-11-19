@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+html, body {
+    min-height: 100%;
+}
+
 .p-paginator {
     justify-content: end !important;
 }

@@ -1,7 +1,6 @@
 <div class="container m-4">
     <div class="mb-4">
-        <button pButton pRipple class="p-button-raised p-button-info mr-1" label="Back" appLastPage></button>
-        <button pButton pRipple class="p-button-raised p-button-success ml-1" label="Add Geography" icon="pi pi-plus" (click)="openDialog()"></button>
+        <button pButton pRipple class="p-button-raised p-button-success ml-1" label="Add Geography" icon="pi pi-plus" (click)="openDialog(true)"></button>
     </div>
 
     <p-table #dt
@@ -26,7 +25,7 @@
                         class="p-button-outlined p-button-rounded p-button-success mr-1"
                         icon="pi pi-pencil"
                         [ngStyle]="{height: '40px', width: '40px'}"
-                        (click)="openDialog(geography)">
+                        (click)="openDialog(false, geography)">
                     </button>
                     <button pButton pRipple
                         pTooltip="Delete"
@@ -62,3 +61,9 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+<div>
+    <span>{{selectedGeography._id}}</span>
+    <span>{{selectedGeography.name}}</span>
+</div>

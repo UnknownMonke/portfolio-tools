@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { filter, map } from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   title: string = "";
+  items: MenuItem[] = [];
 
   constructor(
     private router: Router,
@@ -19,6 +21,18 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.observeNavigation();
+
+    // Menu de management
+    this.items = [
+      {
+        label: 'Edit Geographies',
+        routerLink: ['/geography/edit']
+      },
+      {
+        label: 'Edit Sectors',
+        routerLink: ['/sector/edit']
+      }
+    ]
   }
 
   // Subscribe à la navigation pour mettre à jour le titre du header
