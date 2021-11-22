@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Geography } from 'src/app/models/geography';
 import { GeographyService } from 'src/app/services/geography/geography.service';
 
 
-/** Mapping via template-driven form (ngModel): la propriété est directement modifiée à chaque itération */
+/** Mapping via Reactive Form */
 @Component({
   selector: 'app-geography-mapping',
   templateUrl: './geography-mapping.component.html',
@@ -12,16 +13,14 @@ import { GeographyService } from 'src/app/services/geography/geography.service';
 })
 export class GeographyMappingComponent implements OnInit {
 
-  emptyGeography: Geography = {
-    _id: "0",
-    name: ""
-  };
+  name: FormControl = new FormControl('', [Validators.required]);
+
+  selectedGeography: Geography | undefined;
+
   modify: boolean = false; // Ouverture modal
   submitted: boolean = false; // Form validation
   dialogTitle: string = "";
   geographyList: Geography[] = [];
-
-  @Input() selectedGeography: Geography = this.emptyGeography;
 
 
   constructor(
@@ -33,79 +32,80 @@ export class GeographyMappingComponent implements OnInit {
     this.getGeographies();
   }
 
-  openDialog(empty: boolean, geography?: Geography): void {
+  openDialog(geography?: Geography): void {
     this.modify = true;
     this.submitted = false;
 
-    if(!empty && geography) {
-      this.selectedGeography = geography;
+    if(geography) {
+      this.name.setValue(geography.name); // Met l'input à jour avec le nom sélectionné
       this.dialogTitle = "Edit Geography";
+      this.selectedGeography = geography;
+
     } else {
-      this.selectedGeography = this.emptyGeography; // Reset input
+      this.name.setValue(''); // Reset input
       this.dialogTitle = "Create new Geography";
+      this.selectedGeography = undefined;
     }
   }
 
   hideDialog(): void {
     this.modify = false;
     this.submitted = false;
-    this.selectedGeography = this.emptyGeography; // Reset input
   }
 
+
+  /**------------------------CRUD------------------------*/
+
   getGeographies(): void {
-    this.geographyService.getGeography()
+    this.geographyService.getGeographies()
       .subscribe((data: Geography[]) => { // Subscribe will actually launch the request
         this.geographyList = data;
       });
   }
 
-  editGeography(geography: Geography): void {
+  editGeography(geography?: Geography): void {
     this.submitted = true;
 
-    console.log(geography);
+    if(geography) { // Edition
 
-    if(geography.name.trim()) {
+      if(this.name.value !== '') {
+        geography.name = this.name.value; // Met à jour le nom avec le contenu de l'input
 
-      this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
-
-      if(geography._id !== "0") {
         this.geographyService.editGeography(geography)
           .subscribe( (status: number) => {
             if(status === 200) {
+              this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
               // Update data property
               this.geographyList[this.findIndexFromId(geography._id)].name = geography.name;
-              this.selectedGeography = this.emptyGeography; // Reset input
             }
           })
-      } else {
-        this.geographyService.addGeography(geography.name.trim())
-          .subscribe( (data: Geography) => { // Assignation
-            geography._id = data._id;
-            geography.name = data.name
-          })
-
-        // Update data property
-        this.geographyList.push(geography);
-        this.selectedGeography = this.emptyGeography; // Reset input
       }
+
+    } else { // Ajout nouvelle geographie
+      console.log(this.name.value);
+      this.geographyService.addGeography(this.name.value)
+        .subscribe( (data: Geography) => {
+          this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
+          // Update data property
+          this.geographyList.push(data);
+        })
     }
   }
 
-  deleteGeography(geography: Geography): void {
+  deleteGeography(id: string): void {
     this.confirmationService.confirm({
       header: 'Confirm',
-      message: 'Are you sure you want to delete the geography ' + geography.name + '?',
+      message: 'Are you sure you want to delete this geography ?',
       rejectButtonStyleClass: 'p-button-text p-button-danger',
       accept: () => {
-        this.geographyService.deleteGeography(geography)
+        this.geographyService.deleteGeography(id)
           .subscribe( (status: number) => {
             if(status === 200) {
               // Update data property
-              this.geographyList.splice(this.findIndexFromId(geography._id), 1);
+              this.geographyList.splice(this.findIndexFromId(id), 1);
             }
           })
         //TODO alert message
-        console.log(geography);
       }
     });
   }

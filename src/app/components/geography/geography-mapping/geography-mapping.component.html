@@ -1,6 +1,6 @@
 <div class="container m-4">
     <div class="mb-4">
-        <button pButton pRipple class="p-button-raised p-button-success ml-1" label="Add Geography" icon="pi pi-plus" (click)="openDialog(true)"></button>
+        <button pButton pRipple class="p-button-raised p-button-success" label="Add Geography" icon="pi pi-plus" (click)="openDialog()"></button>
     </div>
 
     <p-table #dt
@@ -19,22 +19,24 @@
             <tr>
                 <td ><span>{{geography.name}}</span></td>
                 <td>
-                    <button pButton pRipple
+                    <div class="button-container">
+                        <button pButton pRipple
                         pTooltip="Edit"
                         tooltipPosition="top"
                         class="p-button-outlined p-button-rounded p-button-success mr-1"
                         icon="pi pi-pencil"
                         [ngStyle]="{height: '40px', width: '40px'}"
-                        (click)="openDialog(false, geography)">
-                    </button>
-                    <button pButton pRipple
-                        pTooltip="Delete"
-                        tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-warning ml-1"
-                        icon="pi pi-trash"
-                        [ngStyle]="{height: '40px', width: '40px'}"
-                        (click)="deleteGeography(geography)">
-                    </button>
+                        (click)="openDialog(geography)">
+                        </button>
+                        <button pButton pRipple
+                            pTooltip="Delete"
+                            tooltipPosition="top"
+                            class="p-button-outlined p-button-rounded p-button-warning ml-1"
+                            icon="pi pi-trash"
+                            [ngStyle]="{height: '40px', width: '40px'}"
+                            (click)="deleteGeography(geography._id)">
+                        </button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
@@ -48,22 +50,17 @@
 
 <p-dialog [(visible)]="modify" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{dialogTitle}}">
     <ng-template pTemplate="content">
-        <div class="p-field">
-            <label for="name" class="inline-block mb-2">Name</label>
-            <input type="text" pInputText id="name" [(ngModel)]="selectedGeography.name" required autofocus/>
-            <small class="p-error" *ngIf="submitted && !selectedGeography.name">Name is required.</small>
-        </div>
+        <form id="geographyForm" (ngSubmit)="editGeography(selectedGeography)">
+            <div class="p-field">
+                <label for="name" class="inline-block mb-2">Name</label>
+                <input type="text" pInputText id="name" [formControl]="name" autofocus/>
+            </div>
+        </form>
     </ng-template>
     <ng-template pTemplate="footer">
         <button pButton pRipple class="p-button-text p-button-danger" label="Cancel" icon="pi pi-times" (click)="hideDialog()"></button>
-        <button pButton pRipple class="p-button-text" label="Save" icon="pi pi-check" (click)="editGeography(selectedGeography)"></button>
+        <button pButton pRipple class="p-button-text" label="Save" icon="pi pi-check" type="submit" form="geographyForm" [disabled]="!name.valid"></button>
     </ng-template>
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
-
-
-<div>
-    <span>{{selectedGeography._id}}</span>
-    <span>{{selectedGeography.name}}</span>
-</div>

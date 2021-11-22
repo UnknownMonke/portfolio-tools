@@ -1,5 +1,5 @@
 export interface Sector {
-  sectorId: number;
-  sector: string;
-  exposure: number;
+  _id: string; // Identique au nom du champ id autogénéré par Mongo
+  name: string;
+  children: Sector[];
 }

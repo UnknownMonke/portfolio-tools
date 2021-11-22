@@ -1,9 +1,77 @@
 <div class="container m-4">
     <div class="mb-4">
-        <button pButton pRipple class="p-button-raised p-button-info" label="Back" appLastPage></button>
+        <button pButton pRipple class="p-button-raised p-button-success" label="Add Major Sector" icon="pi pi-plus" (click)="openDialog()"></button>
         <button pButton pRipple class="p-button-text mx-2" label="Expand all" (click)="expandAll()"></button>
         <button pButton pRipple class="p-button-text" label="Collapse all" (click)="collapseAll()"></button>
     </div>
 
-    <p-tree [value]="sectorData"></p-tree>
+    <p-treeTable [value]="sectorData"
+        [resizableColumns]="true"
+        [autoLayout]="true"
+        styleClass="col-6">
+        <ng-template pTemplate="header">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+            <tr>
+                <td class="p-1">
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    <span *ngIf="rowData.level === 0; else elseBlock">
+                        <b>{{rowData.name}}</b>
+                    </span>
+                    <ng-template #elseBlock>
+                        {{rowData.name}}
+                    </ng-template>
+                </td>
+                <td class="p-1">
+                    <div class="button-container">
+                        <button *ngIf="rowData.level === 0" pButton pRipple
+                        pTooltip="Add"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-success"
+                        icon="pi pi-plus"
+                        [ngStyle]="{height: '30px', width: '30px'}"
+                        (click)="openDialog(true, rowData._id)">
+                        </button>
+                        <button pButton pRipple
+                            pTooltip="Edit"
+                            tooltipPosition="top"
+                            class="p-button-outlined p-button-rounded p-button-success mx-2"
+                            icon="pi pi-pencil"
+                            [ngStyle]="{height: '30px', width: '30px'}"
+                            (click)="openDialog(false, rowData._id)">
+                        </button>
+                        <button pButton pRipple
+                            pTooltip="Delete"
+                            tooltipPosition="top"
+                            class="p-button-outlined p-button-rounded p-button-warning"
+                            icon="pi pi-trash"
+                            [ngStyle]="{height: '30px', width: '30px'}"
+                            (click)="openDialog()">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
 </div>
+
+<p-dialog [(visible)]="modify" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{dialogTitle}}">
+    <ng-template pTemplate="content">
+        <form id="sectorForm" (ngSubmit)="onSubmit()">
+            <div class="p-field">
+                <label for="name" class="inline-block mb-2">Name</label>
+                <input type="text" pInputText id="name" [formControl]="name" autofocus/>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple class="p-button-text p-button-danger" label="Cancel" icon="pi pi-times" (click)="hideDialog()"></button>
+        <button pButton pRipple class="p-button-text" label="Save" icon="pi pi-check" type="submit" form="sectorForm" [disabled]="!name.valid"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

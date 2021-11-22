@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // PrimeNG
 import { ButtonModule } from "primeng/button";
@@ -15,7 +16,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { TreeModule } from 'primeng/tree';
+import { TreeTableModule } from 'primeng/treetable';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -25,9 +26,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
-import { LastPageDirective } from './directives/last-page.directive';
 import { GeographicGraphComponent } from './components/geography/geographic-graph/geographic-graph.component';
 import { GeographyComponent } from './components/geography/geography-wrapper/geography.component';
+import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 import { SectorGraphComponent } from './components/sector/sector-graph/sector-graph.component';
@@ -35,7 +36,8 @@ import { SectorComponent } from './components/sector/sector-wrapper/sector.compo
 import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
 
 // Services
-import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
+import { LastPageDirective } from './directives/last-page.directive';
+
 
 @NgModule({
   // Import des composants de l'application
@@ -68,10 +70,11 @@ import { GeographyMappingComponent } from './components/geography/geography-mapp
     DialogModule,
     ConfirmDialogModule,
     InputTextModule,
-    TreeModule,
+    TreeTableModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   // Import des services source
   providers: [

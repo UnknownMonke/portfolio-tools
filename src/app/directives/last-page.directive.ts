@@ -1,9 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 
-/**
- * retour arrière en navigation
- */
+/** Retour arrière en navigation */
 @Directive({
   selector: '[appLastPage]'
 })
