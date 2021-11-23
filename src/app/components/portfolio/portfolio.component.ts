@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../services/portfolio/portfolio.service';
-
 import { Equity } from 'src/app/models/equity';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -15,17 +15,17 @@ export class PortfolioComponent implements OnInit {
 
   loading: boolean = true;
 
+
   constructor(
     private portfolioService: PortfolioService
   ) {}
 
   ngOnInit(): void {
     this.portfolioData = this.loadPortfolio();
-    //console.log(this.portfolioData);
 
     this.loading = false;
 
-    //field name must be identical to the dto field name
+    // Field name must be identical to the dto field name
     this.portfolioColumns = [
       { field: 'name', header: 'Name'},
       { field: 'ticker', header: 'Ticker'},

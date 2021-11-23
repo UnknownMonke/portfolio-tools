@@ -82,7 +82,6 @@ export class GeographyMappingComponent implements OnInit {
       }
 
     } else { // Ajout nouvelle geographie
-      console.log(this.name.value);
       this.geographyService.addGeography(this.name.value)
         .subscribe( (data: Geography) => {
           this.modify = false; // Le dialog écoute le changement d'attribut et se fermera

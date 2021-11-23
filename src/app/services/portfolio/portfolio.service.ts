@@ -46,7 +46,7 @@ export class PortfolioService {
     EQUITIES
     .filter(val => val.positionType === "PRODUCT")
     .forEach(function(position) {
-      /*const equity: Equity = new Equity(
+      const equity: Equity = new Equity(
         Number(position.id),
         position.productData?.name? position.productData.name : '', //TODO exceptions
         position.productData?.symbol? position.productData.symbol : '',
@@ -55,7 +55,7 @@ export class PortfolioService {
         position.productData?.currency? position.productData.currency : '',
         position.size? position.size : 0,
         Utils.validateVariable(position.value) ? position.value? position.value : 0 : 0
-      );*/
+      );
 
       /*const equity: Equity = {
         equityId: Number(position.id),
@@ -68,7 +68,7 @@ export class PortfolioService {
         Utils.validateVariable(position.value) ? position.value? position.value : 0 : 0
       };*/
 
-      //portfolioData.push(equity);
+      portfolioData.push(equity);
     })
 
     return portfolioData;

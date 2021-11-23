@@ -1,7 +1,6 @@
 <div class="container">
     <div class="portfolio-header">
         <div class="central">
-            <button pButton class="p-button-raised p-button-info" label="Back" appLastPage></button>
             <button pButton class="p-button-raised p-button-success" label="Refresh Data" (click)="refresh()"></button>
         </div>
         <div class="right">
@@ -47,7 +46,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
                 <tr>
-                    <td [attr.colspan]="columns.length">No records found</td>
+                    <td [attr.colspan]="portfolioData.length">No records found</td>
                 </tr>
             </ng-template>
         </p-table>

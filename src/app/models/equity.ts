@@ -4,7 +4,7 @@ import { Sector } from "./sector";
 /**
  * contient les détails sur l'équité, y compris sa répartition géographique et sectorielle
  */
-export interface Equity {
+export class Equity {
   equityId: number;
   name: string;
   ticker: string;
@@ -18,7 +18,7 @@ export interface Equity {
   sectors: Sector[];
 
 
-  /*constructor(
+  constructor(
     equityId: number,
     name: string,
     ticker: string,
@@ -40,5 +40,5 @@ export interface Equity {
     this.amount = amount;
     this.geography = geography? geography : [];
     this.sectors = sectors? sectors : [];
-  }*/
+  }
 }

@@ -29,7 +29,9 @@ export class SectorService {
   // Ajout d'un secteur principal uniquement
   addSector(name: string): Observable<Sector> {
     const body = {
-      name: name
+      name: name,
+      level: 0,
+      parentId: -1
     };
     return this.httpClient
       .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
@@ -38,18 +40,29 @@ export class SectorService {
       );
   }
 
-  // Le secteur principal est passé à chaque fois, y compris pour l'ajout ou suppression d'un sous-secteur
-  editSector(Sector: Sector): Observable<number> {
+  addSubSector(sector: Sector, name: string): Observable<Sector> {
+    const body = {
+      name: name,
+      level: 1,
+      parentId: sector._id
+    };
     return this.httpClient
-      .post<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/update/${Sector._id}`, Sector, { headers: this.headers, observe: 'response' })
+      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
+      .pipe(
+        catchError(this.handleError<any>())
+      );
+  }
+
+  editSector(sector: Sector): Observable<number> {
+    return this.httpClient
+      .post<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/update/${sector._id}`, sector, { headers: this.headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
       );
   }
 
-  // Suppression d'un secteur principal uniquement
-  deleteSector(id: string): Observable<number> {
+  deleteSector(id: number): Observable<number> {
     return this.httpClient
       .delete<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/delete/${id}`, { headers: this.headers, observe: 'response' })
       .pipe(

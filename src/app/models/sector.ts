@@ -1,5 +1,6 @@
 export interface Sector {
-  _id: string; // Identique au nom du champ id autogénéré par Mongo
+  _id: number; // Géré via un counter
   name: string;
-  children: Sector[];
+  level: number; // 0 secteur principal
+  parentId: number; // -1 pour les secteurs principaux
 }

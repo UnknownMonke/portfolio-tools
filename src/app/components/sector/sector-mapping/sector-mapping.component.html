@@ -34,7 +34,7 @@
                         class="p-button-outlined p-button-rounded p-button-success"
                         icon="pi pi-plus"
                         [ngStyle]="{height: '30px', width: '30px'}"
-                        (click)="openDialog(true, rowData._id)">
+                        (click)="openDialog(true, rowData)">
                         </button>
                         <button pButton pRipple
                             pTooltip="Edit"
@@ -42,7 +42,7 @@
                             class="p-button-outlined p-button-rounded p-button-success mx-2"
                             icon="pi pi-pencil"
                             [ngStyle]="{height: '30px', width: '30px'}"
-                            (click)="openDialog(false, rowData._id)">
+                            (click)="openDialog(false, rowData)">
                         </button>
                         <button pButton pRipple
                             pTooltip="Delete"
@@ -50,10 +50,15 @@
                             class="p-button-outlined p-button-rounded p-button-warning"
                             icon="pi pi-trash"
                             [ngStyle]="{height: '30px', width: '30px'}"
-                            (click)="openDialog()">
+                            (click)="deleteSector(rowData._id)">
                         </button>
                     </div>
                 </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="sectorList.length">No records found</td>
             </tr>
         </ng-template>
     </p-treeTable>
@@ -61,7 +66,7 @@
 
 <p-dialog [(visible)]="modify" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{dialogTitle}}">
     <ng-template pTemplate="content">
-        <form id="sectorForm" (ngSubmit)="onSubmit()">
+        <form id="sectorForm" (ngSubmit)="editSector(selectedSector)">
             <div class="p-field">
                 <label for="name" class="inline-block mb-2">Name</label>
                 <input type="text" pInputText id="name" [formControl]="name" autofocus/>
