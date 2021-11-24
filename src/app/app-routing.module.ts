@@ -40,14 +40,14 @@ const routes: Routes = [
     }
   },
   {
-    path: 'geography/edit',
+    path: 'edit/geography',
     component: GeographyMappingComponent,
     data: {
       title: 'Geographic Mapping'
     }
   },
   {
-    path: 'sector/edit',
+    path: 'edit/sector',
     component: SectorMappingComponent,
     data: {
       title: 'Sector Mapping'

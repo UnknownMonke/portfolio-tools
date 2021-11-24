@@ -27,11 +27,11 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Edit Geographies',
-        routerLink: ['/geography/edit']
+        routerLink: ['/edit/geography']
       },
       {
         label: 'Edit Sectors',
-        routerLink: ['/sector/edit']
+        routerLink: ['/edit/sector']
       }
     ]
   }

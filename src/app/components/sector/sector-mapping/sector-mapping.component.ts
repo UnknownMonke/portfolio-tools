@@ -113,19 +113,21 @@ export class SectorMappingComponent implements OnInit {
         sector.name = this.name.value; // Met à jour le nom avec le contenu de l'input
 
         this.sectorService.editSector(sector)
-        .subscribe( (status: number) => {
-          if(status === 200) {
-            this.modify = false;
-            // Update data property
-            this.sectorList[this.findIndexFromId(sector._id)].name = sector.name;
-          }
-        })
+          .subscribe( (status: number) => {
+            if(status === 200) {
+              this.modify = false;
+              // Update data property
+              this.sectorList[this.findIndexFromId(sector._id)].name = sector.name;
+              this.generateNodeList();
+            }
+          })
       } else {
         this.sectorService.addSubSector(sector, this.name.value)
           .subscribe( (data: Sector) => {
             this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
             // Update data property
             this.sectorList.push(data);
+            this.generateNodeList();
           })
       }
     } else { // Ajout secteur majeur
@@ -134,9 +136,9 @@ export class SectorMappingComponent implements OnInit {
           this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
           // Update data property
           this.sectorList.push(data);
+          this.generateNodeList();
         })
     }
-    this.generateNodeList();
   }
 
   deleteSector(id: number): void {
@@ -173,6 +175,7 @@ export class SectorMappingComponent implements OnInit {
       .filter(sector => sector.level === 0)
       .forEach(sector => treeNodeData.push({
         data: sector,
+        expanded: true,
         children: []
       }));
 
@@ -180,7 +183,8 @@ export class SectorMappingComponent implements OnInit {
       this.sectorList
         .filter(sector => sector.parentId === node.data?._id)
         .forEach(subsector => node.children?.push({
-          data: subsector
+          data: subsector,
+          expanded: true
         }))
       );
 
