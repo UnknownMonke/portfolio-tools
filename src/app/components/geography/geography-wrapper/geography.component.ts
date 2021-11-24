@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Geographies } from 'src/app/models/geographies';
 import { GEOGRAPHY } from 'src/app/common/constants/mock-geography';
 
 @Component({

@@ -1,44 +1,17 @@
-import { Geography } from "./geography";
-import { Sector } from "./sector";
+import { GeographyExposition } from "./geographyExposition";
+import { SectorExposition } from "./sectorExposition";
 
-/**
- * contient les détails sur l'équité, y compris sa répartition géographique et sectorielle
- */
-export class Equity {
-  equityId: number;
+/** Contient les détails sur l'actif, y compris sa répartition géographique et sectorielle */
+export interface Equity {
+  _id: string; // Hash avec la source de l'actif et son id locale (ex: {Degiro, degiroId})
   name: string;
   ticker: string;
   type: string;
-  active: boolean;
+  active: boolean; // Position en cours ou cloturée
   currency: string; //TODO implement enums
   quantity: number;
   amount: number;
 
-  geography: Geography[];
-  sectors: Sector[];
-
-
-  constructor(
-    equityId: number,
-    name: string,
-    ticker: string,
-    type: string,
-    active: boolean,
-    currency: string,
-    quantity: number,
-    amount: number,
-    geography?: Geography[],
-    sectors?: Sector[]
-  ) {
-    this.equityId = equityId;
-    this.name = name;
-    this.ticker = ticker;
-    this.type = type;
-    this.active = active;
-    this.currency = currency;
-    this.quantity = quantity;
-    this.amount = amount;
-    this.geography = geography? geography : [];
-    this.sectors = sectors? sectors : [];
-  }
+  geography: GeographyExposition[];
+  sectors: SectorExposition[];
 }

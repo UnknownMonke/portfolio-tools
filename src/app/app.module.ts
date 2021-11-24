@@ -17,6 +17,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { TreeTableModule } from 'primeng/treetable';
+import { ChipModule } from 'primeng/chip';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -60,8 +61,12 @@ import { LastPageDirective } from './directives/last-page.directive';
   ],
   // Import des composants source
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     ButtonModule,
     TableModule,
     ChartModule,
@@ -71,10 +76,7 @@ import { LastPageDirective } from './directives/last-page.directive';
     ConfirmDialogModule,
     InputTextModule,
     TreeTableModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule
+    ChipModule
   ],
   // Import des services source
   providers: [
@@ -82,7 +84,7 @@ import { LastPageDirective } from './directives/last-page.directive';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 
 // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
 // and returns simulated server responses.

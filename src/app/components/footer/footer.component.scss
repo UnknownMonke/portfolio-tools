@@ -6,3 +6,12 @@
     justify-content: center;
     align-items: flex-end;
 }
+
+:host ::ng-deep .footer-chip.p-chip {
+    background-color: var(--bluegray-50);
+
+    .p-chip-text {
+        font-family: Heebo, sans-serif;
+        color: var(--gray-500);
+    }
+}
