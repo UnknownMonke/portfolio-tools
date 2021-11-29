@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Equity } from 'src/app/models/equity';
+import { EquityService } from 'src/app/services/equity/equity.service';
 
 @Component({
   selector: 'app-equity-detail',
@@ -9,8 +11,11 @@ import { Equity } from 'src/app/models/equity';
 })
 export class EquityDetailComponent implements OnInit {
 
+  equity: Equity = {} as Equity;
+
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private equityService: EquityService
   ) {}
 
   ngOnInit(): void {
@@ -18,38 +23,14 @@ export class EquityDetailComponent implements OnInit {
   }
 
   getEquity(): void {
-    //TODO subscription ?
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    /*const equity: Equity = new Equity(
-      Number("1"),
-      "Microsoft Corp",
-      "MSFT",
-      'STOCK',
-      true,
-      'EUR',
-      2,
-      579.51
-    );
-    equity.sectors = [
-      {
-        sectorId: 1,
-        sector: "Video Games",
-        exposure: 0.3
-      },
-      {
-        sectorId: 2,
-        sector: "IT & Services",
-        exposure: 0.7
-      }
-    ];
-    equity.geography = [
-      {
-        regionId: 1,
-        region: "USA",
-        exposure: 1
-      }
-    ]*/
-    //return equity;
-    //TODO persistence
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if(id !== null) {
+      this.equityService.getEquity(id)
+        .subscribe( (data: Equity) => this.equity = data)
+
+    } else {
+      //TODO display error
+    }
   }
 }

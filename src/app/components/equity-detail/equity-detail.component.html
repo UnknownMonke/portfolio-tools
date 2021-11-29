@@ -1,7 +1,13 @@
-<div class="container">
-    <div class="equity-header">
-        <div class="central">
-            <button class="p-button-raised p-button-info" pButton type="button" label="Back" appLastPage></button>
+<div class="container m-4">
+    <p-panel header="Summary">
+        <div class="detail">
+            <span>Name: {{equity.name}}</span>
+            <span>Ticker: {{equity.ticker}}</span>
+            <span>Type: {{equity.type}}</span>
+            <span class="font-bold">Quantity: {{equity.quantity}}</span>
+            <span>Amount: <span class="text-blue-800">{{equity.amount | currency: equity.currency}}</span></span>
         </div>
-   </div>
+    </p-panel>
+
+
 </div>

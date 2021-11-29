@@ -98,7 +98,7 @@ export class SectorMappingComponent implements OnInit {
 
   getSectors(): void {
     this.sectorService.getSectors()
-      .subscribe((data: Sector[]) => { // Subscribe will actually launch the request
+      .subscribe( (data: Sector[]) => { // Subscribe will actually launch the request
         this.sectorList = data;
         this.generateNodeList();
       });

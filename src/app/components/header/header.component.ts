@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
   observeNavigation(): void {
     this.router.events
       .pipe(
-        filter((event: any) => event instanceof NavigationEnd),
+        filter( (event: any) => event instanceof NavigationEnd),
         map(() => {
           let child = this.activatedRoute.firstChild;
           while(child) {
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
           }
           return null;
         })
-      ).subscribe((data: any) => { // Analog to jQuery ".on()"
+      ).subscribe( (data: any) => { // Analog to jQuery ".on()"
         if(data) {
           this.title = data;
         }

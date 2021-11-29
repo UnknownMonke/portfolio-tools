@@ -27,6 +27,13 @@ export class EquityService {
       );
   }
 
+  getEquity(id: string): Observable<Equity> {
+    return this.httpClient.get<Equity>(`${APIEntry.EQUITY_ENTRY}/get/${id}`)
+      .pipe(
+        catchError(this.handleError<Equity>())
+      );
+  }
+
   // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client
   addEquities(equities: Equity[]): Observable<number> {
     return this.httpClient

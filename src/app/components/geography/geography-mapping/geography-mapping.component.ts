@@ -58,7 +58,7 @@ export class GeographyMappingComponent implements OnInit {
 
   getGeographies(): void {
     this.geographyService.getGeographies()
-      .subscribe((data: Geography[]) => { // Subscribe will actually launch the request
+      .subscribe( (data: Geography[]) => { // Subscribe will actually launch the request
         this.geographyList = data;
       });
   }

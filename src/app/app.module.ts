@@ -18,6 +18,7 @@ import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { TreeTableModule } from 'primeng/treetable';
 import { ChipModule } from 'primeng/chip';
+import { PanelModule } from 'primeng/panel';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -76,7 +77,8 @@ import { LastPageDirective } from './directives/last-page.directive';
     ConfirmDialogModule,
     InputTextModule,
     TreeTableModule,
-    ChipModule
+    ChipModule,
+    PanelModule
   ],
   // Import des services source
   providers: [

@@ -83,7 +83,7 @@ export class PortfolioService {
     equities.map(equity => equityMap.set(equity._id, equity));
 
     this.equityService.getEquities()
-      .subscribe((data: Equity[]) => {
+      .subscribe( (data: Equity[]) => {
 
         if(data.length) {
           const dataMap = new Map<string, Equity>();
