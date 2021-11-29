@@ -22,9 +22,6 @@
     "lib": [
       "es2020",
       "dom"
-    ],
-    "files": [
-      "./node_modules/@types/node/index.d.ts"
     ]
   },
   "angularCompilerOptions": {

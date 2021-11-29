@@ -19,7 +19,7 @@ export class EquityService {
     private httpClient: HttpClient
   ) {}
 
-  // Récupère tous les actifs en base
+  // Récupère tous les actifs en base.
   getEquities(): Observable<Equity[]> {
     return this.httpClient.get<Equity[]>(`${APIEntry.EQUITY_ENTRY}/get`)
       .pipe(
@@ -30,7 +30,7 @@ export class EquityService {
   // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client
   addEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, JSON.stringify(equities), { headers: this.headers })
+      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, equities, { headers: this.headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -40,7 +40,7 @@ export class EquityService {
    // Edite une liste d'actif en éditant tout sauf l'exposure (non présente dans les données courtier), et retourne seulement le statut car l'id est générée côté client
   editEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, JSON.stringify(equities), { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, this.mapEquityWithoutExposure(equities), { headers: this.headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -59,5 +59,33 @@ export class EquityService {
       // Transmission non bloquante de la réponse
       return of(response as T);
     };
+  }
+
+  // Mapping DTO -> Entité en supprimant les exposure
+  private mapEquityWithoutExposure(equities: Equity[]): any[] {
+
+    /*equities.forEach(equity => {
+      if(equity.geography.length > 0) {
+
+        equity.geography.forEach((geoExposure: any) => {
+          const geoId = geoExposure.geography._id;
+          geoExposure.remove('geography');
+          geoExposure.geographyId = geoId;
+        });
+      }
+      if(equity.sectors.length > 0) {
+
+        equity.sectors.forEach((secExposure: any) => {
+          const secId = secExposure.sector._id;
+          secExposure.remove('sector');
+          secExposure.sectorId = secId;
+        });
+      }
+    });*/
+    equities.forEach(equity => {
+      equity.geography = [];
+      equity.sectors = [];
+    });
+    return equities;
   }
 }

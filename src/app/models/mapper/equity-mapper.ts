@@ -1,5 +1,4 @@
 import Utils from "src/app/common/utils";
-import { createHash } from "crypto";
 import { Equity } from "../equity";
 
 export default class EquityMapper {
@@ -22,9 +21,6 @@ export default class EquityMapper {
   }
 
   private static createId(source: string, localId: string): string {
-    const sha1 = createHash('sha1');
-    sha1.update(source);
-    sha1.update(localId);
-    return sha1.digest('hex');
+    return source + '-' + localId;
   }
 }

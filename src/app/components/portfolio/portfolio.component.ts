@@ -13,18 +13,15 @@ export class PortfolioComponent implements OnInit {
   portfolioData: Equity[] = [];
   portfolioColumns: any[] = [];
 
-  loading: boolean = true;
-
-
   constructor(
     private portfolioService: PortfolioService
   ) {}
 
   ngOnInit(): void {
-    this.portfolioData = this.loadPortfolio();
-
-    this.loading = false;
-
+    const data = sessionStorage.getItem('portfolioData');
+    if(data !== null) {
+      this.portfolioData = JSON.parse(data);
+    }
     // Field name must be identical to the dto field name
     this.portfolioColumns = [
       { field: 'name', header: 'Name'},
@@ -41,6 +38,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   refresh(): void {
-    alert('refreshed'); //TODO customAlert
+    this.portfolioData = this.loadPortfolio();
+    sessionStorage.setItem('portfolioData', JSON.stringify(this.portfolioData));
+    //TODO customAlert
   }
 }

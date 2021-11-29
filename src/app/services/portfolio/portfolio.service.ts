@@ -10,7 +10,7 @@ const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;
 
 
 /**
- * Service de login et récupération du portfolio et des balances DeGiro
+ * Service de login et récupération du portfolio et des balances DeGiro, depuis click sur bouton refresh
  * - Récupération des données et conversion en DTO
  * - Persistence du DTO:
  *  - Ajout sans exposure si l'actif n'existe pas en base
@@ -84,20 +84,37 @@ export class PortfolioService {
 
     this.equityService.getEquities()
       .subscribe((data: Equity[]) => {
-        console.log(data);
-        if(data.length) {
 
+        if(data.length) {
           const dataMap = new Map<string, Equity>();
           data.map(equity => dataMap.set(equity._id, equity));
 
           const equitiesToEdit = data.filter(equity => equityMap.has(equity._id));
           const equitiesToAdd = equities.filter(equity => !dataMap.has(equity._id));
 
-          this.equityService.editEquities(equitiesToEdit);
-          this.equityService.addEquities(equitiesToAdd);
+          this.equityService.editEquities(equitiesToEdit)
+            .subscribe(status => {
+              if(status !== 200) {
+                //TODO erreurs
+                console.log(status);
+              }
+            });
+          this.equityService.addEquities(equitiesToAdd)
+            .subscribe(status => {
+              if(status !== 200) {
+                //TODO erreurs
+                console.log(status);
+              }
+            });
 
         } else {
-          this.equityService.addEquities(equities);
+          this.equityService.addEquities(equities)
+            .subscribe(status => {
+              if(status !== 200) {
+                //TODO erreurs
+                console.log(status);
+              }
+            });
         }
       });
   }

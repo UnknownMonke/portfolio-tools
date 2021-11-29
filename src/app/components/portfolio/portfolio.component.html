@@ -12,7 +12,6 @@
         <p-table
             [columns]="portfolioColumns"
             [value]="portfolioData"
-            [loading]="loading"
             [paginator]="true"
             [rows]="20"
             [showCurrentPageReport]="true"
@@ -31,7 +30,7 @@
             <ng-template pTemplate="body" let-portfolioData let-columns="columns">
                 <tr>
                     <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
-                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioData.equityId}}">
+                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioData._id}}">
                             {{portfolioData.name}}
                         </span>
                         <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount != null" [ngIfElse]="elseBlock">
