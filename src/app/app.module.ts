@@ -19,6 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TreeTableModule } from 'primeng/treetable';
 import { ChipModule } from 'primeng/chip';
 import { PanelModule } from 'primeng/panel';
+import { TabViewModule } from 'primeng/tabview';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -35,10 +37,11 @@ import { SectorMappingComponent } from './components/sector/sector-mapping/secto
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 import { SectorGraphComponent } from './components/sector/sector-graph/sector-graph.component';
 import { SectorComponent } from './components/sector/sector-wrapper/sector.component';
-import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
+import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 
 // Services
 import { LastPageDirective } from './directives/last-page.directive';
+import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 
 
 @NgModule({
@@ -58,7 +61,8 @@ import { LastPageDirective } from './directives/last-page.directive';
     SectorGraphComponent,
     SectorComponent,
     EquityDetailComponent,
-    GeographyMappingComponent
+    GeographyMappingComponent,
+    GeographyEditComponent
   ],
   // Import des composants source
   imports: [
@@ -78,7 +82,9 @@ import { LastPageDirective } from './directives/last-page.directive';
     InputTextModule,
     TreeTableModule,
     ChipModule,
-    PanelModule
+    PanelModule,
+    TabViewModule,
+    InputNumberModule
   ],
   // Import des services source
   providers: [

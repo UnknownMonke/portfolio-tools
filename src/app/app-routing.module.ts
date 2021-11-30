@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GeographyComponent } from './components/geography/geography-wrapper/geography.component';
 import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { EquityDetailComponent } from './components/equity-detail/equity-detail.component';
+import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 
 
@@ -29,7 +29,7 @@ const routes: Routes = [
     path: 'equity/:id',
     component: EquityDetailComponent,
     data: {
-      title: 'Detail'
+      title: 'Equity Detail'
     }
   },
   {

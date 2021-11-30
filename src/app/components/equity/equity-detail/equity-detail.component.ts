@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Equity } from 'src/app/models/equity';
 import { EquityService } from 'src/app/services/equity/equity.service';
 
@@ -11,7 +10,7 @@ import { EquityService } from 'src/app/services/equity/equity.service';
 })
 export class EquityDetailComponent implements OnInit {
 
-  equity: Equity = {} as Equity;
+  equity: Equity | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +26,9 @@ export class EquityDetailComponent implements OnInit {
 
     if(id !== null) {
       this.equityService.getEquity(id)
-        .subscribe( (data: Equity) => this.equity = data)
-
+        .subscribe( (data: Equity) => {
+          this.equity = data;
+        });
     } else {
       //TODO display error
     }

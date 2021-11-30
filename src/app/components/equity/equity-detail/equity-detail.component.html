@@ -1,0 +1,24 @@
+<div class="container m-4">
+    <p-panel header="Summary">
+        <div class="detail" *ngIf="equity">
+            <span>Name: {{equity.name}}</span>
+            <span>Ticker: {{equity.ticker}}</span>
+            <span>Type: {{equity.type}}</span>
+            <span class="font-bold">Quantity: {{equity.quantity}}</span>
+            <span>Amount: <b>{{equity.amount | currency: equity.currency}}</b></span>
+        </div>
+    </p-panel>
+
+    <div class="card my-4">
+        <div class="px-4 py-2">
+            <p-tabView>
+                <p-tabPanel header="Geographic Exposition">
+                    <app-geography-edit *ngIf="equity" [equity]="equity"></app-geography-edit>
+                </p-tabPanel>
+                <p-tabPanel header="Sector Repartition">
+                    Content
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
