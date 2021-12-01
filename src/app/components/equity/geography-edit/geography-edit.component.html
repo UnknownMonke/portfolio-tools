@@ -1,9 +1,11 @@
-<form [formGroup]="formGroup" (ngSubmit)="submitExposition()">
-    <div formArrayName="expositions" class="expo-container">
-        <div *ngFor="let exposition of expositionForm.controls; let i=index" class="expo-block p-2">
-            <label for="{{geographyNameList[i]}}">{{geographyNameList[i]}}</label>
-            <div class="mt-2">
-                <p-inputNumber id="{{geographyNameList[i]}}" [formControlName]="i" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+<form [formGroup]="formGroup" (ngSubmit)="submitRepartition()">
+    <div formArrayName="repartitions" class="expo-container">
+        <div *ngFor="let repartition of repartitionForm.controls; let i=index" class="expo-block p-2">
+            <div formGroupName="{{i}}">
+                <label for="{{repartition.value.geography._id}}">{{repartition.value.geography.name}}</label>
+                <div class="mt-2">
+                    <p-inputNumber id="{{repartition.value.geography._id}}" formControlName="exposure" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+                </div>
             </div>
         </div>
     </div>

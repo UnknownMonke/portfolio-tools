@@ -12,8 +12,8 @@
     <div class="card my-4">
         <div class="px-4 py-2">
             <p-tabView>
-                <p-tabPanel header="Geographic Exposition">
-                    <app-geography-edit *ngIf="equity" [equity]="equity"></app-geography-edit>
+                <p-tabPanel header="Geographic Repartition">
+                    <app-geography-edit *ngIf="equity" [geographicRepartition]="equity.geography" (geographicRepartitionChange)="updateEquityGeography($event)"></app-geography-edit>
                 </p-tabPanel>
                 <p-tabPanel header="Sector Repartition">
                     Content

@@ -1,10 +1,8 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Equity } from 'src/app/models/equity';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { GeographyExposition } from 'src/app/models/geographyExposition';
 import { GeographyService } from 'src/app/services/geography/geography.service';
 import { Geography } from 'src/app/models/geography';
-import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-geography-edit',
@@ -13,19 +11,20 @@ import { EventEmitter } from 'stream';
 })
 export class GeographyEditComponent implements OnInit {
 
-  geographicExpositions: GeographyExposition[] = [];
-  geographyNameList: string[] = [];
+  defaultGeographies: GeographyExposition[] = [];
 
-  expositionForm = new FormArray([]);
-  formGroup = new FormGroup({
-    expositions: this.expositionForm
+  repartitionForm = this.fb.array([]);
+  formGroup = this.fb.group({
+    repartitions: this.repartitionForm
   });
 
-  @Input() equity!: Equity; // undefined au chargement, loadé en async
-  //@Output() equityEvent = new EventEmitter();
+  @Input() geographicRepartition: GeographyExposition[] = []; // undefined au chargement, loadé en async
+  @Output() geographicRepartitionChange = new EventEmitter<any>();
+
 
   constructor(
-    private geographyService: GeographyService
+    private geographyService: GeographyService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -36,36 +35,44 @@ export class GeographyEditComponent implements OnInit {
   fillExposition(): void {
     this.geographyService.getGeographies()
       .subscribe( (data: Geography[]) => {
-        this.geographicExpositions = data
-          .map(geography => {
-            return {
-              geography: geography,
-              exposure: 0
-            };
-          });
 
-        // Edite la liste des expositions avec les valeurs trouvées dans les équités
-        if(this.equity.geography.length > 0) {
+        if(data.length > 0) {
 
-          this.geographicExpositions.forEach(exposition => {
-            const correspondingExpoMap = this.equity.geography
-              .filter(expo => expo.geography._id === exposition.geography._id);
+          this.defaultGeographies = data
+            .map(geography => {
+              return {
+                geography: geography,
+                exposure: 0
+              };
+            });
 
-            if(correspondingExpoMap.length > 0) {
-              exposition.exposure = correspondingExpoMap[0].exposure;
-            }
-          });
-        }
-        // Rempli la form
-        for(let i = 0; i < this.geographicExpositions.length; i++) {
-          this.geographyNameList.push(this.geographicExpositions[i].geography.name);
-          this.expositionForm.push(new FormControl(this.geographicExpositions[i].exposure));
+          // Edite la liste des repartitions avec les valeurs trouvées dans les équités
+          if(this.geographicRepartition.length > 0) {
+
+            this.geographicRepartition.forEach(repartition => {
+              const correspondingExpoMap = this.defaultGeographies
+                .filter(expo => expo.geography._id === repartition.geography._id);
+
+              if(correspondingExpoMap.length > 0) {
+                repartition.exposure = correspondingExpoMap[0].exposure;
+              }
+            });
+          } else {
+            this.geographicRepartition = this.defaultGeographies;
+          }
+          // Pass the entire object as formControl to retreive it already updated when submitted
+          for(let i = 0; i < this.geographicRepartition.length; i++) {
+            this.repartitionForm.push(this.fb.group(this.geographicRepartition[i]));
+          }
+
+        } else {
+          //TODO error message
         }
       });
   }
 
-  // Met à jour l'exposition de l'équité avec les nouvelles expositions, et écrase celles qui n'était pas dans les géographies chargées
-  submitExposition(): void {
-    console.log(this.expositionForm.value);
+  // Renvoi au parent pour mise à jour
+  submitRepartition(): void {
+    this.geographicRepartitionChange.emit(this.repartitionForm.value);
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Equity } from 'src/app/models/equity';
+import { GeographyExposition } from 'src/app/models/geographyExposition';
 import { EquityService } from 'src/app/services/equity/equity.service';
 
 @Component({
@@ -32,5 +33,9 @@ export class EquityDetailComponent implements OnInit {
     } else {
       //TODO display error
     }
+  }
+
+  updateEquityGeography($event: EventEmitter<GeographyExposition[]>): void {
+    console.log($event);
   }
 }
