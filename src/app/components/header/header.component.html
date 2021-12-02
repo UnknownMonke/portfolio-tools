@@ -1,6 +1,7 @@
 <div class="header bg-blue-500">
     <div class="context-menu">
-        <button pButton pRipple class="p-button-text text-white p-0 mx-2" icon="pi pi-arrow-left" appLastPage></button>
+        <button pButton pRipple class="p-button-text text-white p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
+        <button pButton pRipple class="p-button-text text-white p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
 
         <button pButton class="p-button-text text-white py-0 px-2" label="Manage" (click)="menu.toggle($event)"></button>
         <p-menu #menu [popup]="true" [model]="items" [baseZIndex]="300" appendTo="body"></p-menu>

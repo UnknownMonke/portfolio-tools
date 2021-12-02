@@ -16,7 +16,7 @@
                     <app-geography-edit *ngIf="equity" [geographicRepartition]="equity.geography" (geographicRepartitionChange)="updateEquityGeography($event)"></app-geography-edit>
                 </p-tabPanel>
                 <p-tabPanel header="Sector Repartition">
-                    Content
+                    <app-sector-edit #child (sectorRepartitionChange)="updateEquitySector($event)"></app-sector-edit>
                 </p-tabPanel>
             </p-tabView>
         </div>

@@ -54,6 +54,16 @@ export class EquityService {
       );
   }
 
+  // Edite un actif unique
+  editEquity(equity: Equity): Observable<number> {
+    return this.httpClient
+      .post<HttpResponse<Equity>>(`${APIEntry.EQUITY_ENTRY}/update/${equity._id}`, JSON.stringify(equity), { headers: this.headers, observe: 'response' })
+      .pipe(
+        map(response => response.status),
+        catchError(this.handleError<any>())
+      );
+  }
+
   private handleError<T>(response?: T) {
     return (error: any): Observable<T> => {
 

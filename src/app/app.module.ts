@@ -38,10 +38,12 @@ import { SectorExposureComponent } from './components/sector/sector-exposure/sec
 import { SectorGraphComponent } from './components/sector/sector-graph/sector-graph.component';
 import { SectorComponent } from './components/sector/sector-wrapper/sector.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
-
-// Services
-import { LastPageDirective } from './directives/last-page.directive';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
+import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
+
+// Directives
+import { LastPageDirective } from './directives/last-page.directive';
+import { NextPageDirective } from './directives/next-page.directive';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import { GeographyEditComponent } from './components/equity/geography-edit/geogr
     SectorComponent,
     EquityDetailComponent,
     GeographyMappingComponent,
-    GeographyEditComponent
+    GeographyEditComponent,
+    NextPageDirective,
+    SectorEditComponent
   ],
   // Import des composants source
   imports: [

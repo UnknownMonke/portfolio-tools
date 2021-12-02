@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { GeographyExposition } from 'src/app/models/geographyExposition';
 import { GeographyService } from 'src/app/services/geography/geography.service';
@@ -10,8 +10,6 @@ import { Geography } from 'src/app/models/geography';
   styleUrls: ['./geography-edit.component.scss']
 })
 export class GeographyEditComponent implements OnInit {
-
-  defaultGeographies: GeographyExposition[] = [];
 
   repartitionForm = this.fb.array([]);
   formGroup = this.fb.group({
@@ -38,7 +36,7 @@ export class GeographyEditComponent implements OnInit {
 
         if(data.length > 0) {
 
-          this.defaultGeographies = data
+          const defaultGeographies = data
             .map(geography => {
               return {
                 geography: geography,
@@ -49,17 +47,17 @@ export class GeographyEditComponent implements OnInit {
           // Edite la liste des repartitions avec les valeurs trouvées dans les équités
           if(this.geographicRepartition.length > 0) {
 
-            this.geographicRepartition.forEach(repartition => {
-              const correspondingExpoMap = this.defaultGeographies
+            defaultGeographies.forEach(repartition => {
+              const correspondingExpoMap = this.geographicRepartition
                 .filter(expo => expo.geography._id === repartition.geography._id);
 
               if(correspondingExpoMap.length > 0) {
                 repartition.exposure = correspondingExpoMap[0].exposure;
               }
             });
-          } else {
-            this.geographicRepartition = this.defaultGeographies;
           }
+          this.geographicRepartition = defaultGeographies;
+
           // Pass the entire object as formControl to retreive it already updated when submitted
           for(let i = 0; i < this.geographicRepartition.length; i++) {
             this.repartitionForm.push(this.fb.group(this.geographicRepartition[i]));
