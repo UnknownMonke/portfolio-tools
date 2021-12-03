@@ -1,1 +1,45 @@
-<p>sector-edit works!</p>
+<div class="container col-4 p-0">
+    <div class="button-container mb-1">
+        <button pButton pRipple class="p-button-text mx-2" label="Expand all" (click)="expandAll()"></button>
+        <button pButton pRipple class="p-button-text" label="Collapse all" (click)="collapseAll()"></button>
+    </div>
+    <p-treeTable [value]="sectorTree"
+        [resizableColumns]="true"
+        [autoLayout]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+            <tr [ttRow]="rowNode">
+                <td class="p-1">
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    <span *ngIf="rowData.level === 0; else elseBlock">
+                        <b>{{rowData.sector.name}}</b>
+                    </span>
+                    <ng-template #elseBlock>
+                        {{rowData.sector.name}}
+                    </ng-template>
+                </td>
+                <td ttEditableColumn class="p-1">
+                    <p-treeTableCellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [(ngModel)]="rowData.exposure"></p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">{{rowData.exposure}}</ng-template>
+                    </p-treeTableCellEditor>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="sectorTree.length">No records found</td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+    <div class="submit mt-4">
+        <button pButton pRipple class="p-button-sm" label="Save" icon="pi pi-check" iconPos="right" (click)="submitRepartition()"></button>
+    </div>
+</div>

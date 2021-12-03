@@ -6,12 +6,13 @@ import { SectorExposition } from 'src/app/models/sectorExposition';
 import { EquityService } from 'src/app/services/equity/equity.service';
 import { SectorEditComponent } from '../sector-edit/sector-edit.component';
 
+
 @Component({
   selector: 'app-equity-detail',
   templateUrl: './equity-detail.component.html',
   styleUrls: ['./equity-detail.component.scss']
 })
-export class EquityDetailComponent implements OnInit, AfterViewInit {
+export class EquityDetailComponent implements OnInit {
 
   equity: Equity = {} as Equity;
 
@@ -27,16 +28,13 @@ export class EquityDetailComponent implements OnInit, AfterViewInit {
     this.getEquity();
   }
 
-  ngAfterViewInit(): void {
-    this.child.fillExposition(this.equity.sectors);
-  }
-
   getEquity(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if(id !== null) {
       this.equityService.getEquity(id)
         .subscribe( (data: Equity) => {
           this.equity = data;
+          this.child.fillExposition(this.equity.sectors);
         });
     } else {
       //TODO display error
@@ -55,6 +53,13 @@ export class EquityDetailComponent implements OnInit, AfterViewInit {
   }
 
   updateEquitySector($event: SectorExposition[]): void {
-
+    this.equity.sectors = $event;
+    // Persistence
+    this.equityService.editEquity(this.equity)
+    .subscribe((status: number) => {
+      if(status !== 200) {
+        //TODO error
+      }
+    });
   }
 }

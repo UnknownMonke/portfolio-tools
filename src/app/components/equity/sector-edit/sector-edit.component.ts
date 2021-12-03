@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TreeNode } from 'primeng/api';
 import { Sector } from 'src/app/models/sector';
 import { SectorExposition } from 'src/app/models/sectorExposition';
 import { SectorService } from 'src/app/services/sector/sector.service';
+
 
 @Component({
   selector: 'app-sector-edit',
@@ -10,7 +12,7 @@ import { SectorService } from 'src/app/services/sector/sector.service';
 })
 export class SectorEditComponent implements OnInit {
 
-  sectorTree: object[] = [];
+  sectorTree: TreeNode[] = [];
 
   @Output() sectorRepartitionChange = new EventEmitter<any>();
 
@@ -50,6 +52,9 @@ export class SectorEditComponent implements OnInit {
           sectorRepartition = defaultSectors;
 
           this.sectorTree = this.buildTree(sectorRepartition);
+          console.log(this.sectorTree);
+
+          this.expandAll();
 
         } else {
           //TODO error message
@@ -58,7 +63,65 @@ export class SectorEditComponent implements OnInit {
   }
 
   // Convertit la liste aplatie des secteurs en arbre pour affichage
-  buildTree(sectorRepartition: SectorExposition[]): object[] {
+  private buildTree(sectorRepartition: SectorExposition[]): TreeNode[] {
+    const hashTable = Object.create(null);
 
+    sectorRepartition.forEach(repartition => hashTable[repartition.sector._id] = {
+      data: repartition,
+      children: []
+    });
+    const dataTree: TreeNode[] = [];
+
+    sectorRepartition.forEach(repartition => {
+
+      if(repartition.sector.parentId > -1) {
+        hashTable[repartition.sector.parentId].children.push(hashTable[repartition.sector._id]);
+      } else {
+        dataTree.push(hashTable[repartition.sector._id]);
+      }
+    });
+    return dataTree;
+  }
+
+  expandAll(){
+    this.sectorTree.forEach(node => {
+        this.expandRecursive(node, true);
+    });
+    this.sectorTree = [...this.sectorTree]; // Use the spread operator to trigger a refresh of the table
+  }
+
+  collapseAll(){
+    this.sectorTree.forEach(node => {
+        this.expandRecursive(node, false);
+    });
+    this.sectorTree = [...this.sectorTree];
+  }
+
+  private expandRecursive(node: TreeNode, isExpand: boolean){
+    node.expanded = isExpand; // Attribut html
+
+    if (node.children){
+      node.children.forEach(childNode => {
+          this.expandRecursive(childNode, isExpand);
+      });
+    }
+  }
+
+  // Reconverti l'arbre en array, et emit pour sauvegarde
+  //TODO TU
+  submitRepartition(): void {
+    const sectorRepartition: SectorExposition[] = [];
+    this.mapTreeEmitter(sectorRepartition, this.sectorTree);
+    this.sectorRepartitionChange.emit(sectorRepartition);
+  }
+
+  private mapTreeEmitter(sectorRepartition: SectorExposition[], tree: TreeNode[]): void {
+    tree.forEach(repartition => {
+      sectorRepartition.push(repartition.data);
+
+      if(repartition.children && repartition.children.length > 0) {
+        this.mapTreeEmitter(sectorRepartition, repartition.children);
+      }
+    });
   }
 }

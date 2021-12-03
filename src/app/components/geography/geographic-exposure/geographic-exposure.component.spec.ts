@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GeographicExposureComponent } from './geographic-exposure.component';
+import { GeographyComponent } from './geographic-exposure.component';
 
-describe('GeographicExposureComponent', () => {
-  let component: GeographicExposureComponent;
-  let fixture: ComponentFixture<GeographicExposureComponent>;
+describe('GeographyComponent', () => {
+  let component: GeographyComponent;
+  let fixture: ComponentFixture<GeographyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GeographicExposureComponent ]
+      declarations: [ GeographyComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GeographicExposureComponent);
+    fixture = TestBed.createComponent(GeographyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

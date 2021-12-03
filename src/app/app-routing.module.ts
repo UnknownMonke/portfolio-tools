@@ -8,7 +8,7 @@ import { EquityDetailComponent } from './components/equity/equity-detail/equity-
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 
 
-//navigation interne via l'API, un composant par point d'entrée
+/** Navigation interne via l'API, un composant par point d'entrée */
 //TODO localisation
 const routes: Routes = [
   {

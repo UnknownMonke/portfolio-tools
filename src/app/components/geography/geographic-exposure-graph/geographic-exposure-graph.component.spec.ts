@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GeographicGraphComponent } from './geographic-graph.component';
+import { GeographicGraphComponent } from './geographic-exposure-graph.component';
 
 describe('GeographicGraphComponent', () => {
   let component: GeographicGraphComponent;
