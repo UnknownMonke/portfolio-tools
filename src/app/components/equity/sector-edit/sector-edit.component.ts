@@ -52,7 +52,6 @@ export class SectorEditComponent implements OnInit {
           sectorRepartition = defaultSectors;
 
           this.sectorTree = this.buildTree(sectorRepartition);
-          console.log(this.sectorTree);
 
           this.expandAll();
 

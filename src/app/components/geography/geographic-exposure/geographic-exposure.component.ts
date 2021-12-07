@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { GEOGRAPHY } from 'src/app/common/constants/mock-geography';
+import { Equity } from 'src/app/models/equity';
+import { EquityService } from 'src/app/services/equity/equity.service';
 
 @Component({
-  selector: 'app-geography',
-  templateUrl: './geography.component.html',
-  styleUrls: ['./geography.component.scss']
+  selector: 'app-geographic-exposure',
+  templateUrl: './geographic-exposure.component.html',
+  styleUrls: ['./geographic-exposure.component.scss']
 })
-export class GeographyComponent implements OnInit {
+export class GeographicExposureComponent implements OnInit {
 
   geographicData: any[] = [];
   geographicTotal: any = {};
 
+  equities: Equity[] = [];
+
   regionMap: any[] = [];
 
-  constructor() {}
+  constructor(
+    private equityService: EquityService
+  ) {}
 
   ngOnInit(): void {
     this.geographicData = this.loadGeography();
@@ -50,6 +56,15 @@ export class GeographyComponent implements OnInit {
     };
 
     console.log(this.geographicData);
+  }
+
+  loadEquities(): void {
+    this.equityService.getEquities()
+      .subscribe((data: Equity[]) => {
+        this.equities = data;
+
+
+      });
   }
 
   loadGeography(): any[] {

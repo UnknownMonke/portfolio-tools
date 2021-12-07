@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { GeographyComponent } from './components/geography/geography-wrapper/geography.component';
+import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
 import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'geography',
-    component: GeographyComponent,
+    component: GeographicExposureComponent,
     data: {
       title: 'Geographic Exposure'
     }

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-geographic-exposure',
-  templateUrl: './geographic-exposure.component.html',
-  styleUrls: ['./geographic-exposure.component.scss']
+  selector: 'app-geographic-exposure-table',
+  templateUrl: './geographic-exposure-table.component.html',
+  styleUrls: ['./geographic-exposure-table.component.scss']
 })
-export class GeographicExposureComponent implements OnInit {
+export class GeographicExposureTableComponent implements OnInit {
 
   @Input() geographicData: any[] = [];
   @Input() geographicTotal: any = {};

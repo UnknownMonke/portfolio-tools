@@ -3,11 +3,11 @@ import Constants from 'src/app/common/constants/constants';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
-  selector: 'app-geographic-graph',
-  templateUrl: './geographic-graph.component.html',
-  styleUrls: ['./geographic-graph.component.scss']
+  selector: 'app-geographic-exposure-graph',
+  templateUrl: './geographic-exposure-graph.component.html',
+  styleUrls: ['./geographic-exposure-graph.component.scss']
 })
-export class GeographicGraphComponent implements OnInit {
+export class GeographicExposureGraphComponent implements OnInit {
 
   @Input() graphData: any = {};
   @Input() regionMap: any[] = [];

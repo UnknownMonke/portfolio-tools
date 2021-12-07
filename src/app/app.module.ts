@@ -29,8 +29,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { GeographicExposureComponent } from './components/geography/geographic-exposure-table/geographic-exposure-table.component';
-import { GeographicGraphComponent } from './components/geography/geographic-exposure-graph/geographic-exposure-graph.component';
+import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
+import { GeographicExposureTableComponent } from './components/geography/geographic-exposure-table/geographic-exposure-table.component';
+import { GeographicExposureGraphComponent } from './components/geography/geographic-exposure-graph/geographic-exposure-graph.component';
 import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
@@ -53,9 +54,10 @@ import { NextPageDirective } from './directives/next-page.directive';
     HeaderComponent,
     FooterComponent,
     PortfolioComponent,
-    GeographicExposureComponent,
     LastPageDirective,
-    GeographicGraphComponent,
+    GeographicExposureComponent,
+    GeographicExposureTableComponent,
+    GeographicExposureGraphComponent,
     SectorMappingComponent,
     SectorExposureComponent,
     SectorGraphComponent,
