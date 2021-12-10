@@ -1,5 +1,7 @@
 <div class="container my-4">
     <!--child components-->
-    <app-geographic-exposure-table [geographicData]="geographicData" [geographicTotal]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure-table>
-    <app-geographic-exposure-graph [graphData]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure-graph>
+    <div *ngIf="loaded">
+        <app-geographic-exposure-table [geographicData]="geographicData" [geographicTotal]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure-table>
+        <app-geographic-exposure-graph [graphData]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure-graph>
+    </div>
 </div>

@@ -36,7 +36,6 @@ export class SectorMappingComponent implements OnInit {
   ngOnInit(): void {
     this.getSectors();
     this.expandAll();
-
   }
 
   openDialog(add?: boolean, rowData?: Sector): void {
@@ -71,14 +70,14 @@ export class SectorMappingComponent implements OnInit {
 
   expandAll(){
     this.sectorData.forEach(node => {
-        this.expandRecursive(node, true);
+      this.expandRecursive(node, true);
     });
     this.sectorData = [...this.sectorData]; // Use the spread operator to trigger a refresh of the table
   }
 
   collapseAll(){
     this.sectorData.forEach(node => {
-        this.expandRecursive(node, false);
+      this.expandRecursive(node, false);
     });
     this.sectorData = [...this.sectorData];
   }
@@ -88,11 +87,10 @@ export class SectorMappingComponent implements OnInit {
 
     if (node.children){
       node.children.forEach(childNode => {
-          this.expandRecursive(childNode, isExpand);
+        this.expandRecursive(childNode, isExpand);
       });
     }
   }
-
 
   /**------------------------CRUD------------------------*/
 
@@ -120,7 +118,7 @@ export class SectorMappingComponent implements OnInit {
               this.sectorList[this.findIndexFromId(sector._id)].name = sector.name;
               this.generateNodeList();
             }
-          })
+          });
       } else {
         this.sectorService.addSubSector(sector, this.name.value)
           .subscribe( (data: Sector) => {
@@ -128,7 +126,7 @@ export class SectorMappingComponent implements OnInit {
             // Update data property
             this.sectorList.push(data);
             this.generateNodeList();
-          })
+          });
       }
     } else { // Ajout secteur majeur
       this.sectorService.addSector(this.name.value)
@@ -137,7 +135,7 @@ export class SectorMappingComponent implements OnInit {
           // Update data property
           this.sectorList.push(data);
           this.generateNodeList();
-        })
+        });
     }
   }
 
@@ -154,7 +152,7 @@ export class SectorMappingComponent implements OnInit {
               this.sectorList.splice(this.findIndexFromId(id), 1);
               this.generateNodeList();
             }
-          })
+          });
         //TODO alert message
       }
     });
@@ -187,7 +185,6 @@ export class SectorMappingComponent implements OnInit {
           expanded: true
         }))
       );
-
     this.sectorData = [...treeNodeData];
   }
 }

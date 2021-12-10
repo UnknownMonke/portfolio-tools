@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   title: string = "";
   items: MenuItem[] = [];
 
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -58,7 +57,6 @@ export class HeaderComponent implements OnInit {
         if(data) {
           this.title = data;
         }
-      }
-    );
+      });
   }
 }

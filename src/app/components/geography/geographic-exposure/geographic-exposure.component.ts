@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GEOGRAPHY } from 'src/app/common/constants/mock-geography';
 import { Equity } from 'src/app/models/equity';
+import { Geography } from 'src/app/models/geography';
 import { EquityService } from 'src/app/services/equity/equity.service';
+import { GeographyService } from 'src/app/services/geography/geography.service';
+
 
 @Component({
   selector: 'app-geographic-exposure',
@@ -12,79 +14,90 @@ export class GeographicExposureComponent implements OnInit {
 
   geographicData: any[] = [];
   geographicTotal: any = {};
-
-  equities: Equity[] = [];
-
   regionMap: any[] = [];
+  loaded: boolean = false;
 
   constructor(
-    private equityService: EquityService
+    private equityService: EquityService,
+    private geographyService: GeographyService
   ) {}
 
   ngOnInit(): void {
-    this.geographicData = this.loadGeography();
-
-    const nameValueMap = new Map();
-    GEOGRAPHY.forEach(value => nameValueMap.set(value.name, value.value));
-
-    this.regionMap = [
-      {field: 'usa', header: 'USA'},
-      {field: 'can', header: 'Canada'},
-      {field: 'euw', header: 'EU West'},
-      {field: 'nor', header: 'Nordic'},
-      {field: 'eue', header: 'EU East'},
-      {field: 'jap', header: 'Japan'},
-      {field: 'chi', header: 'China'}
-    ]
-
-    const totalAmount = this.geographicData
-      .map(value => value.value)
-      .reduce((value, next) => value + next);
-
-    this.geographicTotal = {
-      name: "Total",
-      value: totalAmount,
-      geography: {
-        usa: this.getTotalByRegion('usa'),
-        can: this.getTotalByRegion('can'),
-        euw: this.getTotalByRegion('euw'),
-        nor: this.getTotalByRegion('nor'),
-        eue: this.getTotalByRegion('eue'),
-        jap: this.getTotalByRegion('jap'),
-        chi: this.getTotalByRegion('chi')
-      }
-    };
-
-    console.log(this.geographicData);
+    this.loadData();
   }
 
-  loadEquities(): void {
+  loadData(): void {
     this.equityService.getEquities()
       .subscribe((data: Equity[]) => {
-        this.equities = data;
 
+        if(data.length > 0) {
 
+          this.geographyService.getGeographies()
+          .subscribe( (geoData: Geography[]) => {
+
+            if(geoData.length > 0) {
+              const geographyNameList = geoData.map(geo => geo.name);
+
+              //Mappe le nom et les exposure pour les géographies disponibles
+              const geographicData: any[] = [];
+              data
+                .filter(equity => equity.active)
+                .forEach(equity => {
+
+                  const o = {
+                    name: equity.name,
+                    amount: equity.amount
+                  };
+
+                  geographyNameList
+                    .forEach(name => {
+                      // Version formattée pour la table nom: exposure
+                      Object.defineProperty(o, name.replace(' ', ''),
+                        {
+                          value: equity.geography.length > 0
+                          ? equity.geography // Assigne l'exposure trouvée si elle existe, sinon 0
+                            .filter(geo => name === geo.geography.name)[0].exposure : 0
+                        }
+                      );
+                    });
+                  geographicData.push(o);
+                });
+              this.geographicData = geographicData;
+              this.regionMap = geographyNameList.map(name => {
+                return { field: name.replace(' ', ''), header: name }
+              });
+              this.getTotals(geographyNameList);
+              this.loaded = true;
+            }
+          });
+        }
       });
   }
 
-  loadGeography(): any[] {
-    return GEOGRAPHY;
+  getTotals(geographyNameList: string[]): void {
+    this.geographicTotal = {};
+
+    geographyNameList.forEach(name => {
+      Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: this.getTotalByRegion(name) })
+    });
   }
 
-  //moyenne de la répartition par région pondérée par la valeur totale de l'équité
+  // Moyenne de la répartition par région pondérée par la valeur totale de l'équité
   getTotalByRegion(region: string): number {
 
-    const regionValueAmountMap = new Map();
+    const regionCode = region.replace(' ', '');
+    const regionExposureAmountMap = new Map();
 
-    const tempMap = new Map();
-    GEOGRAPHY.forEach(value => tempMap.set(value.value, value.geography));
-
-    tempMap.forEach((value, key) => {
-      regionValueAmountMap.set(key, value[region]);
+    this.geographicData.forEach(geoData => {
+      if(geoData.hasOwnProperty(regionCode)) {
+        regionExposureAmountMap.set(geoData.amount, geoData[regionCode]);
+      } else {
+        regionExposureAmountMap.set(geoData.amount, 0);
+      }
     });
 
-    const weights = Array.from(regionValueAmountMap.keys());
-    const values = Array.from(regionValueAmountMap.values());
+    const weights = Array.from(regionExposureAmountMap.keys());
+    const values = Array.from(regionExposureAmountMap.values());
 
     const result = values
       .map((el, i) => {
@@ -94,6 +107,6 @@ export class GeographicExposureComponent implements OnInit {
       })
       .reduce((p, c) => [p[0] + c[0], p[1] + c[1]], [0, 0]); //TODO calculs JS précision
 
-    return result[0] / result[1]
+    return result[0] / result[1];
   }
 }

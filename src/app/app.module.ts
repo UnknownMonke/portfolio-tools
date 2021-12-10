@@ -1,12 +1,13 @@
 // Core
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // PrimeNG
+import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
 import { ChartModule } from 'primeng/chart';
@@ -21,6 +22,9 @@ import { ChipModule } from 'primeng/chip';
 import { PanelModule } from 'primeng/panel';
 import { TabViewModule } from 'primeng/tabview';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -44,6 +48,10 @@ import { SectorEditComponent } from './components/equity/sector-edit/sector-edit
 // Directives
 import { LastPageDirective } from './directives/last-page.directive';
 import { NextPageDirective } from './directives/next-page.directive';
+
+// Services
+import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
+import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loading-interceptor.service';
 
 
 @NgModule({
@@ -76,6 +84,7 @@ import { NextPageDirective } from './directives/next-page.directive';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    RippleModule,
     ButtonModule,
     TableModule,
     ChartModule,
@@ -88,11 +97,16 @@ import { NextPageDirective } from './directives/next-page.directive';
     ChipModule,
     PanelModule,
     TabViewModule,
-    InputNumberModule
+    InputNumberModule,
+    ToastModule,
+    ProgressSpinnerModule
   ],
   // Import des services source
   providers: [
-    ConfirmationService
+    ConfirmationService,
+    MessageService,
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpLoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

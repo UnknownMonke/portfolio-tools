@@ -53,12 +53,11 @@ export class GeographyMappingComponent implements OnInit {
     this.submitted = false;
   }
 
-
   /**------------------------CRUD------------------------*/
-
   getGeographies(): void {
     this.geographyService.getGeographies()
       .subscribe( (data: Geography[]) => { // Subscribe will actually launch the request
+        console.log(data)
         this.geographyList = data;
       });
   }
@@ -78,7 +77,7 @@ export class GeographyMappingComponent implements OnInit {
               // Update data property
               this.geographyList[this.findIndexFromId(geography._id)].name = geography.name;
             }
-          })
+          });
       }
 
     } else { // Ajout nouvelle geographie
@@ -87,11 +86,12 @@ export class GeographyMappingComponent implements OnInit {
           this.modify = false; // Le dialog écoute le changement d'attribut et se fermera
           // Update data property
           this.geographyList.push(data);
-        })
+        });
     }
   }
 
   deleteGeography(id: string): void {
+    // Remplissage du modal de confirmation
     this.confirmationService.confirm({
       header: 'Confirm',
       message: 'Are you sure you want to delete this geography ?',
@@ -103,7 +103,7 @@ export class GeographyMappingComponent implements OnInit {
               // Update data property
               this.geographyList.splice(this.findIndexFromId(id), 1);
             }
-          })
+          });
         //TODO alert message
       }
     });

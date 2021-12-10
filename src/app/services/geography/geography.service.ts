@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable, of, map } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, map, throwError } from 'rxjs';
+import { catchError, retry, take } from 'rxjs/operators';
 import { Geography } from '../../models/geography';
 import { APIEntry } from '../../common/enums/api';
 
@@ -24,14 +24,13 @@ export class GeographyService {
   getGeographies(): Observable<Geography[]> {
     return this.httpClient.get<Geography[]>(`${APIEntry.GEOGRAPHY_ENTRY}/get`)
       .pipe(
-        catchError(this.handleError<Geography[]>())
+        catchError(this.handleError<any>())
       );
   }
 
+  // Le check de la présence du paramètre avec le bon type est automatique et le code ne compilera pas si ce n'est pas le cas
   addGeography(name: string): Observable<Geography> {
-    const body = {
-      name: name
-    };
+    const body = { name: name };
     return this.httpClient
       .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
       .pipe(
@@ -39,10 +38,11 @@ export class GeographyService {
       );
   }
 
-  // Retourne le statut de la requête, si ok l'update se fait via la valeur du front
+  // La réponse dépend de l'implémentation du contrôleur, ici on ne retourne que le statut qui est géré par l'intercepteur,
+  // donc soit erreur, soit retour ok, si ok l'update se fait via la valeur du front
   editGeography(geography: Geography): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<any>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: this.headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -62,11 +62,8 @@ export class GeographyService {
   private handleError<T>(response?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: Retourne une erreur avec un message User-friendly
-      //this.log(`Failed: ${error.message}`);
+      // Retourne une erreur avec un message User-friendly via le handler
+      throwError(() => new Error('Error while retreiving geographies')).subscribe();
 
       // Transmission non bloquante de la réponse
       return of(response as T);

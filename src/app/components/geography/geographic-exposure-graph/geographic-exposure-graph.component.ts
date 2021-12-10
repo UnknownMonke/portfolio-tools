@@ -19,12 +19,15 @@ export class GeographicExposureGraphComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    console.log(this.graphData);
+    console.log(this.regionMap);
+
     //regions et valeurs dans le même ordre normalement
     this.data = {
       labels: this.regionMap.map(region => region.header),
       datasets: [
         {
-          data: Object.values(this.graphData.geography),
+          data: Object.values(this.graphData),
           backgroundColor: Constants.geographicRegionColorMapping.map(region => region.color),
           hoverBackgroundColor: Constants.geographicRegionColorMapping.map(region => region.hover)
         }

@@ -29,7 +29,7 @@ export class PortfolioComponent implements OnInit {
       { field: 'type', header: 'Type'},
       { field: 'quantity', header: 'Quantity'},
       { field: 'amount', header: 'Total amount'}
-    ]
+    ];
   }
 
   loadPortfolio(): Equity[] {
