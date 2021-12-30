@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -9,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FooterComponent implements OnInit {
 
-  currentVersion = environment.VERSION; //TODO environnement
+  currentVersion = environment.VERSION;
 
   constructor() {}
 

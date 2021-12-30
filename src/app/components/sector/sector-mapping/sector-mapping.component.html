@@ -5,63 +5,70 @@
         <button pButton pRipple class="p-button-text" label="Collapse all" (click)="collapseAll()"></button>
     </div>
 
-    <p-treeTable [value]="sectorData"
-        [resizableColumns]="true"
-        [autoLayout]="true"
-        styleClass="col-6">
-        <ng-template pTemplate="header">
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-            <tr>
-                <td class="p-1">
-                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                    <span *ngIf="rowData.level === 0; else elseBlock">
-                        <b>{{rowData.name}}</b>
-                    </span>
-                    <ng-template #elseBlock>
-                        {{rowData.name}}
-                    </ng-template>
-                </td>
-                <td class="p-1">
-                    <div class="button-container">
-                        <button *ngIf="rowData.level === 0" pButton pRipple
-                        pTooltip="Add"
-                        tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-success"
-                        icon="pi pi-plus"
-                        [ngStyle]="{height: '30px', width: '30px'}"
-                        (click)="openDialog(true, rowData)">
-                        </button>
-                        <button pButton pRipple
-                            pTooltip="Edit"
+    <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
+        <p-progressSpinner ></p-progressSpinner>
+    </div>
+
+    <ng-template #loaded>
+        <p-treeTable
+            [value]="sectorData"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            styleClass="col-6">
+            <ng-template pTemplate="header">
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr>
+                    <td class="p-1">
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        <span *ngIf="rowData.level === 0; else elseBlock">
+                            <b>{{rowData.name}}</b>
+                        </span>
+                        <ng-template #elseBlock>
+                            {{rowData.name}}
+                        </ng-template>
+                    </td>
+                    <td class="p-1">
+                        <div class="button-container">
+                            <button *ngIf="rowData.level === 0" pButton pRipple
+                            pTooltip="Add"
                             tooltipPosition="top"
-                            class="p-button-outlined p-button-rounded p-button-success mx-2"
-                            icon="pi pi-pencil"
+                            class="p-button-outlined p-button-rounded p-button-success"
+                            icon="pi pi-plus"
                             [ngStyle]="{height: '30px', width: '30px'}"
-                            (click)="openDialog(false, rowData)">
-                        </button>
-                        <button pButton pRipple
-                            pTooltip="Delete"
-                            tooltipPosition="top"
-                            class="p-button-outlined p-button-rounded p-button-warning"
-                            icon="pi pi-trash"
-                            [ngStyle]="{height: '30px', width: '30px'}"
-                            (click)="deleteSector(rowData._id)">
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td [attr.colspan]="sectorList.length">No records found</td>
-            </tr>
-        </ng-template>
-    </p-treeTable>
+                            (click)="openDialog(true, rowData)">
+                            </button>
+                            <button pButton pRipple
+                                pTooltip="Edit"
+                                tooltipPosition="top"
+                                class="p-button-outlined p-button-rounded p-button-success mx-2"
+                                icon="pi pi-pencil"
+                                [ngStyle]="{height: '30px', width: '30px'}"
+                                (click)="openDialog(false, rowData)">
+                            </button>
+                            <button pButton pRipple
+                                pTooltip="Delete"
+                                tooltipPosition="top"
+                                class="p-button-outlined p-button-rounded p-button-warning"
+                                icon="pi pi-trash"
+                                [ngStyle]="{height: '30px', width: '30px'}"
+                                (click)="deleteSector(rowData._id)">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td [attr.colspan]="sectorList.length">No records found</td>
+                </tr>
+            </ng-template>
+        </p-treeTable>
+    </ng-template>
 </div>
 
 <p-dialog [(visible)]="modify" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{dialogTitle}}">

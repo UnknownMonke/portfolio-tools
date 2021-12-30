@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Sector } from 'src/app/models/sector';
 import { SectorService } from 'src/app/services/sector/sector.service';
+import { LoadingService } from 'src/app/services/handling/loading/loading.service';
 
 
 /** L'arbre a 2 niveaux : secteurs et sous-secteurs */
@@ -29,6 +30,7 @@ export class SectorMappingComponent implements OnInit {
 
 
   constructor(
+    public loadingService: LoadingService,
     private confirmationService: ConfirmationService,
     private sectorService: SectorService
   ) {}
@@ -93,7 +95,6 @@ export class SectorMappingComponent implements OnInit {
   }
 
   /**------------------------CRUD------------------------*/
-
   getSectors(): void {
     this.sectorService.getSectors()
       .subscribe( (data: Sector[]) => { // Subscribe will actually launch the request
@@ -185,6 +186,6 @@ export class SectorMappingComponent implements OnInit {
           expanded: true
         }))
       );
-    this.sectorData = [...treeNodeData];
+    this.sectorData = [...treeNodeData]; // Force la maj du composant
   }
 }

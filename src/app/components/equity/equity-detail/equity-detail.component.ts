@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Equity } from 'src/app/models/equity';
 import { GeographyExposition } from 'src/app/models/geographyExposition';

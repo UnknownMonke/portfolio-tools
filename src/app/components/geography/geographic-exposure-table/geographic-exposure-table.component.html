@@ -21,7 +21,7 @@
                     <ng-template #elseBlock>
                         <span>€0.00</span>
                     </ng-template>
-                    <span *ngSwitchDefault>{{geographicData[col.field] | percent: '1.2-2'}}</span>
+                    <span *ngSwitchDefault [ngStyle]="{color: geographicData[col.field] != 0 ? '#05389F' : 'inherit'}">{{geographicData[col.field] | percent: '1.2-2'}}</span>
                 </td>
             </tr>
         </ng-template>

@@ -14,6 +14,7 @@ export class GeographicExposureComponent implements OnInit {
 
   geographicData: any[] = [];
   geographicTotal: any = {};
+  graphData: any = {};
   regionMap: any[] = [];
   loaded: boolean = false;
 
@@ -33,52 +34,54 @@ export class GeographicExposureComponent implements OnInit {
         if(data.length > 0) {
 
           this.geographyService.getGeographies()
-          .subscribe( (geoData: Geography[]) => {
+            .subscribe( (geoData: Geography[]) => {
 
-            if(geoData.length > 0) {
-              const geographyNameList = geoData.map(geo => geo.name);
+              if(geoData.length > 0) {
+                const geographyNameList = geoData.map(geo => geo.name);
 
-              //Mappe le nom et les exposure pour les géographies disponibles
-              const geographicData: any[] = [];
-              data
-                .filter(equity => equity.active)
-                .forEach(equity => {
+                // Mappe le nom et les exposure pour les géographies disponibles
+                const geographicData: any[] = [];
+                data
+                  .filter(equity => equity.active)
+                  .forEach(equity => {
 
-                  const o = {
-                    name: equity.name,
-                    amount: equity.amount
-                  };
+                    const o = {
+                      name: equity.name,
+                      amount: equity.amount
+                    };
 
-                  geographyNameList
-                    .forEach(name => {
-                      // Version formattée pour la table nom: exposure
-                      Object.defineProperty(o, name.replace(' ', ''),
-                        {
-                          value: equity.geography.length > 0
-                          ? equity.geography // Assigne l'exposure trouvée si elle existe, sinon 0
-                            .filter(geo => name === geo.geography.name)[0].exposure : 0
-                        }
-                      );
-                    });
-                  geographicData.push(o);
+                    geographyNameList
+                      .forEach(name => {
+                        // Version formattée pour la table nom: exposure
+                        Object.defineProperty(o, name.replace(' ', ''),
+                          {
+                            value: equity.geography.length > 0
+                            ? equity.geography // Assigne l'exposure trouvée si elle existe, sinon 0
+                              .filter(geo => name === geo.geography.name)[0].exposure : 0
+                          }
+                        );
+                      });
+                    geographicData.push(o);
+                  });
+                this.geographicData = geographicData;
+                this.regionMap = geographyNameList.map(name => {
+                  return { field: name.replace(' ', ''), header: name }
                 });
-              this.geographicData = geographicData;
-              this.regionMap = geographyNameList.map(name => {
-                return { field: name.replace(' ', ''), header: name }
-              });
-              this.getTotals(geographyNameList);
-              this.loaded = true;
-            }
-          });
+                this.getTotals(geographyNameList);
+                this.loaded = true;
+              }
+            });
         }
       });
   }
 
   getTotals(geographyNameList: string[]): void {
     this.geographicTotal = {};
+    this.graphData = {};
 
     geographyNameList.forEach(name => {
-      Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: this.getTotalByRegion(name) })
+      Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: this.getTotalByRegion(name) });
+      Object.defineProperty(this.graphData, name.replace(' ', ''), { value: this.getTotalByRegion(name) });
     });
   }
 

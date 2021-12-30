@@ -30,8 +30,8 @@ export class GeographicExposureTableComponent implements OnInit {
 
     // Ajoute le total global
     const totalAmount = this.geographicData
-    .map(geoData => geoData.amount)
-    .reduce((geoData, next) => geoData + next);
+      .map(geoData => geoData.amount)
+      .reduce((geoData, next) => geoData + next);
 
     this.geographicTotal.name = 'Total';
     this.geographicTotal.amount = totalAmount;

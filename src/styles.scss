@@ -14,3 +14,9 @@ html, body {
 .p-button:enabled:active, .p-button:enabled:focus {
     box-shadow: none !important;
 }
+
+.spinner-container {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}

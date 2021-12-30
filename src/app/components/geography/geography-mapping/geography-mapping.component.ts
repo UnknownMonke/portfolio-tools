@@ -3,9 +3,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Geography } from 'src/app/models/geography';
 import { GeographyService } from 'src/app/services/geography/geography.service';
+import { LoadingService } from 'src/app/services/handling/loading/loading.service';
 
 
 /** Mapping via Reactive Form */
+//TODO doc
 @Component({
   selector: 'app-geography-mapping',
   templateUrl: './geography-mapping.component.html',
@@ -24,6 +26,7 @@ export class GeographyMappingComponent implements OnInit {
 
 
   constructor(
+    public loadingService: LoadingService,
     private confirmationService: ConfirmationService,
     private geographyService: GeographyService
   ) {}

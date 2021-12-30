@@ -92,21 +92,24 @@ export class PortfolioService {
           const equitiesToEdit = data.filter(equity => equityMap.has(equity._id));
           const equitiesToAdd = equities.filter(equity => !dataMap.has(equity._id));
 
-          this.equityService.editEquities(equitiesToEdit)
+          if(equitiesToEdit.length > 0) {
+            this.equityService.editEquities(equitiesToEdit)
             .subscribe(status => {
               if(status !== 200) {
                 //TODO erreurs
                 console.log(status);
               }
             });
-          this.equityService.addEquities(equitiesToAdd)
+          }
+          if(equitiesToAdd.length > 0) {
+            this.equityService.addEquities(equitiesToAdd)
             .subscribe(status => {
               if(status !== 200) {
                 //TODO erreurs
                 console.log(status);
               }
             });
-
+          }
         } else {
           this.equityService.addEquities(equities)
             .subscribe(status => {

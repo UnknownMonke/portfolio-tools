@@ -9,7 +9,13 @@
    </div>
 
     <div class="portfolio-container">
-        <p-table
+
+        <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
+            <p-progressSpinner ></p-progressSpinner>
+        </div>
+
+        <ng-template #loaded>
+            <p-table
             [columns]="portfolioColumns"
             [value]="portfolioData"
             [paginator]="true"
@@ -34,6 +40,7 @@
                             {{portfolioData.name}}
                         </span>
                         <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount != null" [ngIfElse]="elseBlock">
+                            <!-- Pipe Angular pour formattage d'un élément spécifique -->
                             <span>{{portfolioData.amount | currency: 'EUR'}}</span>
                         </ng-template>
                         <ng-template #elseBlock>
@@ -49,5 +56,6 @@
                 </tr>
             </ng-template>
         </p-table>
+        </ng-template>
     </div>
 </div>

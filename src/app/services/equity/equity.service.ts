@@ -76,10 +76,10 @@ export class EquityService {
   }
 
   // Mapping DTO -> Entité en supprimant les exposure
-  private mapEquityWithoutExposure(equities: Equity[]): any[] {
+  private mapEquityWithoutExposure(equities: any[]): any[] {
     equities.forEach(equity => {
-      equity.geography = [];
-      equity.sectors = [];
+      delete equity.geography;
+      delete equity.sectors;
     });
     return equities;
   }

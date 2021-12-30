@@ -3,49 +3,55 @@
         <button pButton pRipple class="p-button-raised p-button-success" label="Add Geography" icon="pi pi-plus" (click)="openDialog()"></button>
     </div>
 
-    <p-table #dt
-        [value]="geographyList"
-        [resizableColumns]="true"
-        [autoLayout]="true"
-        dataKey="id"
-        styleClass="p-datatable-sm col-4 p-0">
-        <ng-template pTemplate="header">
-            <tr>
-                <th class="bg-white">Geographies</th>
-                <th class="bg-white" [ngStyle]="{width: '20%'}"></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-geography>
-            <tr>
-                <td ><span>{{geography.name}}</span></td>
-                <td>
-                    <div class="button-container">
-                        <button pButton pRipple
-                        pTooltip="Edit"
-                        tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-success mr-1"
-                        icon="pi pi-pencil"
-                        [ngStyle]="{height: '40px', width: '40px'}"
-                        (click)="openDialog(geography)">
-                        </button>
-                        <button pButton pRipple
-                            pTooltip="Delete"
+    <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
+        <p-progressSpinner ></p-progressSpinner>
+    </div>
+
+    <ng-template #loaded>
+        <p-table #dt
+            [value]="geographyList"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            dataKey="id"
+            styleClass="p-datatable-sm col-4 p-0">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="bg-white">Geographies</th>
+                    <th class="bg-white" [ngStyle]="{width: '20%'}"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-geography>
+                <tr>
+                    <td ><span>{{geography.name}}</span></td>
+                    <td>
+                        <div class="button-container">
+                            <button pButton pRipple
+                            pTooltip="Edit"
                             tooltipPosition="top"
-                            class="p-button-outlined p-button-rounded p-button-warning ml-1"
-                            icon="pi pi-trash"
+                            class="p-button-outlined p-button-rounded p-button-success mr-1"
+                            icon="pi pi-pencil"
                             [ngStyle]="{height: '40px', width: '40px'}"
-                            (click)="deleteGeography(geography._id)">
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td [attr.colspan]="geographyList.length">No records found</td>
-            </tr>
-        </ng-template>
-    </p-table>
+                            (click)="openDialog(geography)">
+                            </button>
+                            <button pButton pRipple
+                                pTooltip="Delete"
+                                tooltipPosition="top"
+                                class="p-button-outlined p-button-rounded p-button-warning ml-1"
+                                icon="pi pi-trash"
+                                [ngStyle]="{height: '40px', width: '40px'}"
+                                (click)="deleteGeography(geography._id)">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td [attr.colspan]="geographyList.length">No records found</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
 </div>
 
 <p-dialog [(visible)]="modify" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{dialogTitle}}">

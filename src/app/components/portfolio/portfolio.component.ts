@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../services/portfolio/portfolio.service';
+import { LoadingService } from 'src/app/services/handling/loading/loading.service';
 import { Equity } from 'src/app/models/equity';
 
 
@@ -14,6 +15,7 @@ export class PortfolioComponent implements OnInit {
   portfolioColumns: any[] = [];
 
   constructor(
+    public loadingService: LoadingService,
     private portfolioService: PortfolioService
   ) {}
 
