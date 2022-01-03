@@ -4,7 +4,6 @@
     flex-direction: column;
 
     .portfolio-header {
-        margin: 16px;
         display: inline-flex;
 
         .central {
@@ -19,11 +18,10 @@
     }
 
     .portfolio-container {
-        margin: 16px 32px;
 
         td.link {
             cursor: pointer;
-        
+
             &:hover {
                 span {
                     color: #023e7d;

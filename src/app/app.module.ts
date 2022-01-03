@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
-import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
@@ -25,6 +24,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DividerModule } from 'primeng/divider';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +53,8 @@ import { NextPageDirective } from './directives/next-page.directive';
 import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
 import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loading-interceptor.service';
 
+// Others
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   // Import des composants de l'application
@@ -87,7 +89,6 @@ import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loa
     RippleModule,
     ButtonModule,
     TableModule,
-    ChartModule,
     MenuModule,
     TooltipModule,
     DialogModule,
@@ -99,7 +100,9 @@ import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loa
     TabViewModule,
     InputNumberModule,
     ToastModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    DividerModule,
+    HighchartsChartModule
   ],
   // Import des services source
   providers: [

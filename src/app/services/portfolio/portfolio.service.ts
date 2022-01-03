@@ -94,7 +94,7 @@ export class PortfolioService {
 
           if(equitiesToEdit.length > 0) {
             this.equityService.editEquities(equitiesToEdit)
-            .subscribe(status => {
+            .subscribe( (status: number) => {
               if(status !== 200) {
                 //TODO erreurs
                 console.log(status);
@@ -103,7 +103,7 @@ export class PortfolioService {
           }
           if(equitiesToAdd.length > 0) {
             this.equityService.addEquities(equitiesToAdd)
-            .subscribe(status => {
+            .subscribe( (status: number) => {
               if(status !== 200) {
                 //TODO erreurs
                 console.log(status);
@@ -112,7 +112,7 @@ export class PortfolioService {
           }
         } else {
           this.equityService.addEquities(equities)
-            .subscribe(status => {
+            .subscribe( (status: number) => {
               if(status !== 200) {
                 //TODO erreurs
                 console.log(status);

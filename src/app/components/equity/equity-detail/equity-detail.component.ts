@@ -45,7 +45,7 @@ export class EquityDetailComponent implements OnInit {
     this.equity.geography = $event;
     // Persistence
     this.equityService.editEquity(this.equity)
-      .subscribe((status: number) => {
+      .subscribe( (status: number) => {
         if(status !== 200) {
           //TODO error
         }
@@ -56,7 +56,7 @@ export class EquityDetailComponent implements OnInit {
     this.equity.sectors = $event;
     // Persistence
     this.equityService.editEquity(this.equity)
-    .subscribe((status: number) => {
+    .subscribe( (status: number) => {
       if(status !== 200) {
         //TODO error
       }

@@ -14,7 +14,7 @@ export class GeographicExposureComponent implements OnInit {
 
   geographicData: any[] = [];
   geographicTotal: any = {};
-  graphData: any = {};
+  graphData: Map<string, number> = new Map();
   regionMap: any[] = [];
   loaded: boolean = false;
 
@@ -29,7 +29,7 @@ export class GeographicExposureComponent implements OnInit {
 
   loadData(): void {
     this.equityService.getEquities()
-      .subscribe((data: Equity[]) => {
+      .subscribe( (data: Equity[]) => {
 
         if(data.length > 0) {
 
@@ -77,11 +77,10 @@ export class GeographicExposureComponent implements OnInit {
 
   getTotals(geographyNameList: string[]): void {
     this.geographicTotal = {};
-    this.graphData = {};
 
     geographyNameList.forEach(name => {
       Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: this.getTotalByRegion(name) });
-      Object.defineProperty(this.graphData, name.replace(' ', ''), { value: this.getTotalByRegion(name) });
+      this.graphData.set(name, this.getTotalByRegion(name)); // Map pour plus de facilité au graphe
     });
   }
 

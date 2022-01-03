@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mx-5 my-4">
     <div class="portfolio-header">
         <div class="central">
             <button pButton pRipple class="p-button-raised p-button-success" label="Refresh Data" (click)="refresh()"></button>
@@ -39,7 +39,7 @@
                         <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioData._id}}">
                             {{portfolioData.name}}
                         </span>
-                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount != null" [ngIfElse]="elseBlock">
+                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount !== null" [ngIfElse]="elseBlock">
                             <!-- Pipe Angular pour formattage d'un élément spécifique -->
                             <span>{{portfolioData.amount | currency: 'EUR'}}</span>
                         </ng-template>

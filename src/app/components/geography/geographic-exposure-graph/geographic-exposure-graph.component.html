@@ -1,6 +1,9 @@
-<div class="graph-container">
+<div class="graph-container my-4">
     <div class="chart-container">
-        <p-chart type="pie" [data]="data" [options]="chartOptions" [plugins]="plugins"></p-chart>
+        <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="chartOptions">
+        </highcharts-chart>
     </div>
 </div>
 

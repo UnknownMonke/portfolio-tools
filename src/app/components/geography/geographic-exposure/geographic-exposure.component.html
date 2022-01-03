@@ -1,7 +1,15 @@
 <div class="container my-4">
+    <div class="spinner-container" *ngIf="!loaded">
+        <p-progressSpinner ></p-progressSpinner>
+    </div>
     <!--child components-->
     <div *ngIf="loaded">
+        <app-geographic-exposure-graph [graphData]="graphData"></app-geographic-exposure-graph>
+
+        <div class="divider mx-5 mb-4">
+            <p-divider></p-divider>
+        </div>
+
         <app-geographic-exposure-table [geographicData]="geographicData" [geographicTotal]="geographicTotal" [regionMap]="regionMap"></app-geographic-exposure-table>
-        <app-geographic-exposure-graph [graphData]="graphData" [regionMap]="regionMap"></app-geographic-exposure-graph>
     </div>
 </div>
