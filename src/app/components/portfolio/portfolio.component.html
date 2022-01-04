@@ -1,9 +1,11 @@
 <div class="container mx-5 my-4">
-    <div class="portfolio-header">
+    <div class="portfolio-header mb-4">
         <div class="central">
             <button pButton pRipple class="p-button-raised p-button-success" label="Refresh Data" (click)="refresh()"></button>
         </div>
+
         <div class="right">
+            <button pButton pRipple class="p-button-raised p-button-rounded p-button-success mr-2" label="Sector repartition" routerLink="/sector"></button>
             <button pButton pRipple class="p-button-raised p-button-rounded p-button-success" label="Geographic repartition" routerLink="/geography"></button>
         </div>
    </div>
@@ -33,20 +35,20 @@
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-portfolioData let-columns="columns">
+            <ng-template pTemplate="body" let-portfolioDto let-columns="columns">
                 <tr>
                     <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
-                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioData._id}}">
-                            {{portfolioData.name}}
+                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioDto._id}}">
+                            {{portfolioDto.name}}
                         </span>
-                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioData.amount !== null" [ngIfElse]="elseBlock">
+                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioDto.amount !== null" [ngIfElse]="elseBlock">
                             <!-- Pipe Angular pour formattage d'un élément spécifique -->
-                            <span>{{portfolioData.amount | currency: 'EUR'}}</span>
+                            <span>{{portfolioDto.amount | currency: 'EUR'}}</span>
                         </ng-template>
                         <ng-template #elseBlock>
                             <span>€0.00</span>
                         </ng-template>
-                        <span *ngSwitchDefault>{{portfolioData[col.field]}}</span>
+                        <span *ngSwitchDefault>{{portfolioDto[col.field]}}</span>
                     </td>
                 </tr>
             </ng-template>

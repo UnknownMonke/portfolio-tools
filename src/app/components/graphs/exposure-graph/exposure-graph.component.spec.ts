@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SectorGraphComponent } from './sector-graph.component';
+import { ExposureGraphComponent } from './exposure-graph.component';
 
-describe('SectorGraphComponent', () => {
-  let component: SectorGraphComponent;
-  let fixture: ComponentFixture<SectorGraphComponent>;
+describe('ExposureGraphComponent', () => {
+  let component: ExposureGraphComponent;
+  let fixture: ComponentFixture<ExposureGraphComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SectorGraphComponent ]
+      declarations: [ ExposureGraphComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SectorGraphComponent);
+    fixture = TestBed.createComponent(ExposureGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,1 +1,18 @@
-<p>sector-exposure works!</p>
+<div class="my-4">
+    <div class="spinner-container" *ngIf="!loaded">
+        <p-progressSpinner ></p-progressSpinner>
+    </div>
+    <!--child components-->
+    <div *ngIf="loaded">
+
+        <div class="left ml-5">
+            <button pButton pRipple class="p-button-raised p-button-rounded p-button-success" label="Geographic repartition" routerLink="/geography"></button>
+        </div>
+
+        <div class="mx-5 mb-4">
+            <p-divider></p-divider>
+        </div>
+
+        <app-sector-exposure-table [sectorData]="sectorData" [sectorMap]="sectorMap"></app-sector-exposure-table>
+    </div>
+</div>

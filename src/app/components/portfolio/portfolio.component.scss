@@ -1,16 +1,9 @@
 .container {
-    width: 100%;
     display: flex;
     flex-direction: column;
 
     .portfolio-header {
         display: inline-flex;
-
-        .central {
-            button:first-child {
-                margin-right: 8px;
-            }
-        }
 
         .right {
             margin-left: auto;
@@ -30,4 +23,3 @@
         }
     }
 }
-

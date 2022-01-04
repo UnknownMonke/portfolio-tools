@@ -5,6 +5,12 @@ import { EquityService } from 'src/app/services/equity/equity.service';
 import { GeographyService } from 'src/app/services/geography/geography.service';
 
 
+//TODO edition de l'equité depuis la table
+/**
+ * Mappe le nom et les exposures pour les géographies disponibles
+ * Le nom est utilisé en cas de suppression / recréation de la géographie.
+ * Une modification de nom entraine le non-affichage de l'exposure, car la donnée est dupliquée dans le document, il faut remettre à jour l'équité manuellement.
+ */
 @Component({
   selector: 'app-geographic-exposure',
   templateUrl: './geographic-exposure.component.html',
@@ -18,6 +24,7 @@ export class GeographicExposureComponent implements OnInit {
   regionMap: any[] = [];
   loaded: boolean = false;
 
+
   constructor(
     private equityService: EquityService,
     private geographyService: GeographyService
@@ -27,11 +34,11 @@ export class GeographicExposureComponent implements OnInit {
     this.loadData();
   }
 
-  loadData(): void {
+  private loadData(): void {
     this.equityService.getEquities()
-      .subscribe( (data: Equity[]) => {
+      .subscribe( (equities: Equity[]) => {
 
-        if(data.length > 0) {
+        if(equities.length > 0) {
 
           this.geographyService.getGeographies()
             .subscribe( (geoData: Geography[]) => {
@@ -39,9 +46,9 @@ export class GeographicExposureComponent implements OnInit {
               if(geoData.length > 0) {
                 const geographyNameList = geoData.map(geo => geo.name);
 
-                // Mappe le nom et les exposure pour les géographies disponibles
                 const geographicData: any[] = [];
-                data
+
+                equities
                   .filter(equity => equity.active)
                   .forEach(equity => {
 
@@ -51,7 +58,7 @@ export class GeographicExposureComponent implements OnInit {
                     };
 
                     geographyNameList
-                      .forEach(name => {
+                      .forEach(name => { //TODO map()
                         // Version formattée pour la table nom: exposure
                         Object.defineProperty(o, name.replace(' ', ''),
                           {
@@ -75,7 +82,7 @@ export class GeographicExposureComponent implements OnInit {
       });
   }
 
-  getTotals(geographyNameList: string[]): void {
+  private getTotals(geographyNameList: string[]): void {
     this.geographicTotal = {};
 
     geographyNameList.forEach(name => {
@@ -85,7 +92,7 @@ export class GeographicExposureComponent implements OnInit {
   }
 
   // Moyenne de la répartition par région pondérée par la valeur totale de l'équité
-  getTotalByRegion(region: string): number {
+  private getTotalByRegion(region: string): number {
 
     const regionCode = region.replace(' ', '');
     const regionExposureAmountMap = new Map();

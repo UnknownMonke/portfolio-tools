@@ -6,6 +6,7 @@ import { GeographyMappingComponent } from './components/geography/geography-mapp
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
+import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 
 
 /** Navigation interne via l'API, un composant par point d'entrée */
@@ -37,6 +38,13 @@ const routes: Routes = [
     component: GeographicExposureComponent,
     data: {
       title: 'Geographic Exposure'
+    }
+  },
+  {
+    path: 'sector',
+    component: SectorExposureComponent,
+    data: {
+      title: 'Sector Exposure'
     }
   },
   {

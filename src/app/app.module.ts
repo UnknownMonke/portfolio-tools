@@ -37,10 +37,10 @@ import { GeographicExposureComponent } from './components/geography/geographic-e
 import { GeographicExposureTableComponent } from './components/geography/geographic-exposure-table/geographic-exposure-table.component';
 import { GeographicExposureGraphComponent } from './components/geography/geographic-exposure-graph/geographic-exposure-graph.component';
 import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
-import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
-import { SectorGraphComponent } from './components/sector/sector-graph/sector-graph.component';
-import { SectorComponent } from './components/sector/sector-wrapper/sector.component';
+import { SectorExposureTableComponent } from './components/sector/sector-exposure-table/sector-exposure-table.component';
+import { SectorExposureGraphComponent } from './components/sector/sector-exposure-graph/sector-exposure-graph.component';
+import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
@@ -49,34 +49,42 @@ import { SectorEditComponent } from './components/equity/sector-edit/sector-edit
 import { LastPageDirective } from './directives/last-page.directive';
 import { NextPageDirective } from './directives/next-page.directive';
 
+// Pipes
+import { ColumnFilterPipe } from './pipes/column-filter.pipe';
+
 // Services
 import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
 import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loading-interceptor.service';
 
 // Others
 import { HighchartsChartModule } from 'highcharts-angular';
+import { ExposureGraphComponent } from './components/graphs/exposure-graph/exposure-graph.component';
 
 @NgModule({
   // Import des composants de l'application
   declarations: [
+    LastPageDirective,
+    NextPageDirective,
+    ColumnFilterPipe,
     AppComponent,
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
     PortfolioComponent,
-    LastPageDirective,
     GeographicExposureComponent,
     GeographicExposureTableComponent,
     GeographicExposureGraphComponent,
-    SectorMappingComponent,
-    SectorExposureComponent,
-    SectorGraphComponent,
-    SectorComponent,
-    EquityDetailComponent,
     GeographyMappingComponent,
+    SectorExposureComponent,
+    SectorExposureGraphComponent,
+    SectorExposureTableComponent,
+    SectorMappingComponent,
+    EquityDetailComponent,
     GeographyEditComponent,
-    NextPageDirective,
-    SectorEditComponent
+    SectorEditComponent,
+    SectorExposureTableComponent,
+    SectorExposureGraphComponent,
+    ExposureGraphComponent
   ],
   // Import des composants source
   imports: [

@@ -21,7 +21,7 @@ export class GeographicExposureTableComponent implements OnInit {
   }
 
   // Construit les colonnes dynamiques depuis la map
-  setColumns(): void {
+  private setColumns(): void {
     this.geographicColumns = [
       {field: 'name', header: 'Name'},
       {field: 'amount', header: 'Amount'}

@@ -60,6 +60,9 @@ export class GeographicExposureGraphComponent implements OnInit {
           allowPointSelect: false,
           dataLabels: {
             enabled: true,
+            style: {
+              fontSize: '12px'
+            },
             formatter: function() { // N'affiche que  les données supérieures à 0
               if(this.point.y && this.point.y > 0) {
                 return '<b>' + this.point.name + '</b>: ' + this.point.y + '%';
@@ -82,7 +85,7 @@ export class GeographicExposureGraphComponent implements OnInit {
 
   // Retourne un pourcentage depuis le float.
   // toFixed retourne une string à x décimales qui doit être reconvertie en number
-  convertData(data: number): number {
+  private convertData(data: number): number {
     return Number((data*100).toFixed(2));
   }
 }

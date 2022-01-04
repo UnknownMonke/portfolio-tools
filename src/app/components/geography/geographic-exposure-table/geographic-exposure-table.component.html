@@ -16,23 +16,18 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-geographicData let-columns="columns">
+        <ng-template pTemplate="body" let-geographicDto let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns" [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'name'">{{geographicData[col.field]}}</span>
-                    <ng-template *ngSwitchCase="'amount'" [ngIf]="geographicData.amount !== null" [ngIfElse]="elseBlock">
-                        <span>{{geographicData[col.field] | currency: 'EUR'}}</span>
+                    <span *ngSwitchCase="'name'">{{geographicDto[col.field]}}</span>
+                    <ng-template *ngSwitchCase="'amount'" [ngIf]="geographicDto.amount !== null" [ngIfElse]="elseBlock">
+                        <span>{{geographicDto[col.field] | currency: 'EUR'}}</span>
                     </ng-template>
                     <ng-template #elseBlock>
                         <span>€0.00</span>
                     </ng-template>
-                    <span *ngSwitchDefault [ngStyle]="{color: geographicData[col.field] !== 0 ? '#05389F' : 'inherit'}">{{geographicData[col.field] | percent: '1.2-2'}}</span>
+                    <span *ngSwitchDefault [ngStyle]="{color: geographicDto[col.field] !== 0 ? '#05389F' : 'inherit'}">{{geographicDto[col.field] | percent: '1.2-2'}}</span>
                 </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage" let-geographicData let-columns="columns">
-            <tr>
-                <td [attr.colspan]="geographicData.length">No records found</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="footer" let-columns> <!--les colonnes sont implicites-->

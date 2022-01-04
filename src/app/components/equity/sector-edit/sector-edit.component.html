@@ -3,7 +3,8 @@
         <button pButton pRipple class="p-button-text mx-2" label="Expand all" (click)="expandAll()"></button>
         <button pButton pRipple class="p-button-text" label="Collapse all" (click)="collapseAll()"></button>
     </div>
-    <p-treeTable [value]="sectorTree"
+    <p-treeTable
+        [value]="sectorTree"
         [resizableColumns]="true"
         [autoLayout]="true">
         <ng-template pTemplate="header">

@@ -36,7 +36,8 @@ export class PortfolioComponent implements OnInit {
 
   loadPortfolio(): Equity[] {
     return this.portfolioService.load()
-      .filter(data => data.active);
+      .filter(data => data.active)
+      .sort( (a,b) => (a.type < b.type) ? 1 : (a.type === b.type) ? ( (a.name > b.name) ? 1 : -1) : -1);
   }
 
   refresh(): void {
