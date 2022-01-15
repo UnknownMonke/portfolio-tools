@@ -86,14 +86,15 @@ export class GeographicExposureComponent implements OnInit {
     this.geographicTotal = {};
 
     geographyNameList.forEach(name => {
-      Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: this.getTotalByRegion(name) });
-      this.graphData.set(name, this.getTotalByRegion(name)); // Map pour plus de facilité au graphe
+      const value: number = this.getTotalByRegion(name);
+      Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: value });
+      this.graphData.set(name, value); // Map pour plus de facilité au graphe
     });
   }
 
+  //TODO TU
   // Moyenne de la répartition par région pondérée par la valeur totale de l'équité
   private getTotalByRegion(region: string): number {
-
     const regionCode = region.replace(' ', '');
     const regionExposureAmountMap = new Map();
 

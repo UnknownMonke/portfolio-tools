@@ -35,11 +35,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
 import { GeographicExposureTableComponent } from './components/geography/geographic-exposure-table/geographic-exposure-table.component';
-import { GeographicExposureGraphComponent } from './components/geography/geographic-exposure-graph/geographic-exposure-graph.component';
 import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 import { SectorExposureTableComponent } from './components/sector/sector-exposure-table/sector-exposure-table.component';
-import { SectorExposureGraphComponent } from './components/sector/sector-exposure-graph/sector-exposure-graph.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
@@ -73,17 +71,13 @@ import { ExposureGraphComponent } from './components/graphs/exposure-graph/expos
     PortfolioComponent,
     GeographicExposureComponent,
     GeographicExposureTableComponent,
-    GeographicExposureGraphComponent,
     GeographyMappingComponent,
     SectorExposureComponent,
-    SectorExposureGraphComponent,
     SectorExposureTableComponent,
     SectorMappingComponent,
     EquityDetailComponent,
     GeographyEditComponent,
     SectorEditComponent,
-    SectorExposureTableComponent,
-    SectorExposureGraphComponent,
     ExposureGraphComponent
   ],
   // Import des composants source
