@@ -11,18 +11,21 @@
     }
 
     .card {
-        border: 1px solid var(--surface-border);
+        border: 1px solid var(--card-border);
         border-radius: 4px;
+
+        .tab-container {
+            background-color: var(--card-dark-bg);
+        }
     }
 }
 
 span {
-    font-family: Heebo, sans-serif;
-    color: var(--gray-600);
+    color: var(--equity-detail-color);
 }
 
 :host ::ng-deep .p-tabview-nav {
-    border-bottom: 1px solid var(--surface-d);
+    border-bottom: 1px solid var(--card-border);
 
     .p-tabview-nav-link {
         padding: 0.875rem !important;

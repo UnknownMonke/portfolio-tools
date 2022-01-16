@@ -25,6 +25,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DividerModule } from 'primeng/divider';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SidebarModule } from 'primeng/sidebar';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +41,7 @@ import { GeographyMappingComponent } from './components/geography/geography-mapp
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 import { SectorExposureTableComponent } from './components/sector/sector-exposure-table/sector-exposure-table.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
+import { ExposureGraphComponent } from './components/graphs/exposure-graph/exposure-graph.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
@@ -56,7 +59,6 @@ import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loa
 
 // Others
 import { HighchartsChartModule } from 'highcharts-angular';
-import { ExposureGraphComponent } from './components/graphs/exposure-graph/exposure-graph.component';
 
 @NgModule({
   // Import des composants de l'application
@@ -104,6 +106,8 @@ import { ExposureGraphComponent } from './components/graphs/exposure-graph/expos
     ToastModule,
     ProgressSpinnerModule,
     DividerModule,
+    InputSwitchModule,
+    SidebarModule,
     HighchartsChartModule
   ],
   // Import des services source

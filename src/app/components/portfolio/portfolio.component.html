@@ -1,16 +1,16 @@
 <div class="container mx-5 my-4">
     <div class="portfolio-header mb-4">
         <div class="central">
-            <button pButton pRipple class="p-button-raised p-button-success" label="Refresh Data" (click)="refresh()"></button>
+            <button pButton pRipple class="p-button-raised" label="Refresh Data" (click)="refresh()"></button>
         </div>
 
         <div class="right">
-            <button pButton pRipple class="p-button-raised p-button-rounded p-button-success mr-2" label="Sector repartition" routerLink="/sector"></button>
-            <button pButton pRipple class="p-button-raised p-button-rounded p-button-success" label="Geographic repartition" routerLink="/geography"></button>
+            <button pButton pRipple class="p-button-rounded p-button-outlined mr-2" label="Sector repartition" routerLink="/sector"></button>
+            <button pButton pRipple class="p-button-rounded p-button-outlined" label="Geographic repartition" routerLink="/geography"></button>
         </div>
    </div>
 
-    <div class="portfolio-container">
+    <div class="portfolio-container card-dark">
 
         <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
             <p-progressSpinner ></p-progressSpinner>
@@ -18,46 +18,46 @@
 
         <ng-template #loaded>
             <p-table
-            [columns]="portfolioColumns"
-            [value]="portfolioData"
-            [paginator]="true"
-            [rows]="20"
-            [showCurrentPageReport]="true"
-            responsiveLayout="scroll"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [rowsPerPageOptions]="[20,50,100]"
-            styleClass="p-datatable-sm"
-            sortMode="multiple">
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                        {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-portfolioDto let-columns="columns">
-                <tr>
-                    <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
-                        <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioDto._id}}">
-                            {{portfolioDto.name}}
-                        </span>
-                        <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioDto.amount !== null" [ngIfElse]="elseBlock">
-                            <!-- Pipe Angular pour formattage d'un élément spécifique -->
-                            <span>{{portfolioDto.amount | currency: 'EUR'}}</span>
-                        </ng-template>
-                        <ng-template #elseBlock>
-                            <span>€0.00</span>
-                        </ng-template>
-                        <span *ngSwitchDefault>{{portfolioDto[col.field]}}</span>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
-                <tr>
-                    <td [attr.colspan]="portfolioData.length">No records found</td>
-                </tr>
-            </ng-template>
-        </p-table>
+                [columns]="portfolioColumns"
+                [value]="portfolioData"
+                [paginator]="true"
+                [rows]="20"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[20,50,100]"
+                styleClass="p-datatable-sm"
+                sortMode="multiple">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-portfolioDto let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
+                            <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioDto._id}}">
+                                {{portfolioDto.name}}
+                            </span>
+                            <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioDto.amount !== null" [ngIfElse]="elseBlock">
+                                <!-- Pipe Angular pour formattage d'un élément spécifique -->
+                                <span>{{portfolioDto.amount | currency: 'EUR'}}</span>
+                            </ng-template>
+                            <ng-template #elseBlock>
+                                <span>€0.00</span>
+                            </ng-template>
+                            <span *ngSwitchDefault>{{portfolioDto[col.field]}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
+                    <tr>
+                        <td [attr.colspan]="portfolioData.length">No records found</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </ng-template>
     </div>
 </div>

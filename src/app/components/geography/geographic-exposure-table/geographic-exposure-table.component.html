@@ -1,4 +1,4 @@
-<div class="mx-5 my-3">
+<div class="card-dark mx-5 my-3">
     <p-table
         [columns]="geographicColumns"
         [value]="geographicData"
@@ -26,7 +26,7 @@
                     <ng-template #elseBlock>
                         <span>€0.00</span>
                     </ng-template>
-                    <span *ngSwitchDefault [ngStyle]="{color: geographicDto[col.field] !== 0 ? '#05389F' : 'inherit'}">{{geographicDto[col.field] | percent: '1.2-2'}}</span>
+                    <span *ngSwitchDefault [ngStyle]="{color: geographicDto[col.field] !== 0 ? 'var(--table-value-color)' : 'inherit'}">{{geographicDto[col.field] | percent: '1.2-2'}}</span>
                 </td>
             </tr>
         </ng-template>

@@ -30,6 +30,7 @@ export class ExposureGraphComponent implements OnInit {
     this.chartOptions = {
       chart: {
         plotShadow: false,
+        //styledMode: true,
         type: 'pie',
         height: 400,
         width: 600

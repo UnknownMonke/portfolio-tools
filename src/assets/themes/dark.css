@@ -1,0 +1,17 @@
+:root {
+    --body: var(--surface-ground);
+
+    --header-bg: var(--surface-card);
+    --header-color: rgba(255, 255, 255, 0.87);
+    --header-setting-hr: var(--gray-50);
+
+    --table-value-color: var(--cyan-400);
+    --equity-detail-color: rgba(255, 255, 255, 0.87);
+
+    --card-border: var(--surface-border);
+    --card-dark-bg: var(--surface-e);
+}
+
+.card-dark {
+    padding: 1rem;
+}

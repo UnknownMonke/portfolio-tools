@@ -1,14 +1,13 @@
 <div class="my-4">
+    <div class="left ml-5">
+        <button pButton pRipple class="p-button-rounded p-button-outlined mr-2" label="Sector repartition" routerLink="/sector"></button>
+    </div>
+
     <div class="spinner-container" *ngIf="!loaded">
         <p-progressSpinner ></p-progressSpinner>
     </div>
     <!--child components-->
     <div *ngIf="loaded">
-
-        <div class="left ml-5">
-            <button pButton pRipple class="p-button-raised p-button-rounded p-button-success mr-2" label="Sector repartition" routerLink="/sector"></button>
-        </div>
-
         <app-exposure-graph [graphData]="graphData"></app-exposure-graph>
 
         <div class="mx-5 mb-4">

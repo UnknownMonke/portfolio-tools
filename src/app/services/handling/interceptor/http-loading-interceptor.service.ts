@@ -5,6 +5,7 @@ import { LoadingService } from '../loading/loading.service';
 
 
 /** Intercepteur Http. Gestion du loading */
+//TODO test avec serveur arrété
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
 

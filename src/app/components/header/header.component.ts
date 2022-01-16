@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { ThemeService } from 'src/app/services/handling/theme/theme.service';
 
 
 @Component({
@@ -12,18 +13,22 @@ import { MenuItem } from 'primeng/api';
 export class HeaderComponent implements OnInit {
 
   title: string = "";
-  items: MenuItem[] = [];
+  checked: boolean = false;
+  displaySidebar: boolean = false;
+  manageItems: MenuItem[] = [];
+
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
     this.observeNavigation();
 
     // Menu de management
-    this.items = [
+    this.manageItems = [
       {
         label: 'Edit Geographies',
         routerLink: ['/edit/geography']
@@ -32,7 +37,7 @@ export class HeaderComponent implements OnInit {
         label: 'Edit Sectors',
         routerLink: ['/edit/sector']
       }
-    ]
+    ];
   }
 
   // Subscribe à la navigation pour mettre à jour le titre du header
@@ -58,5 +63,9 @@ export class HeaderComponent implements OnInit {
           this.title = data;
         }
       });
+  }
+
+  toggleDarkMode(event: any): void {
+    this.themeService.toggleDarkMode(event.checked);
   }
 }

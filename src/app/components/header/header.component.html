@@ -1,14 +1,38 @@
-<div class="header bg-blue-500">
+<div class="header">
     <div class="context-menu">
-        <button pButton pRipple class="p-button-text text-white p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
-        <button pButton pRipple class="p-button-text text-white p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
+        <button pButton pRipple class="p-button-text header-text p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
+        <button pButton pRipple class="p-button-text header-text p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
 
-        <button pButton pRipple class="p-button-text text-white py-0 px-2" label="Manage" (click)="menu.toggle($event)"></button>
-        <p-menu #menu [popup]="true" [model]="items" [baseZIndex]="300" appendTo="body"></p-menu>
+        <button pButton pRipple class="p-button-text header-text py-0 px-2" label="Manage" (click)="manageMenu.toggle($event)"></button>
+        <p-menu #manageMenu [popup]="true" [model]="manageItems" [baseZIndex]="300" appendTo="body"></p-menu>
 
-        <button pButton pRipple class="p-button-text text-white py-0 px-2 ml-2" label=Dashboard routerLink="/dashboard"></button>
+        <button pButton pRipple class="p-button-text header-text py-0 px-2 ml-2" label=Dashboard routerLink="/dashboard"></button>
     </div>
     <div class="title">
-        <span class="text-white">{{title}}</span>
+        <span class="header-text">{{title}}</span>
+    </div>
+    <div class="right-menu">
+        <button pButton pRipple class="p-button-text header-text p-0 mx-2" icon="pi pi-cog" (click)="displaySidebar = true"></button>
+
+        <p-sidebar
+            [(visible)]="displaySidebar"
+            [style]="{width:'300px'}"
+            position="right"
+            [blockScroll]="true"
+            [showCloseIcon]="false">
+
+            <div class="settings-title">
+                <span>Settings</span>
+            </div>
+
+            <hr class="setting-hr mt-4 mb-6"/>
+
+            <div class="setting">
+                <span class="mx-4">Toggle Dark Mode</span>
+                <div class="pt-1">
+                    <p-inputSwitch ([ngModel])="checked" (onChange)="toggleDarkMode($event)"></p-inputSwitch>
+                </div>
+            </div>
+        </p-sidebar>
     </div>
 </div>

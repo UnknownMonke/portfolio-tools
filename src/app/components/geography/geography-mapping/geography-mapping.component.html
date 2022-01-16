@@ -1,6 +1,6 @@
-<div class="container m-4">
+<div class="container card-dark m-4">
     <div class="mb-4">
-        <button pButton pRipple class="p-button-raised p-button-success" label="Add Geography" icon="pi pi-plus" (click)="openDialog()"></button>
+        <button pButton pRipple class="p-button-raised" label="Add Geography" icon="pi pi-plus" (click)="openDialog()"></button>
     </div>
 
     <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
@@ -16,8 +16,8 @@
             styleClass="p-datatable-sm col-4 p-0">
             <ng-template pTemplate="header">
                 <tr>
-                    <th class="bg-white">Geographies</th>
-                    <th class="bg-white" [ngStyle]="{width: '20%'}"></th>
+                    <th>Geographies</th>
+                    <th [ngStyle]="{width: '20%'}"></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-geography>

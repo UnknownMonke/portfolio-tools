@@ -1,6 +1,7 @@
 /*------ Global Styles ------*/
 body {
     margin: 0;
+    background-color: var(--body);
 }
 
 html, body {
@@ -19,4 +20,10 @@ html, body {
     display: inline-flex;
     width: 100%;
     justify-content: center;
+}
+
+// Card visible uniquement en dark mode
+.card-dark {
+    background: var(--card-dark-bg);
+    border-radius: 4px;
 }

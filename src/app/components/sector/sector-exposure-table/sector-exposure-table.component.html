@@ -1,4 +1,4 @@
-<div class="mx-5 my-3">
+<div class="card-dark mx-5 my-3">
     <p-table #main
         [columns]="sectorMainColumns"
         [value]="sectorData"
@@ -31,7 +31,7 @@
                     <ng-template #elseBlock>
                         <span>€0.00</span>
                     </ng-template>
-                    <span *ngSwitchDefault [ngStyle]="{color: sectorDto[col.field] !== 0 ? '#05389F' : 'inherit'}">
+                    <span *ngSwitchDefault [ngStyle]="{color: sectorDto[col.field] !== 0 ? 'var(--table-value-color)' : 'inherit'}">
                         {{sectorDto[col.field] | percent: '1.2-2'}}
                     </span>
                 </td>
@@ -56,7 +56,7 @@
                             <ng-template pTemplate="body" let-subSector let-columns="columns">
                                 <tr>
                                     <td *ngFor="let col of columns">
-                                        <span [ngStyle]="{color: subSector[col.field] !== 0 ? '#05389F' : 'inherit'}">
+                                        <span [ngStyle]="{color: subSector[col.field] !== 0 ? 'var(--table-value-color)' : 'inherit'}">
                                             {{subSector[col.field] | percent: '1.2-2'}}
                                         </span>
                                     </td>
