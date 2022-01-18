@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Equity } from '../../models/equity';
 import { APIEntry } from '../../common/enums/api';
 
-
+//TODO doc
 const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });

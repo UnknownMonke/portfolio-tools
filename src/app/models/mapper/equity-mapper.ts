@@ -1,9 +1,12 @@
 import Utils from "src/app/common/utils";
 import { Equity } from "../equity";
 
+/**
+ * Mapper DTO broker -> DTO Actif (équité).
+ */
 export default class EquityMapper {
 
-  // Mappe un actif non existant en base depuis l'objet DeGiro
+  // Mappe un actif non existant en base depuis l'objet DeGiro.
   static mapEquityRawDegiro(equityRaw: any): Equity {
     return {
       _id: this.createId('DeGiro', equityRaw.id),

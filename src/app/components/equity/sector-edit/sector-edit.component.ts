@@ -4,7 +4,14 @@ import { Sector } from 'src/app/models/sector';
 import { SectorExposition } from 'src/app/models/sectorExposition';
 import { SectorService } from 'src/app/services/sector/sector.service';
 
-
+/**
+ * Composant pour l'édition de la répartition sectorielle d'une équité.
+ *
+ * - Récupère la répartition actuelle en input.
+ * - Récupère la liste des secteurs en base et ajoute l'exposure si trouvée dans la répartition actuelle de l'équité,
+ *   pour être à jour (ajout à 0 pour un secteur nouvellement ajouté).
+ * - Emet le résultat de la form en output.
+ */
 @Component({
   selector: 'app-sector-edit',
   templateUrl: './sector-edit.component.html',
@@ -22,7 +29,7 @@ export class SectorEditComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Rempli la liste des secteurs avec les valeurs mappées en base et non les valeurs concaténées des equités
+  // Rempli la liste des secteurs avec les valeurs mappées en base et non les valeurs concaténées des equités.
   fillExposition(sectorRepartition: SectorExposition[]): void {
     this.sectorService.getSectors()
       .subscribe( (data: Sector[]) => {
@@ -37,7 +44,7 @@ export class SectorEditComponent implements OnInit {
               };
             });
 
-          // Edite la liste des repartitions avec les valeurs trouvées dans les équités
+          // Edite la liste des repartitions avec les valeurs trouvées dans les équités.
           if(sectorRepartition.length > 0) {
 
             defaultSectors.forEach(repartition => {
@@ -61,7 +68,7 @@ export class SectorEditComponent implements OnInit {
       });
   }
 
-  // Convertit la liste aplatie des secteurs en arbre pour affichage
+  // Convertit la liste aplatie des secteurs en arbre pour affichage.
   private buildTree(sectorRepartition: SectorExposition[]): TreeNode[] {
     const hashTable = Object.create(null);
 
@@ -86,7 +93,7 @@ export class SectorEditComponent implements OnInit {
     this.sectorTree.forEach(node => {
         this.expandRecursive(node, true);
     });
-    this.sectorTree = [...this.sectorTree]; // Use the spread operator to trigger a refresh of the table
+    this.sectorTree = [...this.sectorTree]; // Use the spread operator to trigger a refresh of the table.
   }
 
   collapseAll(){
@@ -97,7 +104,7 @@ export class SectorEditComponent implements OnInit {
   }
 
   private expandRecursive(node: TreeNode, isExpand: boolean){
-    node.expanded = isExpand; // Attribut html
+    node.expanded = isExpand; // Attribut html.
 
     if (node.children){
       node.children.forEach(childNode => {
@@ -106,10 +113,11 @@ export class SectorEditComponent implements OnInit {
     }
   }
 
-  // Reconverti l'arbre en array, et emit pour sauvegarde
+  // Reconverti l'arbre en array, et emit pour sauvegarde.
   //TODO TU
   submitRepartition(): void {
     const sectorRepartition: SectorExposition[] = [];
+
     this.mapTreeEmitter(sectorRepartition, this.sectorTree);
     this.sectorRepartitionChange.emit(sectorRepartition);
   }

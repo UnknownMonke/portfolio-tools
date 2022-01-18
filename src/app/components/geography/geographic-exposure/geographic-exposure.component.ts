@@ -7,9 +7,14 @@ import { GeographyService } from 'src/app/services/geography/geography.service';
 
 //TODO edition de l'equité depuis la table
 /**
- * Mappe le nom et les exposures pour les géographies disponibles
- * Le nom est utilisé en cas de suppression / recréation de la géographie.
- * Une modification de nom entraine le non-affichage de l'exposure, car la donnée est dupliquée dans le document, il faut remettre à jour l'équité manuellement.
+ * Composant wrapper pour l'affichage de la répartition géographique globale.
+ *
+ * Affichage sous forme de table et de graphique (enfants).
+ *
+ * Le nom de la géographie est utilisé comme id en cas de suppression / recréation.
+ *
+ * Une modification de nom entraine le non-affichage de l'exposure, car la donnée est dupliquée dans le document,
+ * il faut remettre à jour l'équité manuellement depuis la vue associée.
  */
 @Component({
   selector: 'app-geographic-exposure',
@@ -22,8 +27,8 @@ export class GeographicExposureComponent implements OnInit {
   geographicTotal: any = {};
   graphData: Map<string, number> = new Map();
   regionMap: any[] = [];
-  loaded: boolean = false;
 
+  loaded: boolean = false;
 
   constructor(
     private equityService: EquityService,
@@ -59,11 +64,11 @@ export class GeographicExposureComponent implements OnInit {
 
                     geographyNameList
                       .forEach(name => { //TODO map()
-                        // Version formattée pour la table nom: exposure
+                        // Version formattée pour la table nom: exposure.
                         Object.defineProperty(o, name.replace(' ', ''),
                           {
                             value: equity.geography.length > 0
-                            ? equity.geography // Assigne l'exposure trouvée si elle existe, sinon 0
+                            ? equity.geography // Assigne l'exposure trouvée si elle existe, sinon 0.
                               .filter(geo => name === geo.geography.name)[0].exposure : 0
                           }
                         );
@@ -82,18 +87,19 @@ export class GeographicExposureComponent implements OnInit {
       });
   }
 
+  // Ajout d'une ligne total par équité dans un objet séparé.
   private getTotals(geographyNameList: string[]): void {
     this.geographicTotal = {};
 
     geographyNameList.forEach(name => {
       const value: number = this.getTotalByRegion(name);
       Object.defineProperty(this.geographicTotal, name.replace(' ', ''), { value: value });
-      this.graphData.set(name, value); // Map pour plus de facilité au graphe
+      this.graphData.set(name, value); // Map pour plus de facilité au graphe.
     });
   }
 
   //TODO TU
-  // Moyenne de la répartition par région pondérée par la valeur totale de l'équité
+  // Moyenne de la répartition par région pondérée par la valeur totale de l'équité.
   private getTotalByRegion(region: string): number {
     const regionCode = region.replace(' ', '');
     const regionExposureAmountMap = new Map();

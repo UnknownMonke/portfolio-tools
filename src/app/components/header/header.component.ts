@@ -4,7 +4,17 @@ import { filter, map } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from 'src/app/services/handling/theme/theme.service';
 
-
+/**
+ * Header de l'application.
+ *
+ * - Accessible seulement si connecté.
+ * - Contiens :
+ *    - Accès à l'édition des géographies et secteurs.
+ *    - Accès au dashboard
+ *    - Titre de la page actuelle.
+ *    - Précédent / Suivant.
+ *    - Profil utilisateur, logout et menu options.
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -27,7 +37,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.observeNavigation();
 
-    // Menu de management
+    // Menu de management secteurs / géographies.
     this.manageItems = [
       {
         label: 'Edit Geographies',
@@ -40,7 +50,7 @@ export class HeaderComponent implements OnInit {
     ];
   }
 
-  // Subscribe à la navigation pour mettre à jour le titre du header
+  // Subscribe à la navigation pour mettre à jour le titre du header.
   observeNavigation(): void {
     this.router.events
       .pipe(
@@ -58,7 +68,7 @@ export class HeaderComponent implements OnInit {
           }
           return null;
         })
-      ).subscribe( (data: any) => { // Analog to jQuery ".on()"
+      ).subscribe( (data: any) => { // Analog to jQuery ".on()".
         if(data) {
           this.title = data;
         }

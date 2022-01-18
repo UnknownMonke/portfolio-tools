@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-/** Affiche les données géographiques en table */
+/**
+ * Composant pour l'affichage des données géographiques en table.
+ *
+ * - Reçoit les données au bon format (colonnes dynamiques dont le nom de la géographie est le nom de propriété de l'objet).
+ * - Affiche les données en table, lignes = équité, colonne = secteur géographique, scroll horizontal.
+ */
 @Component({
   selector: 'app-geographic-exposure-table',
   templateUrl: './geographic-exposure-table.component.html',
@@ -20,7 +25,11 @@ export class GeographicExposureTableComponent implements OnInit {
     this.setColumns();
   }
 
-  // Construit les colonnes dynamiques depuis la map
+  /**
+   * Construit les colonnes dynamiques depuis la map.
+   * PrimeNG demande un objet colonne séparé pour les tables dynamiques (de type field / header name).
+   * Le champ "field" est utilisé pour accéder à la donnée, il doit être identique au nom de la propriété du DTO.
+   */
   private setColumns(): void {
     this.geographicColumns = [
       {field: 'name', header: 'Name'},
@@ -28,7 +37,7 @@ export class GeographicExposureTableComponent implements OnInit {
     ];
     this.regionMap.forEach(region => this.geographicColumns.push(region));
 
-    // Ajoute le total global
+    // Ajoute le total global.
     const totalAmount = this.geographicData
       .map(geoData => geoData.amount)
       .reduce((geoData, next) => geoData + next);

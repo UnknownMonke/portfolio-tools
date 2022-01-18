@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
+/**
+ * Tag footer contenant la version de l'application.
+ */
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',

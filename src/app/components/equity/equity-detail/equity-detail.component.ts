@@ -6,7 +6,12 @@ import { SectorExposition } from 'src/app/models/sectorExposition';
 import { EquityService } from 'src/app/services/equity/equity.service';
 import { SectorEditComponent } from '../sector-edit/sector-edit.component';
 
-
+/**
+ * Composant wrapper pour l'édition de la répartition d'une équité.
+ *
+ * - Récupère l'équité sélectionnée via son id, et la transmet aux enfants (geography et sector).
+ * - Affiche les données financières de l'équité.
+ */
 @Component({
   selector: 'app-equity-detail',
   templateUrl: './equity-detail.component.html',
@@ -16,7 +21,7 @@ export class EquityDetailComponent implements OnInit {
 
   equity: Equity = {} as Equity;
 
-  //Utilisation du viewChild pour les secteurs
+  // Utilisation du viewChild pour les secteurs.
   @ViewChild(SectorEditComponent) child: any;
 
   constructor(
@@ -28,6 +33,7 @@ export class EquityDetailComponent implements OnInit {
     this.getEquity();
   }
 
+  // L'id est disponible dans l'url.
   getEquity(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if(id !== null) {
@@ -41,9 +47,10 @@ export class EquityDetailComponent implements OnInit {
     }
   }
 
+  // Persiste la répartition provenant de l'EventEmitter.
   updateEquityGeography($event: GeographyExposition[]): void {
     this.equity.geography = $event;
-    // Persistence
+
     this.equityService.editEquity(this.equity)
       .subscribe( (status: number) => {
         if(status !== 200) {
@@ -52,9 +59,10 @@ export class EquityDetailComponent implements OnInit {
       });
   }
 
+  // Persiste la répartition provenant de l'EventEmitter.
   updateEquitySector($event: SectorExposition[]): void {
     this.equity.sectors = $event;
-    // Persistence
+
     this.equityService.editEquity(this.equity)
     .subscribe( (status: number) => {
       if(status !== 200) {

@@ -4,8 +4,20 @@ import { Sector } from 'src/app/models/sector';
 import { EquityService } from 'src/app/services/equity/equity.service';
 import { SectorService } from 'src/app/services/sector/sector.service';
 
-
 //TODO couleur pour chaque catégorie de secteur
+/**
+ * Composant wrapper pour l'affichage de la répartition sectorielle globale.
+ *
+ * Affichage sous forme de table et de graphique (enfants).
+ *
+ * Le nom du secteur est utilisé comme id en cas de suppression / recréation.
+ *
+ * Une modification de nom entraine le non-affichage de l'exposure, car la donnée est dupliquée dans le document,
+ * il faut remettre à jour l'équité manuellement depuis la vue associée.
+ *
+ * La donnée pour la table distingue les secteurs principaux dont le nom est le nom de propriété de l'objet (comme pour les autres tables dynamiques),
+ * et les secteurs secondaires regroupées dans un sous-objet (condition obligatoire pour afficher le rowGroup PrimeNG).
+ */
 @Component({
   selector: 'app-sector-exposure',
   templateUrl: './sector-exposure.component.html',
@@ -56,11 +68,11 @@ export class SectorExposureComponent implements OnInit {
 
                     sectorList.forEach(sector => {
                       const o = sector.level === 0 ? sectorSingleData : subSectors;
-                      // Version formattée pour la table nom: exposure
+                      // Version formattée pour la table nom: exposure.
                       Object.defineProperty(o, sector.name.replace(' ', ''),
                         {
                           value: equity.sectors.length > 0
-                          ? equity.sectors // Assigne l'exposure trouvée si elle existe, sinon 0
+                          ? equity.sectors // Assigne l'exposure trouvée si elle existe, sinon 0.
                             .filter(sec => sector.name === sec.sector.name)[0].exposure : 0
                         }
                       );
@@ -81,17 +93,18 @@ export class SectorExposureComponent implements OnInit {
       });
   }
 
+  // Ajout d'une ligne total par équité dans un objet séparé.
   getTotals(sectorNameList: string[]): void {
     this.sectorTotal = {};
 
     sectorNameList.forEach(name => {
       const value: number = this.getTotalBySector(name);
       Object.defineProperty(this.sectorTotal, name.replace(' ', ''), { value: value });
-      this.graphData.set(name, value); // Map pour plus de facilité au graphe
+      this.graphData.set(name, value); // Map pour plus de facilité au graphe.
     });
   }
 
-  // Moyenne de la répartition par secteur pondérée par la valeur totale de l'équité
+  // Moyenne de la répartition par secteur pondérée par la valeur totale de l'équité.
   getTotalBySector(sector: string): number {
     const sectorCode = sector.replace(' ', '');
     const sectorExposureAmountMap = new Map();

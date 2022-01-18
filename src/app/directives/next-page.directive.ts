@@ -1,7 +1,9 @@
 import { Directive, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 
-/** Retour avant en navigation */
+/**
+ * Directive de retour avant en navigation.
+ */
 @Directive({
   selector: '[appNextPage]'
 })

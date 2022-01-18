@@ -13,7 +13,7 @@ export class ThemeService {
   ) {}
 
   //TODO persister avec l'utilisateur
-  // Change la stylesheet externe (theme primeNg) et la stylesheet interne (couleurs perso)
+  // Change la stylesheet externe (theme PrimeNG) et la stylesheet interne (couleurs perso)
   toggleDarkMode(toggle: boolean): void {
 
     const extTheme: string = toggle ? 'vela-blue' : 'saga-blue';
