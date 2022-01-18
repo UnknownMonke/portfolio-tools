@@ -6,14 +6,14 @@ import { Sector } from '../../models/sector';
 import { APIEntry } from '../../common/enums/api';
 
 
+const headers: any = new HttpHeaders({
+  'Content-Type':  'application/json',
+});
+
 @Injectable({
   providedIn: 'root'
 })
 export class SectorService {
-
-  headers: any = new HttpHeaders({
-    'Content-Type':  'application/json',
-  });
 
   constructor(
     private httpClient: HttpClient
@@ -34,7 +34,7 @@ export class SectorService {
       parentId: -1
     };
     return this.httpClient
-      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
+      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: headers })
       .pipe(
         catchError(this.handleError<any>())
       );
@@ -47,7 +47,7 @@ export class SectorService {
       parentId: sector._id
     };
     return this.httpClient
-      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
+      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: headers })
       .pipe(
         catchError(this.handleError<any>())
       );
@@ -55,7 +55,7 @@ export class SectorService {
 
   editSector(sector: Sector): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/update/${sector._id}`, sector, { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/update/${sector._id}`, sector, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -64,7 +64,7 @@ export class SectorService {
 
   deleteSector(id: number): Observable<number> {
     return this.httpClient
-      .delete<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/delete/${id}`, { headers: this.headers, observe: 'response' })
+      .delete<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/delete/${id}`, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())

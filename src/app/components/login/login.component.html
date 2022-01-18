@@ -1,0 +1,23 @@
+<div class="content m-4">
+    <p-card>
+        <ng-template pTemplate="header">
+            <div class="header-container pt-5">
+                <p-avatar icon="pi pi-user" shape="circle" size="large" [style]="{'background-color': '#2196F3', 'color': '#FFFFFF'}"></p-avatar>
+            </div>
+        </ng-template>
+            <form id="loginForm">
+                <div class="pb-2">
+                    <input id="username-input" type="text" placeholder="Username" pInputText>
+                </div>
+                <div class="pt-2">
+                    <input id="password-input" type="text" placeholder="Password" pInputText>
+                </div>
+            </form>
+        <ng-template pTemplate="footer">
+            <div class="footer-container pb-3">
+                <button pButton pRipple label="Login" icon="pi pi-check"></button>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
+

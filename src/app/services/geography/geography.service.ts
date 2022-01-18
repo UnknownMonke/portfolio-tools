@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of, map, throwError } from 'rxjs';
-import { catchError, retry, take } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Geography } from '../../models/geography';
 import { APIEntry } from '../../common/enums/api';
 
+
+const headers: any = new HttpHeaders({
+  'Content-Type':  'application/json',
+});
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeographyService {
-
-  headers: any = new HttpHeaders({
-    'Content-Type':  'application/json',
-  });
 
   constructor(
     private httpClient: HttpClient
@@ -32,7 +32,7 @@ export class GeographyService {
   addGeography(name: string): Observable<Geography> {
     const body = { name: name };
     return this.httpClient
-      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, JSON.stringify(body), { headers: this.headers })
+      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, JSON.stringify(body), { headers: headers })
       .pipe(
         catchError(this.handleError<any>())
       );
@@ -42,7 +42,7 @@ export class GeographyService {
   // donc soit erreur, soit retour ok, si ok l'update se fait via la valeur du front
   editGeography(geography: Geography): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<any>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<any>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -52,7 +52,7 @@ export class GeographyService {
   // Retourne le statut de la requête, si ok l'update se fait via la valeur du front
   deleteGeography(id: string): Observable<number> {
     return this.httpClient
-      .delete<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/delete/${id}`, { headers: this.headers, observe: 'response' })
+      .delete<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/delete/${id}`, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())

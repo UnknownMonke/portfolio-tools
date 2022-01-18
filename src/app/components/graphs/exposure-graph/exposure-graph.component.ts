@@ -27,13 +27,15 @@ export class ExposureGraphComponent implements OnInit {
       });
 
     // Chart configuration
+    //TODO random color generator for series
     this.chartOptions = {
       chart: {
         plotShadow: false,
         //styledMode: true,
         type: 'pie',
         height: 400,
-        width: 600
+        width: 600,
+        backgroundColor: 'var(--body)'
       },
       title: {
         text: undefined
@@ -59,11 +61,16 @@ export class ExposureGraphComponent implements OnInit {
       plotOptions: {
         pie: {
           allowPointSelect: false,
+          borderColor: 'var(--body)',
+          borderWidth: 2,
           dataLabels: {
             enabled: true,
             style: {
-              fontSize: '12px'
+              fontSize: '14px',
+              textOutline: 'none'
+
             },
+            color: 'var(--surface-900)',
             formatter: function() { // N'affiche que  les données supérieures à 0
               if(this.point.y && this.point.y > 0) {
                 return '<b>' + this.point.name + '</b>: ' + this.point.y + '%';

@@ -14,19 +14,19 @@ import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { TreeTableModule } from 'primeng/treetable';
 import { ChipModule } from 'primeng/chip';
 import { PanelModule } from 'primeng/panel';
 import { TabViewModule } from 'primeng/tabview';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DividerModule } from 'primeng/divider';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SidebarModule } from 'primeng/sidebar';
+import { CardModule } from 'primeng/card';
+import { AvatarModule } from 'primeng/avatar';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +45,7 @@ import { ExposureGraphComponent } from './components/graphs/exposure-graph/expos
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
+import { LoginComponent } from './components/login/login.component';
 
 // Directives
 import { LastPageDirective } from './directives/last-page.directive';
@@ -54,6 +55,8 @@ import { NextPageDirective } from './directives/next-page.directive';
 import { ColumnFilterPipe } from './pipes/column-filter.pipe';
 
 // Services
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
 import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loading-interceptor.service';
 
@@ -80,7 +83,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     EquityDetailComponent,
     GeographyEditComponent,
     SectorEditComponent,
-    ExposureGraphComponent
+    ExposureGraphComponent,
+    LoginComponent
   ],
   // Import des composants source
   imports: [
@@ -108,6 +112,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     DividerModule,
     InputSwitchModule,
     SidebarModule,
+    CardModule,
+    AvatarModule,
     HighchartsChartModule
   ],
   // Import des services source

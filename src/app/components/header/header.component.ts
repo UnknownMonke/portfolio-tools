@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from 'src/app/services/handling/theme/theme.service';
@@ -13,10 +13,10 @@ import { ThemeService } from 'src/app/services/handling/theme/theme.service';
 export class HeaderComponent implements OnInit {
 
   title: string = "";
-  checked: boolean = false;
-  displaySidebar: boolean = false;
   manageItems: MenuItem[] = [];
 
+  checked: boolean = false;
+  displaySidebar: boolean = false;
 
   constructor(
     private router: Router,

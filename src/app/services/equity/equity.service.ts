@@ -6,14 +6,14 @@ import { Equity } from '../../models/equity';
 import { APIEntry } from '../../common/enums/api';
 
 
+const headers: any = new HttpHeaders({
+  'Content-Type':  'application/json',
+});
+
 @Injectable({
   providedIn: 'root'
 })
 export class EquityService {
-
-  headers: any = new HttpHeaders({
-    'Content-Type':  'application/json',
-  });
 
   constructor(
     private httpClient: HttpClient
@@ -37,7 +37,7 @@ export class EquityService {
   // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client
   addEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, equities, { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, equities, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -47,7 +47,7 @@ export class EquityService {
    // Edite une liste d'actif en éditant tout sauf l'exposure (non présente dans les données courtier), et retourne seulement le statut car l'id est générée côté client
   editEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, this.mapEquityWithoutExposure(equities), { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, this.mapEquityWithoutExposure(equities), { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())
@@ -57,7 +57,7 @@ export class EquityService {
   // Edite un actif unique
   editEquity(equity: Equity): Observable<number> {
     return this.httpClient
-      .post<HttpResponse<Equity>>(`${APIEntry.EQUITY_ENTRY}/update/${equity._id}`, JSON.stringify(equity), { headers: this.headers, observe: 'response' })
+      .post<HttpResponse<Equity>>(`${APIEntry.EQUITY_ENTRY}/update/${equity._id}`, JSON.stringify(equity), { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status),
         catchError(this.handleError<any>())

@@ -7,62 +7,74 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 
 /** Navigation interne via l'API, un composant par point d'entrée */
 //TODO localisation
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     data: {
       title: 'Portfolio Visualization Tools'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'portfolio',
     component: PortfolioComponent,
     data: {
       title: 'Portfolio'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'equity/:id',
     component: EquityDetailComponent,
     data: {
       title: 'Equity Detail'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'geography',
     component: GeographicExposureComponent,
     data: {
       title: 'Geographic Exposure'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'sector',
     component: SectorExposureComponent,
     data: {
       title: 'Sector Exposure'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit/geography',
     component: GeographyMappingComponent,
     data: {
       title: 'Geographic Mapping'
-    }
+    },
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit/sector',
     component: SectorMappingComponent,
     data: {
       title: 'Sector Mapping'
-    }
+    },
+    canActivate: [AuthGuard]
   },
-  {
-    path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

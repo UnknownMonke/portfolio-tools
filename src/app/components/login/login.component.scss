@@ -1,0 +1,13 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 48px - 70px);
+
+    .header-container, .footer-container {
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+    }
+}
