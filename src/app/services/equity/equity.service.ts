@@ -5,11 +5,12 @@ import { catchError } from 'rxjs/operators';
 import { Equity } from '../../models/equity';
 import { APIEntry } from '../../common/enums/api';
 
-//TODO doc
+
 const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });
 
+/** Service CRUD pour les équités. */
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +35,7 @@ export class EquityService {
       );
   }
 
-  // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client
+  // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client.
   addEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
       .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, equities, { headers: headers, observe: 'response' })
@@ -44,7 +45,7 @@ export class EquityService {
       );
   }
 
-   // Edite une liste d'actif en éditant tout sauf l'exposure (non présente dans les données courtier), et retourne seulement le statut car l'id est générée côté client
+  // Edite une liste d'actif en éditant tout sauf l'exposure (non présente dans les données courtier), et retourne seulement le statut car l'id est générée côté client.
   editEquities(equities: Equity[]): Observable<number> {
     return this.httpClient
       .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, this.mapEquityWithoutExposure(equities), { headers: headers, observe: 'response' })
@@ -54,7 +55,7 @@ export class EquityService {
       );
   }
 
-  // Edite un actif unique
+  // Edite un actif unique.
   editEquity(equity: Equity): Observable<number> {
     return this.httpClient
       .post<HttpResponse<Equity>>(`${APIEntry.EQUITY_ENTRY}/update/${equity._id}`, JSON.stringify(equity), { headers: headers, observe: 'response' })
@@ -67,15 +68,15 @@ export class EquityService {
   private handleError<T>(response?: T) {
     return (error: any): Observable<T> => {
 
-      // Retourne une erreur avec un message User-friendly via le handler
+      // Retourne une erreur avec un message User-friendly via le handler.
       throwError(() => new Error('Error while retreiving equities')).subscribe();
 
-      // Transmission non bloquante de la réponse
+      // Transmission non bloquante de la réponse.
       return of(response as T);
     };
   }
 
-  // Mapping DTO -> Entité en supprimant les exposure
+  // Mapping DTO -> Entité en supprimant les exposure.
   private mapEquityWithoutExposure(equities: any[]): any[] {
     equities.forEach(equity => {
       delete equity.geography;

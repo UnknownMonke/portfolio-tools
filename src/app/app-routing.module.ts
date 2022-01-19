@@ -10,8 +10,6 @@ import { SectorExposureComponent } from './components/sector/sector-exposure/sec
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
-
-/** Navigation interne via l'API, un composant par point d'entrée */
 //TODO localisation
 const routes: Routes = [
   {
@@ -22,9 +20,9 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     data: {
-      title: 'Portfolio Visualization Tools'
+      title: 'Portfolio Visualization Tools' // Attribut custom pour afficher dans le header.
     },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard] // Gestion droits utilisateur.
   },
   {
     path: 'portfolio',
@@ -77,6 +75,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
+/**
+ * Composant gestion de la navigation interne, un composant par point d'entrée.
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

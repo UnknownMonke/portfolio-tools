@@ -86,7 +86,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     ExposureGraphComponent,
     LoginComponent
   ],
-  // Import des composants source
+  // Import des composants externe
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -116,7 +116,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     AvatarModule,
     HighchartsChartModule
   ],
-  // Import des services source
+  // Import des services
   providers: [
     ConfirmationService,
     MessageService,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
 
-/** Composant racine de l'application */
+/** Composant racine de l'application. */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,7 +10,7 @@ import { TokenStorageService } from './services/auth/token-storage.service';
 })
 export class AppComponent implements OnInit {
 
-  // Récupération de l'info pour ne pas afficher le header dans la page de login
+  // Récupération de l'info utilisateur connecté pour ne pas afficher le header dans la page de login.
   isLoggedIn: boolean = false;
 
   constructor(

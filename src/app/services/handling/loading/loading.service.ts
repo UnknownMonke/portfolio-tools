@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+/** Service d'activation du loader, via un Observable. */
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class LoadingService {
 
   constructor() {}
 
-  // Change l'état de l'observable selon la valeur d'entrée
+  // Change l'état de l'observable selon la valeur d'entrée.
   setLoading(loading: boolean): void {
     this.loadingSubject.next(loading);
   }

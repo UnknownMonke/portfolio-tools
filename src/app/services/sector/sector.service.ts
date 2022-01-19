@@ -10,6 +10,7 @@ const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });
 
+/** Service CRUD pour les secteurs. */
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +27,7 @@ export class SectorService {
       );
   }
 
-  // Ajout d'un secteur principal uniquement
+  // Ajout d'un secteur principal uniquement.
   addSector(name: string): Observable<Sector> {
     const body = {
       name: name,

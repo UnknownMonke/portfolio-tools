@@ -5,13 +5,14 @@ import { TokenStorageService } from '../../auth/token-storage.service';
 import { LoadingService } from '../loading/loading.service';
 
 
-const TOKEN_HEADER_KEY = 'x-access-token'; // Used for Node server
+const TOKEN_HEADER_KEY = 'x-access-token'; // Used for Node server.
 
 /**
  * Intercepteur Http.
- * Gestion du loading
- * Ajout du token
- * */
+ *
+ * - Déclenche le loader pour chaque requête Http.
+ * - Ajout du token user dans chaque requête.
+ */
 //TODO test avec serveur arrété
 @Injectable()
 export class HttpLoadingInterceptor implements HttpInterceptor {
@@ -26,13 +27,13 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    // Loading
+    // Loading.
     this.loadingService.setLoading(true);
     this.totalRequests++;
 
     let authReq: HttpRequest<any> = this.addToken(req);
 
-    // Object retourné: la réponse
+    // Object retourné: la réponse.
     return next.handle(authReq)
       .pipe(
         tap(event => {
@@ -55,7 +56,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
       );
   }
 
-  // Clone la requête pour ajouter le token d'identification
+  // Clone la requête pour ajouter le token d'identification.
   private addToken(req: HttpRequest<any>): HttpRequest<any> {
     const token = this.tokenStorageService.getToken();
 
