@@ -1,41 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { filter, map, tap } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from 'src/app/services/handling/theme/theme.service';
+import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 
 /**
  * Header de l'application.
  *
- * - Accessible seulement si connecté.
- * - Contiens :
- *    - Accès à l'édition des géographies et secteurs.
- *    - Accès au dashboard
- *    - Titre de la page actuelle.
- *    - Précédent / Suivant.
- *    - Profil utilisateur, logout et menu options.
+ * Contiens :
+ * - Accès à l'édition des géographies et secteurs.
+ * - Accès au dashboard
+ * - Titre de la page actuelle.
+ * - Précédent / Suivant.
+ * - Profil utilisateur, logout et options.
+ *
+ * Le header n'est accessible que si l'utilisateur est connecté.
+ * Cela est géré ici plutôt que dans le composant d'appel (AppComponent) pour éviter de charger le header avant la redirection post-login.
+ *
+ * Ainsi le composant est dans tous les cas chargé, mais il est vide dans certains cas (page de login).
  */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+
+  isLoggedIn: boolean = false;
 
   title: string = "";
   manageItems: MenuItem[] = [];
+  settingsItems: MenuItem[] = [];
 
   checked: boolean = false;
-  displaySidebar: boolean = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private tokenStorageService: TokenStorageService
   ) {}
 
   ngOnInit(): void {
-    this.observeNavigation();
+    // Gestion refresh après être loggé, le sujet n'émet rien donc on regarde si le token existe directement
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+
+    // Récupère la préférence du thème
+    this.checked = localStorage.getItem('darkMode') === 'true';
 
     // Menu de management secteurs / géographies.
     this.manageItems = [
@@ -48,6 +60,28 @@ export class HeaderComponent implements OnInit {
         routerLink: ['/edit/sector']
       }
     ];
+
+    this.settingsItems = [
+      {
+        id: 'setting-dm',
+        label: 'Toggle Dark Mode',
+        icon: 'pi pi-sun',
+        command: (event: any) => this.toggleDarkMode()
+      },
+      {
+        id: 'setting-logout',
+        label: 'Log Out',
+        icon: 'pi pi-power-off',
+        command: (event: any) => this.logout()
+      }
+    ];
+
+    this.tokenStorageService.loggedIn$
+    .subscribe( (value: boolean) => {
+      this.isLoggedIn = value;
+    });
+
+    this.observeNavigation();
   }
 
   // Subscribe à la navigation pour mettre à jour le titre du header.
@@ -75,7 +109,17 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  toggleDarkMode(event: any): void {
-    this.themeService.toggleDarkMode(event.checked);
+  toggleDarkMode(): void {
+    this.checked = !this.checked;
+    this.themeService.toggleDarkMode(this.checked);
+  }
+
+  logout(): void {
+    this.tokenStorageService.signOut();
+    location.reload();
+  }
+
+  ngOnDestroy(): void {
+    this.tokenStorageService.loggedIn$.unsubscribe();
   }
 }

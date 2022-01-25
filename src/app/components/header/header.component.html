@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" *ngIf="isLoggedIn">
     <div class="context-menu">
         <button pButton pRipple class="p-button-text header-text p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
         <button pButton pRipple class="p-button-text header-text p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
@@ -12,27 +12,7 @@
         <span class="header-text">{{title}}</span>
     </div>
     <div class="right-menu">
-        <button pButton pRipple class="p-button-text header-text p-0 mx-2" icon="pi pi-cog" (click)="displaySidebar = true"></button>
-
-        <p-sidebar
-            [(visible)]="displaySidebar"
-            [style]="{width:'300px'}"
-            position="right"
-            [blockScroll]="true"
-            [showCloseIcon]="false">
-
-            <div class="settings-title">
-                <span>Settings</span>
-            </div>
-
-            <hr class="setting-hr mt-4 mb-6"/>
-
-            <div class="setting">
-                <span class="mx-4">Toggle Dark Mode</span>
-                <div class="pt-1">
-                    <p-inputSwitch ([ngModel])="checked" (onChange)="toggleDarkMode($event)"></p-inputSwitch>
-                </div>
-            </div>
-        </p-sidebar>
+        <button pButton pRipple class="p-button-rounded p-0" icon="pi pi-user" (click)="settingsMenu.toggle($event)"></button>
+        <p-menu #settingsMenu [popup]="true" [model]="settingsItems" [baseZIndex]="300" appendTo="body" styleClass="settings-menu"></p-menu>
     </div>
 </div>

@@ -4,18 +4,18 @@ import { catchError, finalize, Observable, of, tap } from 'rxjs';
 import { TokenStorageService } from '../../auth/token-storage.service';
 import { LoadingService } from '../loading/loading.service';
 
-
-const TOKEN_HEADER_KEY = 'x-access-token'; // Used for Node server.
+const TOKEN_HEADER_KEY = 'x-access-token'; // Used for Node server. Can change according to framework.
 
 /**
  * Intercepteur Http.
  *
  * - Déclenche le loader pour chaque requête Http.
- * - Ajout du token user dans chaque requête.
+ * - Ajout du token user dans chaque requête, sauf page de login (token null).
+ *   L'entiereté du site n'est accessible que si l'utilisateur est connecté.
  */
 //TODO test avec serveur arrété
 @Injectable()
-export class HttpLoadingInterceptor implements HttpInterceptor {
+export class HttpCustomInterceptor implements HttpInterceptor {
 
   totalRequests: number = 0;
   completedRequests: number = 0;
@@ -33,7 +33,7 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
 
     let authReq: HttpRequest<any> = this.addToken(req);
 
-    // Object retourné: la réponse.
+    // Object retourné: la réponse http.
     return next.handle(authReq)
       .pipe(
         tap(event => {

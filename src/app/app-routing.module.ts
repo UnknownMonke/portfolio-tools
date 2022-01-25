@@ -7,7 +7,7 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
 //TODO localisation

@@ -26,7 +26,7 @@ export class PortfolioService {
   ) {}
 
   //private portfolioUrl = 'portfolio';
-
+  //TODO version demo
   load(): Equity[] {
     /*(async () => {
       const degiro = DeGiro.create({username: environment.degiroUser, pwd: environment.degiroPassword});

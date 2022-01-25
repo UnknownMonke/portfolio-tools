@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { GeographyExposition } from 'src/app/models/geographyExposition';
 import { GeographyService } from 'src/app/services/geography/geography.service';
 import { Geography } from 'src/app/models/geography';
@@ -19,8 +19,8 @@ import { Geography } from 'src/app/models/geography';
 })
 export class GeographyEditComponent implements OnInit {
 
-  repartitionForm = this.fb.array([]);
-  formGroup = this.fb.group({
+  repartitionForm: FormArray = this.fb.array([]);
+  formGroup: FormGroup = this.fb.group({
     repartitions: this.repartitionForm
   });
 

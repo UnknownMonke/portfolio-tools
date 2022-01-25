@@ -11,3 +11,7 @@
         justify-content: center;
     }
 }
+
+:host ::ng-deep .p-inputtext {
+    padding-right: 0.5rem !important; // Force le style sinon le show password ne s'affiche pas correctement en Reactive Form
+}

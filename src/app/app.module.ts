@@ -1,5 +1,5 @@
 // Core
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -24,9 +24,9 @@ import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DividerModule } from 'primeng/divider';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { SidebarModule } from 'primeng/sidebar';
 import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
+import { PasswordModule } from 'primeng/password';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +45,7 @@ import { ExposureGraphComponent } from './components/graphs/exposure-graph/expos
 import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 // Directives
 import { LastPageDirective } from './directives/last-page.directive';
@@ -58,10 +58,11 @@ import { ColumnFilterPipe } from './pipes/column-filter.pipe';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
-import { HttpLoadingInterceptor } from './services/handling/interceptor/http-loading-interceptor.service';
+import { HttpCustomInterceptor } from './services/handling/interceptor/http-custom-interceptor.service';
 
 // Others
 import { HighchartsChartModule } from 'highcharts-angular';
+import { ThemeService } from './services/handling/theme/theme.service';
 
 @NgModule({
   // Import des composants de l'application
@@ -111,21 +112,28 @@ import { HighchartsChartModule } from 'highcharts-angular';
     ProgressSpinnerModule,
     DividerModule,
     InputSwitchModule,
-    SidebarModule,
     CardModule,
     AvatarModule,
+    PasswordModule,
     HighchartsChartModule
   ],
   // Import des services
   providers: [
+    { provide: APP_INITIALIZER, useFactory: themeProviderFactory, deps: [ThemeService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpCustomInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     ConfirmationService,
     MessageService,
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpLoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+//TODO better loading to avoid flashing on refresh
+// Fonction appelée avant le bootstrap de l'application
+export function themeProviderFactory(provider: ThemeService) {
+  return () => provider.toggleDarkMode(localStorage.getItem('darkMode') === 'true');
+}
 
 // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
 // and returns simulated server responses.
