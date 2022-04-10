@@ -1,20 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
+import { UserInfos } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
+import { SessionService } from 'src/app/services/auth/session.service';
+import { LoadingService } from 'src/app/services/handling/loading/loading.service';
+import { ThemeService } from 'src/app/services/handling/theme/theme.service';
 
 /**
- * Composant de connexion utilisateur.
+ * User login component (not register).
  *
- * La page n'est accessible que si le token n'est pas présent, donc si l'utilisateur n'est pas connecté (géré par l'AuthGuard).
+ * The view is only accessed if no user is logged in, meaning the JWT is not present or not valid (see AuthGuard).
  *
- * Règles de gestion :
- * - Username obligatoire.
- * - Password obligatoire.
+ * Contains :
+ * - A form, with username and password, and validation according to requirements.
+ *
+ * Requirements :
+ * - Mandatory username.
+ * - Mandatory password.
+ *
+ * Users, login and registration are handled or referenced in :
+ * - /auth component folder.
+ * - /auth service folder.
+ * - appRoutingModule for user rights.
+ * - Header component (does not display if the user is not logged in).
+ * - Theme service, to persist user chosen theme.
  */
-//TODO register & update user
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +33,7 @@ import { TokenStorageService } from 'src/app/services/auth/token-storage.service
 })
 export class LoginComponent implements OnInit {
 
+  // Using Angular dynamic forms.
   form: FormGroup = new FormGroup({});
 
   submitted: boolean = false;
@@ -30,22 +42,39 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private tokenStorageService: TokenStorageService
+    private sessionService: SessionService,
+    private themeService: ThemeService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    // Creates the form.
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    // Subscribes to the loggedIn event so that we redirect to the home page as soon as the log-in process has been achieved successfully.
+    this.sessionService.loggedIn$
+      .subscribe( (value: boolean) => {
+        if(value) this.router.navigateByUrl('');
+      });
   }
 
-  // Getter pour raccourcir la syntaxe
+  // Getter to shorten the syntax.
   get f() { return this.form.controls }
 
   /**
-   * Appel en base pour voir si l'user existe pour ces données là.
-   * Si oui, on met à jour le token avec la token renvoyé, et on redirige vers le path par défaut.
+   * On submit :
+   * - Checks form validation.
+   * - If valid :
+   *    - Calls service to check if user exists with those credentials.
+   *    - If yes:
+   *        - Updates the application current theme according to user preference (default: user-agent preference).
+   *        - Updates the token and user details in session which will trigger redirection to the home page (using the empty default path, to let the router handle this part).
+   *    - If no, throws error that displays an error message with details (handled by the Interceptor).
+   *
+   * Login is achieved by storing the newly created token and user details in the session (using sessionStorage), which emits the login event.
    */
   submitUser(): void {
     this.submitted = true;
@@ -55,11 +84,22 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(this.form.value.username, this.form.value.password)
-      .subscribe( (data: User) => {
-        this.tokenStorageService.setToken(data.token);
-        this.tokenStorageService.setUser(data);
+      .subscribe( (data: UserInfos) => { // In case of a response error (status code != 200), no data will be sent.
 
-        this.router.navigateByUrl('');
+        // IMPORTANT : Inserting undefined or null will convert it to a string ("undefined", "null"), so we must do a value check beforehand.
+        if(!data.token) {
+          throw new Error('Invalid token');
+
+        } else if(!data.user) {
+          throw new Error('Invalid user infos');
+
+        } else {
+          // Retreives the user preferred theme and applies it.
+          this.themeService.setTheme(data.user.settings.theme);
+
+          // Updates token and user details in session, logs in.
+          this.sessionService.signIn(data);
+          }
       });
   }
 }

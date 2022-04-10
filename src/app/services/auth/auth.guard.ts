@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
-import { TokenStorageService } from "./token-storage.service";
+import { SessionService } from "./session.service";
 
 /**
- * Interface de gestion des droits sur la navigation.
+ * Service to handle user rights.
  *
- * Donne accès à la page si l'utilisateur est connecté et qu'il a le droit de la consulter (non implémenté).
+ * Requirements :
+ * - Every view can be accessed as long as an user is logged in (ie the token is present).
  */
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,28 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private tokenStorageService: TokenStorageService
+    private sessionService: SessionService
   ) {}
 
+  /**
+   * Checks if the route can be activated.
+   *
+   * Will be called for every view of the application, inside the routing module,
+   * to determine if the user can or cannot access it, or if the view can be accessed while logged off.
+   */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const isLoggedIn: boolean = !!this.tokenStorageService.getToken();
+    /*
+    Double negation : getToken() returns a string or null.
+    A single exclamation mark can negate an expression which is not a boolean.
+    Ex : !'a' <=> 'a' === null => false since 'a' is not the null string.
+    So !!getToken() <=> getToken() !== null ? true : false;
+    */
+    const isLoggedIn: boolean = !!this.sessionService.getToken();
 
-    if(isLoggedIn) {
-      return true;
+    if(!isLoggedIn) {
+      // Redirects to login page.
+      this.router.navigate(['/login']);
     }
-
-    // Retourne vers la page de login avec l'info de l'url requêtée précedemment.
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-    return false;
+    return isLoggedIn;
   }
 }

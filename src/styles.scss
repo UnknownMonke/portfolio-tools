@@ -1,12 +1,40 @@
-/*------ Global Styles ------*/
+/* ------ Global Styles definition. ------ */
+
+html[data-theme=dark] {
+
+    body {
+        background-color: #17212F;
+    }
+}
+
+html[data-theme=light] {
+
+    body {
+        background-color: #FFFFFF;
+    }
+}
+
+// ---------------------------------------
+
+html, body {
+    min-height: 100%;
+}
 
 body {
     margin: 0;
     background-color: var(--body);
+
+    /* ------- Style override for PrimeNG elements that are appended to the body. ------- */
+
+    div.p-tieredmenu-overlay p-tieredmenusub > ul li.menu-left p-tieredmenusub > ul.p-submenu-list {
+        left: -100% !important;
+    }
+
+    /* ---------------------------------------------------------------------------------- */
 }
 
-html, body {
-    min-height: 100%;
+.y-center {
+    height: calc(100vh - 48px - 70px); // Fills space between header and footer.
 }
 
 .p-paginator {
@@ -23,7 +51,7 @@ html, body {
     justify-content: center;
 }
 
-// Card visible uniquement en dark mode
+// Toggled only in dark mode.
 .card-dark {
     background: var(--card-dark-bg);
     border-radius: 4px;

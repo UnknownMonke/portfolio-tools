@@ -1,9 +1,6 @@
 import { Directive, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 
-/**
- * Directive de retour arrière en navigation.
- */
 @Directive({
   selector: '[appLastPage]'
 })
@@ -15,6 +12,6 @@ export class LastPageDirective {
 
   @HostListener('click')
   onClick(): void {
-    this.location.back();
+    this.location.back(); // location is the current URL.
   }
 }

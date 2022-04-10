@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 /**
- * Tag footer contenant la version de l'application.
+ * Footer tag containing current app version.
  */
 @Component({
   selector: 'app-footer',
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FooterComponent implements OnInit {
 
-  currentVersion = environment.VERSION;
+  currentVersion = environment.VERSION; //TODO dynamic version
 
   constructor() {}
 

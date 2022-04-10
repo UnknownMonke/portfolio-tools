@@ -1,11 +1,20 @@
-<div class="content m-4">
-    <p-card>
-        <ng-template pTemplate="header">
-            <div class="header-container pt-5">
-                <p-avatar icon="pi pi-user" shape="circle" size="large" [style]="{'background-color': '#2196F3', 'color': '#FFFFFF'}"></p-avatar>
-            </div>
-        </ng-template>
+<div class="content y-center m-4">
+
+    <!-- Loads spinner if the event is set to true, otherwise loads the component within a 'else' template. -->
+    <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
+        <p-progressSpinner ></p-progressSpinner>
+    </div>
+
+    <ng-template #loaded>
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="header-container pt-5">
+                    <p-avatar icon="pi pi-user" shape="circle" size="large" [style]="{'background-color': '#2196F3', 'color': '#FFFFFF'}"></p-avatar>
+                </div>
+            </ng-template>
+
             <form id="loginForm" [formGroup]="form" (ngSubmit)="submitUser()">
+
                 <div class="form-group pb-2">
                     <input
                         id="username-input"
@@ -17,6 +26,7 @@
                         <small id="username-req" class="p-error" *ngIf="f['username'].errors['required']">Username is required</small>
                     </div>
                 </div>
+
                 <div class="form-group pt-2">
                     <p-password
                         id="password-input"
@@ -32,11 +42,13 @@
                     </div>
                 </div>
             </form>
-        <ng-template pTemplate="footer">
-            <div class="footer-container pb-3">
-                <button pButton pRipple label="Login" icon="pi pi-check" type="submit" form="loginForm"></button>
-            </div>
-        </ng-template>
-    </p-card>
+
+            <ng-template pTemplate="footer">
+                <div class="footer-container pb-3">
+                    <button pButton pRipple label="Login" icon="pi pi-check" type="submit" form="loginForm"></button>
+                </div>
+            </ng-template>
+        </p-card>
+    </ng-template>
 </div>
 

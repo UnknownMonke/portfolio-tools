@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 /**
- * Composant d'accueil.
- * Gère l'accès au portefeuille et la connexion au différents brokers.
+ * Home component.
+ *
+ * For now, contains a single button that redirects to the portfolio via a router link.
  */
 @Component({
   selector: 'app-dashboard',

@@ -1,4 +1,5 @@
 <div class="header" *ngIf="isLoggedIn">
+
     <div class="context-menu">
         <button pButton pRipple class="p-button-text header-text p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
         <button pButton pRipple class="p-button-text header-text p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
@@ -8,11 +9,13 @@
 
         <button pButton pRipple class="p-button-text header-text py-0 px-2 ml-2" label=Dashboard routerLink="/dashboard"></button>
     </div>
+
     <div class="title">
         <span class="header-text">{{title}}</span>
     </div>
+
     <div class="right-menu">
         <button pButton pRipple class="p-button-rounded p-0" icon="pi pi-user" (click)="settingsMenu.toggle($event)"></button>
-        <p-menu #settingsMenu [popup]="true" [model]="settingsItems" [baseZIndex]="300" appendTo="body" styleClass="settings-menu"></p-menu>
+        <p-tieredMenu #settingsMenu [popup]="true" [model]="settingsItems" [baseZIndex]="300" appendTo="body" styleClass="settings-menu"></p-tieredMenu>
     </div>
 </div>

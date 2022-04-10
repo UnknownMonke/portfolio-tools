@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 /**
- * Composant racine de l'application.
+ * Root component for the Angular Application.
  *
- * Génère le header, le router et le footer.
+ * Links to all other components via the navigation router,
+ * exept the header and footer, which are directly injected.
+ *
+ * Also injects the toast for alert, info and error messages popups.
  */
 @Component({
   selector: 'app-root',
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Required to activate the ripple effect on buttons.
     this.primengConfig.ripple = true;
   }
 }

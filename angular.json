@@ -35,16 +35,6 @@
               "node_modules/primeflex/primeflex.scss",
               "src/styles.scss",
               {
-                "input": "node_modules/primeng/resources/themes/saga-blue/theme.css",
-                "bundleName": "saga-blue",
-                "inject": false
-              },
-              {
-                "input": "node_modules/primeng/resources/themes/vela-blue/theme.css",
-                "bundleName": "vela-blue",
-                "inject": false
-              },
-              {
                 "input": "src/assets/themes/light.css",
                 "bundleName": "theme-light",
                 "inject": false
@@ -55,7 +45,9 @@
                 "inject": false
               }
             ],
-            "scripts": []
+            "scripts": [
+              "src/script.js"
+            ]
           },
           "configurations": {
             "production": {

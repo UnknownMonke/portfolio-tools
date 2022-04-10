@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { map, Observable, of } from 'rxjs';
 import { APIEntry } from '../../common/enums/api';
-import { User } from 'src/app/models/user';
+import { User, UserInfos } from 'src/app/models/user';
 
+// Common headers are defined in a constant.
 const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });
 
 /**
- * Service d'authentification utilisateur.
+ * User authentication service.
+ *
+ * Only handles login for now.
+ *
+ * Errors are handled by default through the interceptor.
  */
 @Injectable({
   providedIn: 'root'
@@ -22,28 +26,33 @@ export class AuthService {
   ) {}
 
   /**
-   * Vérifie que le user existe, et le renvoie si trouvé.
-   * @param username
-   * @param password
-   * @returns objet qui contient notamment le token
+   * Requests the server for user details and token through the API,
+   * if the user exists for the credentials provided, otherwise throws an error.
+
+   * @returns {UserInfos} object containing the user details and the token (emitted upon subscription).
+   * @throws exception if the user is not found (404, through the interceptor).
    */
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string): Observable<UserInfos> {
     const body = { username: username, password: password };
+
     return this.httpClient
-      .post<User>(`${APIEntry.LOGIN_ENTRY}/login`, JSON.stringify(body), { headers: headers })
-      .pipe(
-        catchError(this.handleError<any>())
-      );
+      .post<UserInfos>(`${APIEntry.LOGIN_ENTRY}/login`, body, { headers: headers });
   }
 
-  private handleError<T>(response?: T) {
-    return (error: any): Observable<T> => {
-      //TODO gérer les status d'erreur (404...)
-      // Retourne une erreur avec un message User-friendly via le handler.
-      throwError(() => new Error('Error while retreiving user')).subscribe();
-
-      // Transmission non bloquante de la réponse.
-      return of(response as T);
-    };
+  /**
+   * Persists user settings such as the selected theme.
+   *
+   * {observe: 'response'} returns the whole response in order to retreive status (only the body is returned by default).
+   *
+   * @param user the user DTO stored in session.
+   * @returns {boolean} whether the requests has succeeded or not.
+   * @throws exception if the user is not found (404, through the interceptor).
+   */
+  updateUserSettings(user: User): Observable<boolean> {
+    return this.httpClient
+      .post<HttpResponse<any>>(`${APIEntry.LOGIN_ENTRY}/update/${user.id}/settings`, user, { headers: headers, observe: 'response' })
+      .pipe(
+        map(response => response.status === 200)
+      );
   }
 }

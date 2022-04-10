@@ -1,24 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { filter, map, tap } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from 'src/app/services/handling/theme/theme.service';
-import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
+import { SessionService } from 'src/app/services/auth/session.service';
+import { ThemeList } from 'src/app/common/enums/themes';
 
 /**
- * Header de l'application.
+ * Application Header.
  *
- * Contiens :
- * - Accès à l'édition des géographies et secteurs.
- * - Accès au dashboard
- * - Titre de la page actuelle.
- * - Précédent / Suivant.
- * - Profil utilisateur, logout et options.
+ * Contains various menus and navigation :
+ * - Navigation to geography and sector mapping.
+ * - Navigation to dashboard, homepage of the application.
+ * - Title of the current view (defined in the routes).
+ * - Navigate to previous and next page.
+ * - Access to user menu, settings and logout options.
  *
- * Le header n'est accessible que si l'utilisateur est connecté.
- * Cela est géré ici plutôt que dans le composant d'appel (AppComponent) pour éviter de charger le header avant la redirection post-login.
+ * The header is displayed only when user is connected, despite being injected independently from the router.
+ * This logic is handled here rather than inside the root component to prevent header displaying before past-login redirection.
  *
- * Ainsi le composant est dans tous les cas chargé, mais il est vide dans certains cas (page de login).
+ * Therefore the component is always injected but only displayed when logged in.
  */
 @Component({
   selector: 'app-header',
@@ -27,29 +28,29 @@ import { TokenStorageService } from 'src/app/services/auth/token-storage.service
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
+  // Init parameters.
   isLoggedIn: boolean = false;
-
   title: string = "";
   manageItems: MenuItem[] = [];
   settingsItems: MenuItem[] = [];
-
-  checked: boolean = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private themeService: ThemeService,
-    private tokenStorageService: TokenStorageService
+    private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
-    // Gestion refresh après être loggé, le sujet n'émet rien donc on regarde si le token existe directement
-    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    // Displays component only if logged in (token is present). Will also update on login change.
+    this.isLoggedIn = !!this.sessionService.getToken();
 
-    // Récupère la préférence du thème
-    this.checked = localStorage.getItem('darkMode') === 'true';
+    this.sessionService.loggedIn$
+      .subscribe( (value: boolean) => {
+        this.isLoggedIn = value;
+      });
 
-    // Menu de management secteurs / géographies.
+    // Defines PrimeNG Menu component arrays, for management menu and user settings menu.
     this.manageItems = [
       {
         label: 'Edit Geographies',
@@ -63,28 +64,38 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.settingsItems = [
       {
-        id: 'setting-dm',
-        label: 'Toggle Dark Mode',
+        label: 'Select Theme',
         icon: 'pi pi-sun',
-        command: (event: any) => this.toggleDarkMode()
+        styleClass: 'menu-left',
+        items: [
+          {
+            label: 'Use device theme',
+            command: () => this.themeService.updateTheme(ThemeList.DEFAULT)
+          },
+          {
+            label: 'Light theme',
+            command: () => this.themeService.updateTheme(ThemeList.LIGHT)
+          },
+          {
+            label: 'Dark theme',
+            command: () => this.themeService.updateTheme(ThemeList.DARK)
+          }
+        ]
       },
       {
-        id: 'setting-logout',
         label: 'Log Out',
         icon: 'pi pi-power-off',
-        command: (event: any) => this.logout()
+        command: () => this.logout()
       }
     ];
-
-    this.tokenStorageService.loggedIn$
-    .subscribe( (value: boolean) => {
-      this.isLoggedIn = value;
-    });
 
     this.observeNavigation();
   }
 
-  // Subscribe à la navigation pour mettre à jour le titre du header.
+  /**
+   * Subscribes to the navigation event to update the page title on route change.
+   * After the navigation is completed, get the title from the data attribute of the current route.
+   */
   observeNavigation(): void {
     this.router.events
       .pipe(
@@ -92,34 +103,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
         map(() => {
           let child = this.activatedRoute.firstChild;
           while(child) {
+
             if(child.firstChild) {
               child = child.firstChild;
+
             } else if(child.snapshot.data && child.snapshot.data['title']) {
               return child.snapshot.data['title'];
+
             } else {
               return null;
             }
           }
           return null;
         })
-      ).subscribe( (data: any) => { // Analog to jQuery ".on()".
+      ).subscribe( (data: any) => { // Analog to jQuery ".on('change')", listens to the event emitted by an Observable.
         if(data) {
           this.title = data;
         }
       });
   }
 
-  toggleDarkMode(): void {
-    this.checked = !this.checked;
-    this.themeService.toggleDarkMode(this.checked);
-  }
-
   logout(): void {
-    this.tokenStorageService.signOut();
+    this.sessionService.signOut();
     location.reload();
   }
 
+  // Unsubscribes to observable to avoid memory leaks.
   ngOnDestroy(): void {
-    this.tokenStorageService.loggedIn$.unsubscribe();
+    this.sessionService.loggedIn$.unsubscribe();
   }
 }

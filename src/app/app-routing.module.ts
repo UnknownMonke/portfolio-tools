@@ -9,34 +9,39 @@ import { SectorMappingComponent } from './components/sector/sector-mapping/secto
 import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { AuthGuard } from './services/auth/auth.guard';
+import { PageNotFoundComponent } from './components/handling/page-not-found.component';
 
 //TODO localisation
+/**
+ * Array that defines the navigation paths for the application.
+ *
+ * Route order :
+ *
+ * - The order of routes is important because the Router uses a first-match wins strategy when matching routes,
+ *   so more specific routes should be placed above less specific routes.
+ *
+ * - Lists routes with a static path first, followed by an empty path route, which matches the default route.
+ *
+ * - The wildcard route comes last because it matches every URL and the Router selects it only if no other route matches first.
+ */
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-    data: {
-      title: 'Portfolio Visualization Tools' // Attribut custom pour afficher dans le header.
+    path: 'dashboard', // Relative path displayed in the URL.
+    component: DashboardComponent, // Related component (single entry).
+    data: { // Custom attributes definition.
+      title: 'Portfolio Visualization Tools' // Custom attribute to display a different title in the header.
     },
-    canActivate: [AuthGuard] // Gestion droits utilisateur.
+    canActivate: [AuthGuard] // Displays the view according to user rights.
   },
   {
     path: 'portfolio',
     component: PortfolioComponent,
     data: {
       title: 'Portfolio'
-    },
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'equity/:id',
-    component: EquityDetailComponent,
-    data: {
-      title: 'Equity Detail'
     },
     canActivate: [AuthGuard]
   },
@@ -72,11 +77,22 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  {
+    path: 'equity/:id',
+    component: EquityDetailComponent,
+    data: {
+      title: 'Equity Detail'
+    },
+    canActivate: [AuthGuard]
+  },
+  // Path may be empty when first accessing the application. Redirects to a default home view (which will redirect to login if no user is logged in).
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  // Wildcard Route : matches any other route that doesn't exists in the application and displays a 404 page.
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 /**
- * Composant gestion de la navigation interne, un composant par point d'entrée.
+ * Component for app navigation.
  */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,16 +1,17 @@
-// Core
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+// Core.
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-// PrimeNG
+// PrimeNG.
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -28,9 +29,9 @@ import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
 import { PasswordModule } from 'primeng/password';
 
-// Components
+// Components.
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './components/root/app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -46,30 +47,35 @@ import { EquityDetailComponent } from './components/equity/equity-detail/equity-
 import { GeographyEditComponent } from './components/equity/geography-edit/geography-edit.component';
 import { SectorEditComponent } from './components/equity/sector-edit/sector-edit.component';
 import { LoginComponent } from './components/auth/login/login.component';
+import { PageNotFoundComponent } from './components/handling/page-not-found.component';
 
-// Directives
+// Directives.
 import { LastPageDirective } from './directives/last-page.directive';
 import { NextPageDirective } from './directives/next-page.directive';
 
-// Pipes
-import { ColumnFilterPipe } from './pipes/column-filter.pipe';
-
-// Services
+// Services.
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from './services/handling/error/error-handler.service';
 import { HttpCustomInterceptor } from './services/handling/interceptor/http-custom-interceptor.service';
 
-// Others
+// Others.
 import { HighchartsChartModule } from 'highcharts-angular';
-import { ThemeService } from './services/handling/theme/theme.service';
 
+/**
+ * Root module of the Angular Application.
+ * Constructs everything from here.
+ *
+ * '@NgModule' takes a metadata object that describes how to compile a component template and how to create an injector at runtime.
+ * It identifies the module own components, directives, and pipes, making some of them public, through the exports property, so that external components can use them.
+ *
+ * '@NgModule' can also add service providers to the application dependency injectors.
+ */
 @NgModule({
-  // Import des composants de l'application
+  // Declares application components (only components, directives and pipes).
   declarations: [
     LastPageDirective,
     NextPageDirective,
-    ColumnFilterPipe,
     AppComponent,
     DashboardComponent,
     HeaderComponent,
@@ -85,9 +91,10 @@ import { ThemeService } from './services/handling/theme/theme.service';
     GeographyEditComponent,
     SectorEditComponent,
     ExposureGraphComponent,
-    LoginComponent
+    LoginComponent,
+    PageNotFoundComponent
   ],
-  // Import des composants externe
+  // Imports external components (Angular/ PrimeNG).
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -99,6 +106,7 @@ import { ThemeService } from './services/handling/theme/theme.service';
     ButtonModule,
     TableModule,
     MenuModule,
+    TieredMenuModule,
     TooltipModule,
     DialogModule,
     ConfirmDialogModule,
@@ -117,28 +125,22 @@ import { ThemeService } from './services/handling/theme/theme.service';
     PasswordModule,
     HighchartsChartModule
   ],
-  // Import des services
+  // Imports services.
   providers: [
-    { provide: APP_INITIALIZER, useFactory: themeProviderFactory, deps: [ThemeService], multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpCustomInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     ConfirmationService,
     MessageService,
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpCustomInterceptor, multi: true }
   ],
+  // Defines components that are directly bootstrapped into the main HTML file (usually contains only the root component).
   bootstrap: [AppComponent]
 })
 export class AppModule {}
 
-//TODO better loading to avoid flashing on refresh
-// Fonction appelée avant le bootstrap de l'application
-export function themeProviderFactory(provider: ThemeService) {
-  return () => provider.toggleDarkMode(localStorage.getItem('darkMode') === 'true');
-}
-
-// The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-// and returns simulated server responses.
-// Remove it when a real server is ready to receive requests.
-
+/**
+ * The HttpClientInMemoryWebApiModule module intercepts HTTP requests and returns simulated server responses.
+ * Remove it when a real server is ready to receive requests.
+ */
 // HttpClientInMemoryWebApiModule.forRoot(
 //   InMemoryDataService, { dataEncapsulation: false }
 // )

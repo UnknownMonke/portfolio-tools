@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 48px - 70px);
 
     .header-container, .footer-container {
         display: inline-flex;
@@ -13,5 +12,6 @@
 }
 
 :host ::ng-deep .p-inputtext {
-    padding-right: 0.5rem !important; // Force le style sinon le show password ne s'affiche pas correctement en Reactive Form
+    // Forces style otherwise the show-password icon doesn't display correctly in Reactive Form.
+    padding-right: 0.5rem !important;
 }
