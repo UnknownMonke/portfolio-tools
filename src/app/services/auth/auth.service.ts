@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { APIEntry } from '../../common/enums/api';
 import { User, UserInfos } from 'src/app/models/user';
 

@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable, of, map, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { Geography } from '../../models/geography';
 import { APIEntry } from '../../common/enums/api';
 
-
+// Common headers are defined in a constant.
 const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });
 
-/** Service CRUD pour les géographies. */
+/**
+ * Geographies service.
+ *
+ * Handles simple CRUD operations through the API.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -20,54 +23,40 @@ export class GeographyService {
     private httpClient: HttpClient
   ) {}
 
-  // Soit pas de typage pour le get, on retourne le raw, soit typage.
-  // Par défaut la réponse est seulement le body JSON.
+  /**
+   * The request can by type checked when a specific object is expected to return.
+   *
+   * Errors (status != 200) are caught beforehand by the Interceptor.
+   *
+   * By default only the JSON body of the response is returned.
+   */
   getGeographies(): Observable<Geography[]> {
-    return this.httpClient.get<Geography[]>(`${APIEntry.GEOGRAPHY_ENTRY}/get`)
-      .pipe(
-        catchError(this.handleError<any>())
-      );
+    return this.httpClient
+      .get<Geography[]>(`${APIEntry.GEOGRAPHY_ENTRY}/get`);
   }
 
-  // Le check de la présence du paramètre avec le bon type est automatique et le code ne compilera pas si ce n'est pas le cas.
   addGeography(name: string): Observable<Geography> {
     const body = { name: name };
+
     return this.httpClient
-      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, JSON.stringify(body), { headers: headers })
-      .pipe(
-        catchError(this.handleError<any>())
-      );
+      .post<Geography>(`${APIEntry.GEOGRAPHY_ENTRY}/add`, body, { headers: headers });
   }
 
-  // La réponse dépend de l'implémentation du contrôleur, ici on ne retourne que le statut qui est géré par l'intercepteur,
-  // donc soit erreur, soit retour ok, si ok l'update se fait via la valeur du front.
-  editGeography(geography: Geography): Observable<number> {
+  // The action is made component side only upon request success.
+  editGeography(geography: Geography): Observable<boolean> {
     return this.httpClient
       .post<HttpResponse<any>>(`${APIEntry.GEOGRAPHY_ENTRY}/update/${geography._id}`, geography, { headers: headers, observe: 'response' })
       .pipe(
-        map(response => response.status),
-        catchError(this.handleError<any>())
+        map(response => response.status === 200)
       );
   }
 
-  // Retourne le statut de la requête, si ok l'update se fait via la valeur du front.
-  deleteGeography(id: string): Observable<number> {
+  // The action is made component side only upon request success.
+  deleteGeography(id: number): Observable<boolean> {
     return this.httpClient
       .delete<HttpResponse<Geography>>(`${APIEntry.GEOGRAPHY_ENTRY}/delete/${id}`, { headers: headers, observe: 'response' })
       .pipe(
-        map(response => response.status),
-        catchError(this.handleError<any>())
+        map(response => response.status === 200)
       );
-  }
-
-  private handleError<T>(response?: T) {
-    return (error: any): Observable<T> => {
-
-      // Retourne une erreur avec un message User-friendly via le handler.
-      throwError(() => new Error('Error while retreiving geographies')).subscribe();
-
-      // Transmission non bloquante de la réponse.
-      return of(response as T);
-    };
   }
 }

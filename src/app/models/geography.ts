@@ -1,4 +1,10 @@
+// DTO. Reflects the MongoDB document.
 export interface Geography {
-  _id: string; // Identique au nom du champ id autogénéré par Mongo
+  _id: number; // Handled via counter.
   name: string;
+}
+
+export interface GeographyExposition {
+  geography: Geography;
+  exposure: number;
 }

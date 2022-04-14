@@ -5,12 +5,16 @@ import { catchError } from 'rxjs/operators';
 import { Sector } from '../../models/sector';
 import { APIEntry } from '../../common/enums/api';
 
-
+// Common headers are defined in a constant.
 const headers: any = new HttpHeaders({
   'Content-Type':  'application/json',
 });
 
-/** Service CRUD pour les secteurs. */
+/**
+ * Sectors service.
+ *
+ * Handles simple CRUD operations through the API.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -21,68 +25,35 @@ export class SectorService {
   ) {}
 
   getSectors(): Observable<Sector[]> {
-    return this.httpClient.get<Sector[]>(`${APIEntry.SECTOR_ENTRY}/get`)
-      .pipe(
-        catchError(this.handleError<Sector[]>())
-      );
-  }
-
-  // Ajout d'un secteur principal uniquement.
-  addSector(name: string): Observable<Sector> {
-    const body = {
-      name: name,
-      level: 0,
-      parentId: -1
-    };
     return this.httpClient
-      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: headers })
-      .pipe(
-        catchError(this.handleError<any>())
-      );
+      .get<Sector[]>(`${APIEntry.SECTOR_ENTRY}/get`);
   }
 
-  addSubSector(sector: Sector, name: string): Observable<Sector> {
-    const body = {
-      name: name,
-      level: 1,
-      parentId: sector._id
-    };
+  /**
+   * Adds a Sector (without its id) with aany level and parent.
+   *
+   * @param sector Sector name, Sector level and parentId if any.
+   */
+  addSector(sector: any): Observable<Sector> {
     return this.httpClient
-      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, JSON.stringify(body), { headers: headers })
-      .pipe(
-        catchError(this.handleError<any>())
-      );
+      .post<Sector>(`${APIEntry.SECTOR_ENTRY}/add`, sector, { headers: headers });
   }
 
-  editSector(sector: Sector): Observable<number> {
+  // The action is made component side only upon request success.
+  editSector(sector: Sector): Observable<boolean> {
     return this.httpClient
-      .post<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/update/${sector._id}`, sector, { headers: headers, observe: 'response' })
+      .post<HttpResponse<any>>(`${APIEntry.SECTOR_ENTRY}/update/${sector._id}`, sector, { headers: headers, observe: 'response' })
       .pipe(
-        map(response => response.status),
-        catchError(this.handleError<any>())
+        map(response => response.status === 200)
       );
   }
 
-  deleteSector(id: number): Observable<number> {
+  // The action is made component side only upon request success.
+  deleteSector(id: number): Observable<boolean> {
     return this.httpClient
-      .delete<HttpResponse<Sector>>(`${APIEntry.SECTOR_ENTRY}/delete/${id}`, { headers: headers, observe: 'response' })
+      .delete<HttpResponse<any>>(`${APIEntry.SECTOR_ENTRY}/delete/${id}`, { headers: headers, observe: 'response' })
       .pipe(
-        map(response => response.status),
-        catchError(this.handleError<any>())
+        map(response => response.status === 200)
       );
-  }
-
-  private handleError<T>(response?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: Retourne une erreur avec un message User-friendly
-      //this.log(`Failed: ${error.message}`);
-
-      // Transmission non bloquante de la réponse
-      return of(response as T);
-    };
   }
 }

@@ -1,6 +1,6 @@
 /**
  * Reflects the DTO sent by the server upon login.
- * Does not correspond to the DAO as the password is not returned.
+ * Does not correspond to the MongoDB document as the password is not returned.
  *
  * An UserInfos contains the User and its token.
  */

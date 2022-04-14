@@ -1,5 +1,21 @@
-.container .button-container {
-    display: inline-flex;
-    width: 100%;
-    justify-content: flex-end;
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .table-container {
+            width: 100%;
+
+            .button-container {
+                display: inline-flex;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@ export class LastPageDirective {
 
   @HostListener('click')
   onClick(): void {
-    this.location.back(); // location is the current URL.
+    // location is the current URL, can be navigated forward and back based on the History API.
+    this.location.back();
   }
 }

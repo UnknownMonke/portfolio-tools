@@ -10,7 +10,7 @@ import { ThemeList } from 'src/app/common/enums/themes';
  * Application Header.
  *
  * Contains various menus and navigation :
- * - Navigation to geography and sector mapping.
+ * - Navigation to Geography and Sector mapping.
  * - Navigation to dashboard, homepage of the application.
  * - Title of the current view (defined in the routes).
  * - Navigate to previous and next page.
@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
           return null;
         })
-      ).subscribe( (data: any) => { // Analog to jQuery ".on('change')", listens to the event emitted by an Observable.
+      ).subscribe( (data: any) => { // Analog to jQuery ".on('change')", listens to the event emitted by an Observable, and lauches the request.
         if(data) {
           this.title = data;
         }

@@ -12,6 +12,7 @@ export class NextPageDirective {
 
   @HostListener('click')
   onClick(): void {
-    this.location.forward(); // location is the current URL.
+    // location is the current URL, can be navigated forward and back based on the History API.
+    this.location.forward();
   }
 }

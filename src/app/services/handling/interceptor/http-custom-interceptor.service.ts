@@ -61,7 +61,7 @@ export class HttpCustomInterceptor implements HttpInterceptor {
           if(event instanceof HttpResponse) {
             // Optional processing for responses.
             //TODO only displays 200 responses if header is application/json...
-            //console.log(event)
+            //console.log(event);
           }
         }),
         // Error handler, called by default when status != 200.

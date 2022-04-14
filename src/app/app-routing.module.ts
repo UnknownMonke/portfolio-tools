@@ -93,9 +93,15 @@ const routes: Routes = [
 
 /**
  * Component for app navigation.
+ *
+ * IMPORTANT -> LocationStrategy :
+ *
+ * The client must always load the base HTML no matter what the URL is.
+ * //TODO
+ *
  */
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
