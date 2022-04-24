@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { GeographicExposureComponent } from './components/geography/geographic-exposure/geographic-exposure.component';
-import { GeographyMappingComponent } from './components/geography/geography-mapping/geography-mapping.component';
-import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { EquityDetailComponent } from './components/equity/equity-detail/equity-detail.component';
-import { SectorMappingComponent } from './components/sector/sector-mapping/sector-mapping.component';
-import { SectorExposureComponent } from './components/sector/sector-exposure/sector-exposure.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { AuthGuard } from './services/auth/auth.guard';
-import { PageNotFoundComponent } from './components/handling/page-not-found.component';
+import { LoginComponent } from './auth/components/login/login.component';
+import { AuthGuard } from './auth/services/auth.guard';
+import { DashboardComponent } from './core/components/dashboard/dashboard.component';
+import { EquityDetailComponent } from './equity/components/equity-detail/equity-detail.component';
+import { GeographicExposureComponent } from './geography/components/geographic-exposure/geographic-exposure.component';
+import { GeographyMappingComponent } from './geography/components/geography-mapping/geography-mapping.component';
+import { PageNotFoundComponent } from './handling/components/page-not-found/page-not-found.component';
+import { PortfolioComponent } from './portfolio/component/portfolio.component';
+import { SectorExposureComponent } from './sector/components/sector-exposure/sector-exposure.component';
+import { SectorMappingComponent } from './sector/components/sector-mapping/sector-mapping.component';
+
 
 //TODO localisation
 /**
@@ -93,6 +94,8 @@ const routes: Routes = [
 
 /**
  * Component for app navigation.
+ *
+ * ---
  *
  * IMPORTANT -> LocationStrategy :
  *

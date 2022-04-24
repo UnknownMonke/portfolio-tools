@@ -1,0 +1,15 @@
+<!-- Creation/Edition modal.
+<p-dialog [(visible)]="show" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid" header="{{modalTitle}}">
+    <ng-template pTemplate="content">
+        <form id="geographyForm" (ngSubmit)="selectedGeography ? editGeography(selectedGeography) : addGeography()">
+            <div class="p-field">
+                <label for="name" class="inline-block mb-2">Name</label>
+                <input type="text" pInputText id="name" [formControl]="name" autofocus/>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple class="p-button-text p-button-danger" label="Cancel" icon="pi pi-times" (click)="hideModal()"></button>
+        <button pButton pRipple class="p-button-text" label="Save" icon="pi pi-check" type="submit" form="geographyForm" [disabled]="!name.valid"></button>
+    </ng-template>
+</p-dialog>-->
