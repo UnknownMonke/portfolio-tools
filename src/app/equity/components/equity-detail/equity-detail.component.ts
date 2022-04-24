@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Equity } from '../../model/equity';
 import { GeographyExposition } from 'src/app/geography/model/geography';
 import { SectorExposition } from 'src/app/sector/model/sector';
 import { EquityService } from '../../service/equity.service';
-import { SectorEditComponent } from '../sector-edit/sector-edit.component';
+import { SectorEditComponent, SectorEditModule } from '../sector-edit/sector-edit.component';
+import { CommonModule } from '@angular/common';
+import { PanelModule } from 'primeng/panel';
+import { TabViewModule } from 'primeng/tabview';
+import { GeographyEditModule } from '../geography-edit/geography-edit.component';
 
 /**
  * Composant wrapper pour l'édition de la répartition d'une équité.
@@ -71,3 +75,16 @@ export class EquityDetailComponent implements OnInit {
     });
   }
 }
+
+@NgModule({
+  declarations: [EquityDetailComponent],
+  exports: [EquityDetailComponent],
+  imports: [
+    CommonModule,
+    PanelModule,
+    TabViewModule,
+    GeographyEditModule,
+    SectorEditModule
+  ],
+})
+export class EquityDetailModule {}

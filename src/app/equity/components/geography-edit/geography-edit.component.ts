@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GeographyExposition } from 'src/app/geography/model/geography';
 import { GeographyService } from 'src/app/geography/service/geography.service';
 import { Geography } from 'src/app/geography/model/geography';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 /**
  * Composant pour l'édition de la répartition géographique d'une équité.
@@ -82,3 +85,15 @@ export class GeographyEditComponent implements OnInit {
     this.geographicRepartitionChange.emit(this.repartitionForm.value);
   }
 }
+
+@NgModule({
+  declarations: [GeographyEditComponent],
+  exports: [GeographyEditComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputNumberModule,
+    ButtonModule
+  ],
+})
+export class GeographyEditModule {}

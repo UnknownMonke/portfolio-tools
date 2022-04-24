@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 /**
  * Home component.
@@ -12,9 +14,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+@NgModule({
+  declarations: [DashboardComponent],
+  exports: [DashboardComponent],
+  imports: [
+    RouterModule,
+    ButtonModule
+  ],
+})
+export class DashboardModule {}

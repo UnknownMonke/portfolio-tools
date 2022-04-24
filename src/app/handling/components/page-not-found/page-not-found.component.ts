@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 /**
@@ -26,3 +26,10 @@ export class PageNotFoundComponent implements OnInit {
     this.messageService.add({ key: 'main', severity: 'error', summary: 'Error', detail: this.message });
   }
 }
+
+@NgModule({
+  declarations: [PageNotFoundComponent],
+  exports: [PageNotFoundComponent],
+  providers: [MessageService]
+})
+export class PageNotFoundModule {}

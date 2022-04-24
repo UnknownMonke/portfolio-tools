@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-mapping-modal',
@@ -14,3 +14,10 @@ export class MappingModalComponent implements OnInit {
   }
 
 }
+
+@NgModule({
+  declarations: [MappingModalComponent],
+  exports: [MappingModalComponent],
+  imports: []
+})
+export class MappingModalModule {}

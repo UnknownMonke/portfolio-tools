@@ -36,8 +36,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
 
     // The zone allows for asynchronous processing of errors outside Angular zone, then injecting them back at runtime.
-    this.zone.run(() =>
-      this.messageService.add({ key: 'main', severity: 'error', summary: 'Error', detail: this.displayMessage })
-    );
+    this.zone.run(() => {
+      console.error(this.displayMessage);
+      this.messageService.add({ key: 'main', severity: 'error', summary: 'Error', detail: this.displayMessage });
+    });
   }
 }

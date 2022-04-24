@@ -1,10 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd, RouterModule } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from 'src/app/handling/services/theme/theme.service';
 import { SessionService } from 'src/app/auth/services/session.service';
 import { ThemeList } from 'src/app/common/enums/themes';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { CommonModule } from '@angular/common';
+import { LastPageDirective } from '../../directives/last-page.directive';
+import { NextPageDirective } from '../../directives/next-page.directive';
 
 /**
  * Application Header.
@@ -135,3 +141,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sessionService.loggedIn$.unsubscribe();
   }
 }
+
+@NgModule({
+  declarations: [
+    HeaderComponent,
+    LastPageDirective,
+    NextPageDirective
+  ],
+  exports: [HeaderComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    MenuModule,
+    TieredMenuModule
+  ],
+})
+export class HeaderModule {}

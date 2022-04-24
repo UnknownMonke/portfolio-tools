@@ -1,9 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { GeographyService } from 'src/app/geography/service/geography.service';
 import { Geography } from 'src/app/geography/model/geography';
 import { LoadingService } from 'src/app/handling/services/loading/loading.service';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinner, ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 /**
  * Component to edit Geographies.
@@ -162,3 +169,20 @@ export class GeographyMappingComponent implements OnInit {
     );
   }
 }
+
+@NgModule({
+  declarations: [GeographyMappingComponent],
+  exports: [GeographyMappingComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    TableModule,
+    DialogModule,
+    ConfirmDialogModule
+  ],
+  providers: [ConfirmationService]
+})
+export class GeographyMappingModule {}

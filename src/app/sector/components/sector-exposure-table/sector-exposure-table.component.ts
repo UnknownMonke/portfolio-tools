@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
 
 /**
  * Composant pour l'affichage des données sectorielles en table.
@@ -36,3 +39,14 @@ export class SectorExposureTableComponent implements OnInit {
     this.sectorSubColumns = this.sectorMap.filter(column => column.level === 1);
   }
 }
+
+@NgModule({
+  declarations: [SectorExposureTableComponent],
+  exports: [SectorExposureTableComponent],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    TableModule
+  ]
+})
+export class SectorExposureTableModule {}

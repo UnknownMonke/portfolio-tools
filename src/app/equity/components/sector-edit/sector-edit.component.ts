@@ -1,5 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, NgModule, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TreeNode } from 'primeng/api';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TreeTableModule } from 'primeng/treetable';
 import { Sector } from 'src/app/sector/model/sector';
 import { SectorExposition } from 'src/app/sector/model/sector';
 import { SectorService } from 'src/app/sector/service/sector.service';
@@ -132,3 +136,15 @@ export class SectorEditComponent implements OnInit {
     });
   }
 }
+
+@NgModule({
+  declarations: [SectorEditComponent],
+  exports: [SectorEditComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TreeTableModule,
+    InputNumberModule
+  ],
+})
+export class SectorEditModule {}

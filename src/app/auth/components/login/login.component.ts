@@ -1,11 +1,18 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserInfos } from 'src/app/auth/model/user';
 import { AuthService } from '../../services/auth.service';
 import { SessionService } from '../../services/session.service';
 import { LoadingService } from 'src/app/handling/services/loading/loading.service';
 import { ThemeService } from 'src/app/handling/services/theme/theme.service';
+import { CommonModule } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CardModule } from 'primeng/card';
+import { AvatarModule } from 'primeng/avatar';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 /**
  * User login component (not register).
@@ -106,9 +113,18 @@ export class LoginComponent implements OnInit {
   }
 }
 
-/*@NgModule({
+@NgModule({
   declarations: [LoginComponent],
   exports: [LoginComponent],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ProgressSpinnerModule,
+    CardModule,
+    AvatarModule,
+    InputTextModule,
+    PasswordModule,
+    ButtonModule
+  ], // CommonModule is mandatory, ReactiveFormsModules contains the FormBuilder
 })
-export class RecipeFilterModule {}*/
+export class LoginModule {}

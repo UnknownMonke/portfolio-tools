@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { EquityService } from 'src/app/equity/service/equity.service';
 import { SectorService } from '../../service/sector.service';
 import { Equity } from 'src/app/equity/model/equity';
 import { Sector } from '../../model/sector';
+import { SectorExposureTableModule } from '../sector-exposure-table/sector-exposure-table.component';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ExposureGraphModule } from 'src/app/graphs/components/exposure-graph/exposure-graph.component';
+import { RouterModule } from '@angular/router';
 
 //TODO couleur pour chaque catégorie de secteur
 /**
@@ -137,3 +144,18 @@ export class SectorExposureComponent implements OnInit {
     return result[0] / result[1];
   }
 }
+
+@NgModule({
+  declarations: [SectorExposureComponent],
+  exports: [SectorExposureComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    DividerModule,
+    ProgressSpinnerModule,
+    SectorExposureTableModule,
+    ExposureGraphModule
+  ]
+})
+export class SectorExposureModule {}

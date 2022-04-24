@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MessageService, TreeNode } from 'primeng/api';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Sector } from '../../model/sector';
 import { LoadingService } from 'src/app/handling/services/loading/loading.service';
 import { SectorService } from '../../service/sector.service';
+import { CommonModule } from '@angular/common';
+import { TreeTableModule } from 'primeng/treetable';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 /**
  * Component to edit Sectors.
@@ -291,3 +298,20 @@ export class SectorMappingComponent implements OnInit {
     return filter && filter.length > 0 ? filter[0] : null;
   }
 }
+
+@NgModule({
+  declarations: [SectorMappingComponent],
+  exports: [SectorMappingComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    TreeTableModule,
+    DialogModule,
+    ConfirmDialogModule
+  ],
+  providers: [ConfirmationService]
+})
+export class SectorMappingModule {}

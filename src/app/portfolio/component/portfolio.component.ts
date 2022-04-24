@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { PortfolioService } from '../services/portfolio.service';
 import { LoadingService } from 'src/app/handling/services/loading/loading.service';
 import { Equity } from 'src/app/equity/model/equity';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { RouterModule } from '@angular/router';
 
 /**
  * Component to load, save and display portfolios from different brokers.
@@ -75,3 +80,16 @@ export class PortfolioComponent implements OnInit {
       .sort( (a,b) => (a.type < b.type) ? 1 : (a.type === b.type) ? ( (a.name > b.name) ? 1 : -1) : -1);
   }*/
 }
+
+@NgModule({
+  declarations: [PortfolioComponent],
+  exports: [PortfolioComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+    TableModule
+  ]
+})
+export class PortfolioModule {}

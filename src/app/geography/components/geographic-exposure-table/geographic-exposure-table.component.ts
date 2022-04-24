@@ -1,4 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
 
 /**
  * Composant pour l'affichage des données géographiques en table.
@@ -46,3 +50,14 @@ export class GeographicExposureTableComponent implements OnInit {
     this.geographicTotal.amount = totalAmount;
   }
 }
+
+@NgModule({
+  declarations: [GeographicExposureTableComponent],
+  exports: [GeographicExposureTableComponent],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    TableModule
+  ]
+})
+export class GeographicExposureTableModule {}

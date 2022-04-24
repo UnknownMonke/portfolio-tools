@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { GeographyService } from 'src/app/geography/service/geography.service';
 import { Geography } from 'src/app/geography/model/geography';
 import { Equity } from 'src/app/equity/model/equity';
 import { EquityService } from 'src/app/equity/service/equity.service';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { GeographicExposureTableModule } from '../geographic-exposure-table/geographic-exposure-table.component';
+import { ExposureGraphModule } from 'src/app/graphs/components/exposure-graph/exposure-graph.component';
+import { DividerModule } from 'primeng/divider';
+import { RouterModule } from '@angular/router';
 
 //TODO edition de l'equité depuis la table
 /**
@@ -125,3 +132,18 @@ export class GeographicExposureComponent implements OnInit {
     return result[0] / result[1];
   }
 }
+
+@NgModule({
+  declarations: [GeographicExposureComponent],
+  exports: [GeographicExposureComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    DividerModule,
+    ProgressSpinnerModule,
+    GeographicExposureTableModule,
+    ExposureGraphModule
+  ]
+})
+export class GeographicExposureModule {}

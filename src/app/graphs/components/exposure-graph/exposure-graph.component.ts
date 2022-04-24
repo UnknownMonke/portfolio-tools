@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NgModule, OnInit } from '@angular/core';
 import * as HighCharts from 'highcharts';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 /**
  * Composant graphique pour l'affichage des répartitions par secteur / géographie.
@@ -100,3 +101,10 @@ export class ExposureGraphComponent implements OnInit {
     return Number((data*100).toFixed(2));
   }
 }
+
+@NgModule({
+  declarations: [ExposureGraphComponent],
+  exports: [ExposureGraphComponent],
+  imports: [HighchartsChartModule]
+})
+export class ExposureGraphModule {}

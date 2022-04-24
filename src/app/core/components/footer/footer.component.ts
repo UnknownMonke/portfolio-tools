@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { ChipModule } from 'primeng/chip';
 import { environment } from 'src/environments/environment';
 
 /**
@@ -9,11 +10,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
-
+export class FooterComponent {
   currentVersion = environment.VERSION; //TODO dynamic version
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
+
+@NgModule({
+  declarations: [FooterComponent],
+  exports: [FooterComponent],
+  imports: [ChipModule],
+})
+export class FooterModule {}
