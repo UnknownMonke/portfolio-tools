@@ -16,7 +16,7 @@
 
     <div class="portfolio-container card-dark">
 
-        <div class="spinner-container" *ngIf="loadingService.loading$ | async; else: loaded">
+        <div class="spinner-container" *ngIf="loadingFacade.loading$ | async; else: loaded">
             <p-progressSpinner ></p-progressSpinner>
         </div>
 

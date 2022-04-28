@@ -27,8 +27,6 @@ immutability : { ...user, age: 12} adds age to user object via a new object
 use inline enums : pruduct: 'a' | 'b' = 'a'
 or code: `FR${string}`
 
-utiliser un ngmodule par composant
-
 utiliser des ng-content ou des templates pour placer les loader ou préload les layout, ou load des infos comme le titre de la page dans un composant container
 
 use destructuring : ([arg1, arg2]) => arg1.set...

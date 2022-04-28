@@ -19,13 +19,30 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LoadingService {
 
   // BehaviorSubject can be subscribed to multiple times by multiple sources.
-  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  loading$: Observable<boolean> = this.loadingSubject.asObservable(); // make the exposed observable as readonly (other component cannot call next on it)
-
-  constructor() {}
+  loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Emits the new value.
   setLoading(loading: boolean): void {
     this.loadingSubject.next(loading);
   }
+}
+
+/**
+ * Façade of `LoadingService`.
+ *
+ * ---
+ *
+ * Service containing publicly exposed data from the private service.
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class LoadingFacade {
+
+  // Exposes the Subject as Observable to make it read-only for subscribers (cannot call next on it).
+  loading$: Observable<boolean> = this._loadingService.loadingSubject.asObservable();
+
+  constructor(
+    private _loadingService: LoadingService
+  ) {}
 }

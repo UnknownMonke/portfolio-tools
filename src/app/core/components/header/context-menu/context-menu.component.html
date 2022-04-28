@@ -1,0 +1,9 @@
+<!-- Arrows. -->
+<button pButton pRipple class="p-button-text header-text p-0 ml-2" icon="pi pi-arrow-left" type="button" appLastPage></button>
+<button pButton pRipple class="p-button-text header-text p-0 mr-2" icon="pi pi-arrow-right" type="button" appNextPage></button>
+
+    <!-- Buttons & Menus. -->
+<button pButton pRipple class="p-button-text header-text py-0 px-2" label="Manage" type="button" (click)="manageMenu.toggle($event)"></button>
+<p-menu #manageMenu [popup]="true" [model]="menuItems" [baseZIndex]="300" appendTo="body"></p-menu>
+
+<button pButton pRipple class="p-button-text header-text py-0 px-2 ml-2" label="Dashboard" type="button" routerLink="/dashboard"></button>

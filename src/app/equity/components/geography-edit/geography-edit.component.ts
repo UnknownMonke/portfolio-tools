@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GeographyExposition } from 'src/app/geography/model/geography';
-import { GeographyService } from 'src/app/geography/service/geography.service';
+import { GeographyApiService } from 'src/app/geography/services/geography-api.service';
 import { Geography } from 'src/app/geography/model/geography';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -32,7 +32,7 @@ export class GeographyEditComponent implements OnInit {
   // TODO utiliser dirty, touched pour le controle des messages d'erreurs dans les forms : faire un composant erreur des forms
 
   constructor(
-    private geographyService: GeographyService,
+    private geographyService: GeographyApiService,
     private fb: FormBuilder
   ) {}
 

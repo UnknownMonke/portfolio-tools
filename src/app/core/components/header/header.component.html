@@ -1,21 +1,10 @@
-<div class="header" *ngIf="isLoggedIn">
+<div class="header" *ngIf="sessionFacade.loggedIn$ | async">
 
-    <div class="context-menu">
-        <button pButton pRipple class="p-button-text header-text p-0 ml-2" icon="pi pi-arrow-left" appLastPage></button>
-        <button pButton pRipple class="p-button-text header-text p-0 mr-2" icon="pi pi-arrow-right" appNextPage></button>
-
-        <button pButton pRipple class="p-button-text header-text py-0 px-2" label="Manage" (click)="manageMenu.toggle($event)"></button>
-        <p-menu #manageMenu [popup]="true" [model]="manageItems" [baseZIndex]="300" appendTo="body"></p-menu>
-
-        <button pButton pRipple class="p-button-text header-text py-0 px-2 ml-2" label=Dashboard routerLink="/dashboard"></button>
-    </div>
+    <app-context-menu></app-context-menu>
 
     <div class="title">
-        <span class="header-text">{{title}}</span>
+        <ng-content select="[slot=title]"></ng-content>
     </div>
 
-    <div class="right-menu">
-        <button pButton pRipple class="p-button-rounded p-0" icon="pi pi-user" (click)="settingsMenu.toggle($event)"></button>
-        <p-tieredMenu #settingsMenu [popup]="true" [model]="settingsItems" [baseZIndex]="300" appendTo="body" styleClass="settings-menu"></p-tieredMenu>
-    </div>
+    <app-user-menu></app-user-menu>
 </div>

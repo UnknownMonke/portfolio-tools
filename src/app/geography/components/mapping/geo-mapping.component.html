@@ -1,0 +1,35 @@
+<div class="content m-4">
+    <div class="container card-dark col-4">
+
+        <div class="mb-5 mt-2">
+            <button pButton pRipple class="p-button-raised" label="Add Geography" icon="pi pi-plus" (click)="openModal('add')"></button>
+        </div>
+
+        <div class="spinner-container" *ngIf="loadingFacade.loading$ | async; else loaded">
+            <p-progressSpinner ></p-progressSpinner>
+        </div>
+
+        <ng-template #loaded>
+            <app-geo-mapping-table [geographyList]="geographyFacade.geographyList$ | async" (geographySubmit)="onSelected($event)"></app-geo-mapping-table>
+        </ng-template>
+    </div>
+</div>
+
+<!-- Creation/Edition modal. -->
+<p-dialog
+    [(visible)]="show"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{width: '450px'}"
+    styleClass="p-fluid"
+    header="{{modalTitle}}">
+
+    <ng-template pTemplate="content">
+
+        <app-geo-mapping-form [selectedName]="selectedName$ | async" (formSubmit)="onFormSubmit($event)" (showChange)="show = $event"></app-geo-mapping-form>
+
+    </ng-template>
+</p-dialog>
+
+<!-- Deletion modal. -->
+<p-confirmDialog [dismissableMask]="true" [style]="{width: '450px'}"></p-confirmDialog>

@@ -1,5 +1,5 @@
 // Core.
-import {Component, ErrorHandler, OnInit, NgModule } from '@angular/core';
+import {Component, ErrorHandler, OnInit, NgModule, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -18,6 +18,10 @@ import { FooterModule } from '../core/components/footer/footer.component';
 
 import { GlobalErrorHandler } from '../handling/services/error/error-handler.service';
 import { HttpCustomInterceptor } from '../handling/services/interceptor/http-custom-interceptor.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
+import { NavigationService } from '../core/services/navigation.service';
 
 /**
  * Root component for the Angular Application.
@@ -28,21 +32,42 @@ import { HttpCustomInterceptor } from '../handling/services/interceptor/http-cus
  * exept the header and footer, which are directly injected.
  *
  * Also injects the toast for alert, info and error messages popups.
+ *
+ * Handles the page metadata (eg title) inside, as the navigation event is not always accessible from within the header component for some reason,
+ * for instance after the login redirection.
+ * The ng-content tag is used, which allows to insert parent logic in the child directly from the parent without the need for inputs/outputs.
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+
+  title$: Observable<string> = of(''); // Page title with default value.
+  private _isDead$: Subject<boolean> = new Subject(); // Used for unsubscribing to services.
 
   constructor(
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private _navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
     // Required to activate the ripple effect on buttons.
     this.primengConfig.ripple = true;
+
+    this.title$ = this._navigationService.observeNavigation().pipe(takeUntil(this._isDead$));
+
+    /*this._router.events
+      .pipe(
+        filter( (event: any) => event instanceof NavigationEnd),
+        tap( event => console.log(event))
+      ).subscribe();*/
+  }
+
+  ngOnDestroy(): void {
+    this._isDead$.next(false);
   }
 }
 
@@ -65,6 +90,8 @@ export class AppComponent implements OnInit {
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
+    RouterModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RippleModule,
     ToastModule,

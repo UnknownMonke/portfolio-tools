@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { PortfolioService } from '../services/portfolio.service';
-import { LoadingService } from 'src/app/handling/services/loading/loading.service';
+import { LoadingFacade, LoadingService } from 'src/app/handling/services/loading/loading.service';
 import { Equity } from 'src/app/equity/model/equity';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -42,7 +42,7 @@ export class PortfolioComponent implements OnInit {
   portfolioColumns: any[] = [];
 
   constructor(
-    public loadingService: LoadingService,
+    public loadingFacade: LoadingFacade,
     private portfolioService: PortfolioService
   ) {}
 

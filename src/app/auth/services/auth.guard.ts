@@ -16,8 +16,8 @@ import { SessionService } from "./session.service";
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private router: Router,
-    private sessionService: SessionService
+    private _router: Router,
+    private _sessionService: SessionService
   ) {}
 
   /**
@@ -33,11 +33,11 @@ export class AuthGuard implements CanActivate {
     Ex : !'a' <=> 'a' === null => false since 'a' is not the null string.
     So !!getToken() <=> getToken() !== null ? true : false;
     */
-    const isLoggedIn: boolean = !!this.sessionService.getToken();
+    const isLoggedIn: boolean = !!this._sessionService.getToken();
 
     if(!isLoggedIn) {
       // Redirects to login page.
-      this.router.navigate(['/login']);
+      this._router.navigate(['/login']);
     }
     return isLoggedIn;
   }

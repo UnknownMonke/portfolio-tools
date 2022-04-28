@@ -1,0 +1,29 @@
+<form id="loginForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="form-group pb-2">
+        <input
+            placeholder="Username"
+            formControlName="username"
+            [ngClass]="{'ng-invalid ng-dirty': f['username'].errors}"
+            pInputText>
+
+        <div class="invalid-feedback" *ngIf="f['username'].errors">
+            <small class="p-error" *ngIf="f['username'].errors['required']">Username is required</small>
+        </div>
+    </div>
+
+    <div class="form-group pt-2">
+        <p-password
+            placeholder="Password"
+            formControlName="password"
+            styleClass="p-input-icon-right"
+            [ngClass]="{'ng-invalid ng-dirty': f['password'].errors}"
+            [toggleMask]="true"
+            [feedback]="false">
+        </p-password>
+
+        <div class="invalid-feedback" *ngIf="f['password'].errors">
+            <small class="p-error" *ngIf="f['password'].errors['required']">Password is required</small>
+        </div>
+    </div>
+</form>

@@ -18,14 +18,14 @@ const headers: any = new HttpHeaders({
  *
  * Errors are handled by default through the interceptor.
  */
-//TODO setup a swagger and type check from swagger
+//TODO setup a swagger and type check from swagger, pipe with retry
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
   constructor(
-    private httpClient: HttpClient
+    private _httpClient: HttpClient
   ) {}
 
   /**
@@ -36,10 +36,8 @@ export class AuthService {
    * @throws exception if the user is not found (404, through the interceptor).
    */
   login(username: string, password: string): Observable<UserInfos> {
-    const body = { username: username, password: password };
-
-    return this.httpClient
-      .post<UserInfos>(`${APIEntry.LOGIN_ENTRY}/login`, body, { headers: headers });
+    return this._httpClient
+      .post<UserInfos>(`${APIEntry.LOGIN_ENTRY}/login`, { username, password }, { headers: headers });
   }
 
   /**
@@ -52,7 +50,7 @@ export class AuthService {
    * @throws exception if the user is not found (404, through the interceptor).
    */
   updateUserSettings(user: User): Observable<boolean> {
-    return this.httpClient
+    return this._httpClient
       .post<HttpResponse<any>>(`${APIEntry.LOGIN_ENTRY}/update/${user.id}/settings`, user, { headers: headers, observe: 'response' })
       .pipe(
         map(response => response.status === 200)

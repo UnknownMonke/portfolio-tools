@@ -6,7 +6,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TreeTableModule } from 'primeng/treetable';
 import { Sector } from 'src/app/sector/model/sector';
 import { SectorExposition } from 'src/app/sector/model/sector';
-import { SectorService } from 'src/app/sector/service/sector.service';
+import { SectorApiService } from 'src/app/sector/services/sector-api.service';
 
 /**
  * Composant pour l'édition de la répartition sectorielle d'une équité.
@@ -28,7 +28,7 @@ export class SectorEditComponent implements OnInit {
   @Output() sectorRepartitionChange = new EventEmitter<any>();
 
   constructor(
-    private sectorService: SectorService,
+    private sectorService: SectorApiService,
   ) {}
 
   ngOnInit(): void {}

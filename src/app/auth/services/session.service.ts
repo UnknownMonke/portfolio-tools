@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User, UserInfos } from 'src/app/auth/model/user';
 
 const TOKEN_KEY = 'auth-token';
@@ -30,9 +30,8 @@ const USER_KEY = "auth-user";
 })
 export class SessionService {
 
-  loggedIn$: Subject<boolean> = new Subject<boolean>();
-
-  constructor() {}
+  // Uses a BehaviorSubject in order to emit an inital value on page refresh for example (logged in = is token present in session).
+  loggedInSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getToken());
 
   getToken(): string | null {
     return sessionStorage.getItem(TOKEN_KEY);
@@ -60,12 +59,32 @@ export class SessionService {
     sessionStorage.setItem(TOKEN_KEY, userInfos.token);
     sessionStorage.setItem(USER_KEY, JSON.stringify(userInfos.user));
 
-    this.loggedIn$.next(true); // next emits the value, validates login.
+    this.loggedInSubject$.next(true); // next emits the value, validates login.
   }
 
   signOut(): void {
     sessionStorage.clear();
 
-    this.loggedIn$.next(false);
+    this.loggedInSubject$.next(false);
   }
+}
+
+/**
+ * Façade of `SessiongService`.
+ *
+ * ---
+ *
+ * Service containing publicly exposed data from the private service.
+ */
+ @Injectable({
+  providedIn: 'root'
+})
+export class SessionFacade {
+
+  // Exposes the Subject as Observable to make it read-only for subscribers (cannot call next on it).
+  loggedIn$: Observable<boolean> = this._sessionService.loggedInSubject$.asObservable();
+
+  constructor(
+    private _sessionService: SessionService
+  ) {}
 }

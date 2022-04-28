@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { EquityService } from 'src/app/equity/service/equity.service';
-import { SectorService } from '../../service/sector.service';
+import { SectorApiService } from '../../services/sector-api.service';
 import { Equity } from 'src/app/equity/model/equity';
 import { Sector } from '../../model/sector';
 import { SectorExposureTableModule } from '../sector-exposure-table/sector-exposure-table.component';
@@ -41,7 +41,7 @@ export class SectorExposureComponent implements OnInit {
 
   constructor(
     private equityService: EquityService,
-    private sectorService: SectorService
+    private sectorService: SectorApiService
   ) {}
 
   ngOnInit(): void {

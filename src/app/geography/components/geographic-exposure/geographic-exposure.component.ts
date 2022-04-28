@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { GeographyService } from 'src/app/geography/service/geography.service';
+import { GeographyApiService } from 'src/app/geography/services/geography-api.service';
 import { Geography } from 'src/app/geography/model/geography';
 import { Equity } from 'src/app/equity/model/equity';
 import { EquityService } from 'src/app/equity/service/equity.service';
@@ -38,7 +38,7 @@ export class GeographicExposureComponent implements OnInit {
 
   constructor(
     private equityService: EquityService,
-    private geographyService: GeographyService
+    private geographyService: GeographyApiService
   ) {}
 
   ngOnInit(): void {

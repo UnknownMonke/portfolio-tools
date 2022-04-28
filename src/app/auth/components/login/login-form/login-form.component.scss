@@ -1,0 +1,4 @@
+:host ::ng-deep .p-inputtext {
+    // Forces style otherwise the show-password icon doesn't display correctly in Reactive Form.
+    padding-right: 0.5rem !important;
+}

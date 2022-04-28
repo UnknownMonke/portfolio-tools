@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 /**
@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
  * Display only.
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-page-not-found',
   templateUrl: './page-not-found.component.html',
   styleUrls: ['./page-not-found.component.scss']

@@ -6,15 +6,7 @@
     box-shadow: rgba(0, 0, 0, 0.03) 0px 4px 10px, rgba(0, 0, 0, 0.06) 0px 0px 2px, rgba(0, 0, 0, 0.12) 0px 2px 6px;
 
     .header-text {
-        color: var(--header-color);
-    }
-
-    .context-menu {
-        display: inline-flex;
-        justify-content: flex-start;
-        position: absolute;
-        height: 48px;
-        top: 0;
+        color: var(--header-color) !important;
     }
 
     .title {
@@ -25,19 +17,9 @@
         align-items: center;
         font-size: 1.2rem;
     }
-
-    .right-menu {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        height: 48px;
-        top: 0;
-        right: 0;
-        padding-right: 12px;
-    }
 }
 
-:host ::ng-deep .context-menu .p-button-icon {
-    font-size: 1.2rem;
+// Propagates to children to avoid duplicating rule.
+:host ::ng-deep .header-text {
+    color: var(--header-color) !important;
 }

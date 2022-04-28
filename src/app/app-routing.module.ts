@@ -5,11 +5,11 @@ import { AuthGuard } from './auth/services/auth.guard';
 import { DashboardComponent } from './core/components/dashboard/dashboard.component';
 import { EquityDetailComponent } from './equity/components/equity-detail/equity-detail.component';
 import { GeographicExposureComponent } from './geography/components/geographic-exposure/geographic-exposure.component';
-import { GeographyMappingComponent } from './geography/components/geography-mapping/geography-mapping.component';
+import { GeoMappingComponent } from './geography/components/mapping/geo-mapping.component';
 import { PageNotFoundComponent } from './handling/components/page-not-found/page-not-found.component';
 import { PortfolioComponent } from './portfolio/component/portfolio.component';
 import { SectorExposureComponent } from './sector/components/sector-exposure/sector-exposure.component';
-import { SectorMappingComponent } from './sector/components/sector-mapping/sector-mapping.component';
+import { SectorMappingComponent } from './sector/components/mapping/sector-mapping.component';
 
 
 //TODO localisation
@@ -25,6 +25,7 @@ import { SectorMappingComponent } from './sector/components/sector-mapping/secto
  *
  * - The wildcard route comes last because it matches every URL and the Router selects it only if no other route matches first.
  */
+// TODO lazy loading, tous les modules des routes sont préchargés ici !
 const routes: Routes = [
   {
     path: 'login',
@@ -64,7 +65,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/geography',
-    component: GeographyMappingComponent,
+    component: GeoMappingComponent,
     data: {
       title: 'Geographic Mapping'
     },

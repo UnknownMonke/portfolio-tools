@@ -10,3 +10,5 @@ export interface SectorExposition {
   sector: Sector;
   exposure: number;
 }
+
+export type Action = 'add' | 'addChild' | 'edit' | 'del';
