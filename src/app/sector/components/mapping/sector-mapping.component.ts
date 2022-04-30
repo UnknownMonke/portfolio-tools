@@ -1,15 +1,12 @@
 import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
-import { MessageService, TreeNode } from 'primeng/api';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TreeNode } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { Action, Sector } from '../../model/sector';
-import { LoadingFacade, LoadingService } from 'src/app/handling/services/loading/loading.service';
+import { LoadingFacade } from 'src/app/handling/services/loading/loading.service';
 import { CommonModule } from '@angular/common';
-import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SectorMappingTableModule } from './mapping-table/sector-mapping-table.component';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';

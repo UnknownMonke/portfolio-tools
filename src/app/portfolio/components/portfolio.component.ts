@@ -1,12 +1,11 @@
-import { Component, NgModule, OnInit } from '@angular/core';
-import { PortfolioService } from '../services/portfolio.service';
-import { LoadingFacade, LoadingService } from 'src/app/handling/services/loading/loading.service';
-import { Equity } from 'src/app/equity/model/equity';
+import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { PortfolioFacade, PortfolioService } from '../services/portfolio.service';
+import { LoadingFacade } from 'src/app/handling/services/loading/loading.service';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
 import { RouterModule } from '@angular/router';
+import { PortfolioTableModule } from './portfolio-table/portfolio-table.component';
 
 /**
  * Component to load, save and display portfolios from different brokers.
@@ -32,54 +31,34 @@ import { RouterModule } from '@angular/router';
  *
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss']
 })
-export class PortfolioComponent implements OnInit {
-
-  portfolioData: Equity[] = [];
-  portfolioColumns: any[] = [];
+export class PortfolioComponent implements OnInit, OnDestroy {
 
   constructor(
     public loadingFacade: LoadingFacade,
-    private portfolioService: PortfolioService
+    private portfolioService: PortfolioService,
+    public portfolioFacade: PortfolioFacade
   ) {}
 
   ngOnInit(): void {
-    const data = sessionStorage.getItem('portfolioData');
-
-    if(data !== null) {
-      this.portfolioData = JSON.parse(data);
-    }
-
-    this.portfolioColumns = [
-      { field: 'name', header: 'Name'},
-      { field: 'ticker', header: 'Ticker'},
-      { field: 'type', header: 'Type'},
-      { field: 'quantity', header: 'Quantity'},
-      { field: 'amount', header: 'Total amount'}
-    ];
+    this.portfolioService.set();
   }
 
   refresh(): void {
-    this.portfolioService.load().subscribe( (data: Equity[]) => {
-      this.portfolioData = data;
-    });
-
-    sessionStorage.setItem('portfolioData', JSON.stringify(this.portfolioData));
-    //TODO customAlert
+    this.portfolioService.load();
   }
 
-  // Charge les positions actives par défaut.
-  //TODO donner la possibilité de voir les positions fermées
-  //TODO fonction de sort séparée
-  /*loadPortfolio(): Equity[] {
-    return this.portfolioService.load()
-      .filter(data => data.active)
-      .sort( (a,b) => (a.type < b.type) ? 1 : (a.type === b.type) ? ( (a.name > b.name) ? 1 : -1) : -1);
-  }*/
+  ngOnDestroy(): void {
+    this.portfolioService.isDead$.next(false);
+  }
+
 }
+
+// ------------------------------------------------------------------------------------------------------------------------ //
 
 @NgModule({
   declarations: [PortfolioComponent],
@@ -89,7 +68,7 @@ export class PortfolioComponent implements OnInit {
     RouterModule,
     ButtonModule,
     ProgressSpinnerModule,
-    TableModule
+    PortfolioTableModule
   ]
 })
 export class PortfolioModule {}

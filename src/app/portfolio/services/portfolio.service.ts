@@ -4,7 +4,7 @@ import { EQUITIES } from '../../common/constants/mock-equities';
 import { environment } from 'src/environments/environment';
 import DeGiro, { DeGiroEnums, DeGiroTypes } from 'degiro-api'
 import { EquityService } from 'src/app/equity/service/equity.service';
-import { Observable, Subject, Subscriber } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 const { PORTFOLIO_POSITIONS_TYPE_ENUM } = DeGiroEnums;
 
 //TODO install eslint, jest cypress, prettier, desinstall karma, single file component if possible, (empty files takes time and place in compilation)
@@ -59,139 +59,78 @@ ne pas mettre de else dans le ngif, utiliser un autre ngif dans le template
 })
 export class PortfolioService {
 
+  isDead$: Subject<boolean> = new Subject();
+
+  portfolioDataSubject: BehaviorSubject<Equity[]> = new BehaviorSubject<Equity[]>([]);
 
   constructor(
     private equityService: EquityService
   ) {}
 
+
+  set() {
+    const data = sessionStorage.getItem('portfolioData');
+
+    if(data !== null) {
+      this.portfolioDataSubject.next(JSON.parse(data));
+    } else {
+      this.load();
+    }
+  }
+
   //private portfolioUrl = 'portfolio';
   //TODO version demo
   //TODO unsubscribe observables or use async pipe
-  load(): Observable<Equity[]> {
-
-    return new Observable(subscriber => {
-
-      (async () => {
-        /*const degiro = DeGiro.create({username: environment.degiroUser, pwd: environment.degiroPassword});
-
-        if(!await degiro.isLogin({ secure: true })) {
-          const accountData = await degiro.login();
-          console.log(accountData);
-        }
-
-        const jsessionId = degiro.getJSESSIONID();
-        console.log(jsessionId);
-
-
-        // Load portfolio
-        const portfolio = await degiro.getPortfolio({
-          type: PORTFOLIO_POSITIONS_TYPE_ENUM.ALL,
-          getProductDetails: true,
-        });*/
-
-        const portfolio = EQUITIES;
-
-        //console.log(portfolio)
-
-
-        let portfolioData: Equity[] = [];
-
-        // Maps Equities to their entity
-        portfolio
-          .filter(val => val.positionType === "PRODUCT")
-          .forEach(function(position) {
-            const equity = new Equity(position);
-            portfolioData.push(equity);
-          });
-
-
-        // Load equities in base and search for a persisted existing Entity, with same id, name, ticker and type.
-        const portfolioMap = new Map<string, Equity>();
-        portfolioData.forEach(equity => portfolioMap.set(equity._id, equity));
-
-        //console.log(portfolioMap)
-
-        this.equityService.getEquities()
-          .subscribe( (data: Equity[]) => {
-
-            if(data) {
-
-              const dataMap = new Map<string, Equity>();
-              data.map(equity => dataMap.set(equity._id, equity));
-
-              //console.log(dataMap)
-
-              // For each loaded equity
-              portfolioData.forEach(candidate => {
-
-                // if an existing id is found
-                if(dataMap.has(candidate._id)) {
-                  const equity: Equity | undefined = dataMap.get(candidate._id);
-
-                  //console.log(equity);
-                  //console.log(candidate);
-
-                  // verify that the equity is the same, else
-                  //TODO using class property doesnt work
-                  if(equity && !this.equals(equity, candidate)) {
-                    throw new Error(`Error: The equity with id ${equity?._id} clashes with an existing one.`);
-                  }
-
-                } else { // no id is found, id may have changed or equity is new.
-                  const possibleEquity = data.filter(equity => candidate.simpleEquals(equity));
-
-                  if(possibleEquity && possibleEquity.length > 0) {
-                    dataMap.set(candidate._id, possibleEquity[0]); // replace the old equity with the new one
-                    dataMap.delete(possibleEquity[0]._id);
-                  } else {
-                    dataMap.set(candidate._id, candidate);
-                  }
-                }
-              });
-
-              //console.log(dataMap)
-
-              this.equityService.deleteEquities() //pas de subscribe dans les subscribe
-              .subscribe( (status: boolean) => {
-
-                //console.log([...dataMap.values()])
-
-                this.equityService.addEquities([...dataMap.values()])
-                .subscribe( (status: number) => {
-                  if(status !== 200) {
-                    //TODO erreurs
-                    console.log(status);
-                  }
-                  //console.log(status);
-
-                  subscriber.next(portfolioData);
-                });
-              });
-
-            } else {
-              this.equityService.addEquities(portfolioData)
-                .subscribe( (status: number) => {
-                  if(status !== 200) {
-                    //TODO erreurs
-                    console.log(status);
-                  }
-                  //console.log(status);
-
-                  subscriber.next(portfolioData);
-                });
-            }
-
-          });
-
-
-        })();
-
-
-    });
+  async load(): Promise<void> {
 
 
 
+    /*const degiro = DeGiro.create({username: environment.degiroUser, pwd: environment.degiroPassword});
 
+    if(!await degiro.isLogin({ secure: true })) {
+      const accountData = await degiro.login();
+      console.log(accountData);
+    }
+
+    const jsessionId = degiro.getJSESSIONID();
+    console.log(jsessionId);
+
+
+    // Load portfolio
+    const portfolio = await degiro.getPortfolio({
+      type: PORTFOLIO_POSITIONS_TYPE_ENUM.ALL,
+      getProductDetails: true,
+    });*/
+
+    const portfolio = EQUITIES;
+
+    //console.log(portfolio)
+
+
+    let portfolioData: Equity[] = [];
+
+    // Maps Equities to their entity
+    portfolio
+      .filter(val => val.positionType === "PRODUCT")
+      .forEach(function(position) {
+        const equity = new Equity(position);
+        portfolioData.push(equity);
+      });
+
+
+    // Load equities in base and search for a persisted existing Entity, with same id, name, ticker and type.
+    const portfolioMap = new Map<string, Equity>();
+    portfolioData.forEach(equity => portfolioMap.set(equity._id, equity));
+
+    //console.log(portfolioMap)
+
+    this.equityService.getEquities()
+      .pipe(
+        takeUntil(this.isDead$),
+        map( (data: Equity[]) => {
+          this.persistEquities(data, portfolioData, portfolioMap);
+        })
+      ).subscribe();
   }
 
   equals(equity: Equity, other: Equity): boolean {
@@ -200,59 +139,6 @@ export class PortfolioService {
       && equity.ticker === other.ticker
       && equity.type === other.type;
   }
-
-
-
-      /*const equitiesToEdit = data.filter(equity => equityMap.has(equity._id));
-            const equitiesToAdd = equities.filter(equity => !dataMap.has(equity._id));
-
-            if(equitiesToEdit.length > 0) {
-              this.equityService.editEquities(equitiesToEdit)
-              .subscribe( (status: number) => {
-                if(status !== 200) {
-                  //TODO erreurs
-                  console.log(status);
-                }
-              });
-            }
-            if(equitiesToAdd.length > 0) {
-              this.equityService.addEquities(equitiesToAdd)
-              .subscribe( (status: number) => {
-                if(status !== 200) {
-                  //TODO erreurs
-                  console.log(status);
-                }
-              });
-            }
-          } else {
-            this.equityService.addEquities(equities)
-              .subscribe( (status: number) => {
-                if(status !== 200) {
-                  //TODO erreurs
-                  console.log(status);
-                }
-              });
-          }*/
-
-
-
-    //console.log(EQUITIES); //TODO login et sécurité
-
-
-    //gestion du JSON reçu ici
-    /*let portfolioData: Equity[] = [];
-
-    EQUITIES
-      .filter(val => val.positionType === "PRODUCT")
-      .forEach(function(position) {
-        const equity = EquityMapper.mapEquityRawDegiro(position);
-        portfolioData.push(equity);
-      });
-
-    this.persistEquities(portfolioData);
-
-    return portfolioData;*/
-
 
   leave(): void {
     (async () => {
@@ -268,47 +154,89 @@ export class PortfolioService {
    *  - Actif toujours présent mais activé ou déactivé pour les positions cloturées
    *  - Actif non présent = nouvelle position à rajouter
    */
-  persistEquities(equities: Equity[]): void {
-    const equityMap = new Map<string, Equity>();
-    equities.map(equity => equityMap.set(equity._id, equity));
+  persistEquities(equities: Equity[], portfolioData: Equity[], equityMap: Map<string, Equity>): void {
 
-    this.equityService.getEquities()
-      .subscribe( (data: Equity[]) => {
+    if(equities) {
+      const dataMap = new Map<string, Equity>();
+      equities.map(equity => dataMap.set(equity._id, equity));
 
-        if(data.length) {
-          const dataMap = new Map<string, Equity>();
-          data.map(equity => dataMap.set(equity._id, equity));
-
-          const equitiesToEdit = data.filter(equity => equityMap.has(equity._id));
-          const equitiesToAdd = equities.filter(equity => !dataMap.has(equity._id));
-
-          if(equitiesToEdit.length > 0) {
-            this.equityService.editEquities(equitiesToEdit)
-            .subscribe( (status: number) => {
-              if(status !== 200) {
-                //TODO erreurs
-                console.log(status);
-              }
-            });
-          }
-          if(equitiesToAdd.length > 0) {
-            this.equityService.addEquities(equitiesToAdd)
-            .subscribe( (status: number) => {
-              if(status !== 200) {
-                //TODO erreurs
-                console.log(status);
-              }
-            });
-          }
-        } else {
-          this.equityService.addEquities(equities)
-            .subscribe( (status: number) => {
-              if(status !== 200) {
-                //TODO erreurs
-                console.log(status);
-              }
-            });
-        }
+      // For each loaded equity
+      portfolioData.forEach(candidate => {
+        this.updateEquityMap(candidate, equities, equityMap);
       });
+
+      this.equityService.deleteEquities() //pas de subscribe dans les subscribe
+        .pipe(
+          takeUntil(this.isDead$),
+          map( (success: boolean) => {
+
+            if(success) {
+              this.equityService.addEquities([...dataMap.values()])
+                .pipe(
+                  takeUntil(this.isDead$),
+                  map( (success: boolean) => {
+                    if(success) {
+                      this.portfolioDataSubject.next(portfolioData);
+                    }
+                  })
+                ).subscribe();
+            }
+          })
+        ).subscribe();
+
+    } else {
+      this.equityService.addEquities(portfolioData)
+        .pipe(
+          takeUntil(this.isDead$),
+          map( (success: boolean) => {
+            if(success) {
+              this.portfolioDataSubject.next(portfolioData);
+            }
+          })
+        ).subscribe();
+    }
   }
+
+  updateEquityMap(candidate: Equity, equities: Equity[], equityMap: Map<string, Equity>): Map<string, Equity> {
+    // if an existing id is found
+    if(equityMap.has(candidate._id)) {
+      const equity: Equity | undefined = equityMap.get(candidate._id);
+
+      //console.log(equity);
+      //console.log(candidate);
+
+      // verify that the equity is the same, else
+      //TODO using class property doesnt work
+      if(equity && !this.equals(equity, candidate)) {
+        throw new Error(`Error: The equity with id ${equity?._id} clashes with an existing one.`);
+      }
+
+    } else { // no id is found, id may have changed or equity is new.
+      const possibleEquity = equities.filter(equity => candidate.simpleEquals(equity));
+
+      if(possibleEquity && possibleEquity.length > 0) {
+        equityMap.set(candidate._id, possibleEquity[0]); // replace the old equity with the new one
+        equityMap.delete(possibleEquity[0]._id);
+      } else {
+        equityMap.set(candidate._id, candidate);
+      }
+    }
+    return equityMap;
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PortfolioFacade {
+
+  // Exposes the Subject as Observable to make it read-only for subscribers (cannot call next on it).
+  portfolioData$: Observable<Equity[]> = this._portfolioService.portfolioDataSubject.asObservable()
+    .pipe(
+      tap( (data: Equity[]) => sessionStorage.setItem('portfolioData', JSON.stringify(data)))
+    );
+
+  constructor(
+    private _portfolioService: PortfolioService
+  ) {}
 }

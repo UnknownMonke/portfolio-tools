@@ -56,11 +56,7 @@ export class EquityDetailComponent implements OnInit {
     this.equity.geography = $event;
 
     this.equityService.editEquity(this.equity)
-      .subscribe( (status: number) => {
-        if(status !== 200) {
-          //TODO error
-        }
-      });
+      .subscribe();
   }
 
   // Persiste la répartition provenant de l'EventEmitter.
@@ -68,11 +64,7 @@ export class EquityDetailComponent implements OnInit {
     this.equity.sectors = $event;
 
     this.equityService.editEquity(this.equity)
-    .subscribe( (status: number) => {
-      if(status !== 200) {
-        //TODO error
-      }
-    });
+    .subscribe();
   }
 }
 

@@ -7,7 +7,7 @@ import { EquityDetailComponent } from './equity/components/equity-detail/equity-
 import { GeographicExposureComponent } from './geography/components/geographic-exposure/geographic-exposure.component';
 import { GeoMappingComponent } from './geography/components/mapping/geo-mapping.component';
 import { PageNotFoundComponent } from './handling/components/page-not-found/page-not-found.component';
-import { PortfolioComponent } from './portfolio/component/portfolio.component';
+import { PortfolioComponent } from './portfolio/components/portfolio.component';
 import { SectorExposureComponent } from './sector/components/sector-exposure/sector-exposure.component';
 import { SectorMappingComponent } from './sector/components/mapping/sector-mapping.component';
 

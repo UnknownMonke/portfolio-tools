@@ -1,0 +1,22 @@
+<div class="container mx-5 my-4">
+    <div class="portfolio-header mb-4">
+        <div class="central">
+            <button pButton pRipple class="p-button-raised" label="Refresh Data" (click)="refresh()"></button>
+        </div>
+        <div class="right">
+            <button pButton pRipple class="p-button-rounded p-button-outlined mr-2" label="Sector repartition" routerLink="/sector"></button>
+            <button pButton pRipple class="p-button-rounded p-button-outlined" label="Geographic repartition" routerLink="/geography"></button>
+        </div>
+   </div>
+
+    <div class="portfolio-container card-dark">
+
+        <div class="spinner-container" *ngIf="loadingFacade.loading$ | async; else: loaded">
+            <p-progressSpinner ></p-progressSpinner>
+        </div>
+
+        <ng-template #loaded>
+            <app-portfolio-table [portfolioData]="portfolioFacade.portfolioData$ | async"></app-portfolio-table>
+        </ng-template>
+    </div>
+</div>

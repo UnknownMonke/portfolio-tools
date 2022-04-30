@@ -1,0 +1,45 @@
+<p-table
+    [columns]="portfolioColumns"
+    [value]="portfolioData ?? []"
+    [paginator]="true"
+    [rows]="20"
+    [showCurrentPageReport]="true"
+    responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[20,50,100]"
+    styleClass="p-datatable-sm"
+    sortMode="multiple">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-portfolioDto let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
+
+                <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioDto._id}}">
+                    {{portfolioDto.name}}
+                </span>
+
+                <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioDto.amount !== null" [ngIfElse]="elseBlock">
+                    <!-- Angular Pipe to format a value. -->
+                    <span>{{portfolioDto.amount | currency: 'EUR'}}</span>
+                </ng-template>
+
+                <ng-template #elseBlock>
+                    <span>€0.00</span>
+                </ng-template>
+
+                <span *ngSwitchDefault>{{portfolioDto[col.field]}}</span>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
+        <tr>
+            <td [attr.colspan]="portfolioData?.length ?? 0">No records found</td>
+        </tr>
+    </ng-template>
+</p-table>
