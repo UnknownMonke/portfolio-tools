@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, NgModule, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { SessionFacade, SessionService } from '../../services/session.service';
-import { LoadingFacade } from 'src/app/handling/services/loading/loading.service';
-import { ThemeService } from 'src/app/handling/services/theme/theme.service';
+import { SessionService } from '../../services/session.service';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
-import { AvatarModule } from 'primeng/avatar';
-import { ButtonModule } from 'primeng/button';
 import { UserInfos } from '../../model/user';
 import { map, Subject, takeUntil } from 'rxjs';
 import { LoginForm, LoginFormModule } from './login-form/login-form.component';
+import { AvatarModule } from 'src/app/common/components/avatar/avatar.component';
+import { ButtonModule } from 'primeng/button';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { ThemeService } from 'src/app/core/services/theme.service';
 
 /**
  * User login container component (not register).
@@ -44,14 +44,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private _sessionService: SessionService,
     private _themeService: ThemeService,
-    public loadingFacade: LoadingFacade,
-    public sessionFacade: SessionFacade,
+    public loadingFacade: LoadingService
   ) {}
 
   ngOnInit(): void {
 
     // Listens to login event so that we redirect to the home page as soon as the log-in process has been achieved successfully.
-    this.sessionFacade.loggedIn$
+    this._sessionService.loggedIn$
       .pipe(
         takeUntil(this._isDead$),
         map( (value: boolean) => {

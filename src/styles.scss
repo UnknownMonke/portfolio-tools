@@ -18,11 +18,15 @@ html[data-theme=light] {
 
 html, body {
     min-height: 100%;
+    font-family: Heebo, sans-serif;
 }
 
 body {
+
+    --header-height: 48px;
+
     margin: 0;
-    background-color: var(--body);
+    background-color: var(--page-bg);
 
     /* ------- Style override for PrimeNG elements that are appended to the body. ------- */
 
@@ -37,6 +41,24 @@ body {
     height: calc(100vh - 48px - 70px); // Fills space between header and footer.
 }
 
+.flex { display: flex; }
+.lflex { display: inline-flex; }
+.cflex { display: flex; flex-direction: column; }
+
+.j-start { justify-content: flex-start; }
+.j-center { justify-content: center; }
+.j-end { justify-content: flex-end; }
+
+.a-start { align-items: flex-start; }
+.a-center { align-items: center; }
+.a-end { align-items: flex-end; }
+
+.center { justify-content: center; align-items: center; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+
 .p-paginator {
     justify-content: end !important;
 }
@@ -45,10 +67,22 @@ body {
     box-shadow: none !important;
 }
 
+p-table#portfolioTable .p-component {
+    font-size: 0.875rem;
+}
+
+.p-dialog-content {
+    padding-bottom: 1.5rem !important;
+}
+
 .spinner-container {
     display: inline-flex;
     width: 100%;
     justify-content: center;
+}
+
+.card {
+    border: 1px solid var(--card-border);
 }
 
 // Toggled only in dark mode.

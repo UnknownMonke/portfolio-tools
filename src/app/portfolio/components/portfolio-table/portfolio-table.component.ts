@@ -1,27 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TableModule } from 'primeng/table';
-import { Equity } from 'src/app/equity/model/equity';
+import { Equity } from 'src/app/common/models/equity';
 
+/**
+ * Presentational component to display the portfolio in a table.
+ *
+ * ---
+ *
+ * Encapsulates the PrimeNG table with all config.
+ *
+ * Only displays the data and handles simple redirects.
+ */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-portfolio-table',
   templateUrl: './portfolio-table.component.html',
   styleUrls: ['./portfolio-table.component.scss']
 })
 export class PortfolioTableComponent {
 
-  portfolioColumns: { field: string, header: string }[] = [
+  readonly portfolioColumns: { field: string, header: string }[] = [
     { field: 'name', header: 'Name'},
     { field: 'ticker', header: 'Ticker'},
     { field: 'type', header: 'Type'},
     { field: 'quantity', header: 'Quantity'},
-    { field: 'amount', header: 'Total amount'}
+    { field: 'amount', header: 'Total amount'},
+    { field: 'source', header: 'Source'}
   ];
 
-  @Input()
-  portfolioData: Equity[] | null = [];
-
+  @Input() portfolioData: Equity[] | null = [];
 }
 
 // ------------------------------------------------------------------------------------------------------------------------ //

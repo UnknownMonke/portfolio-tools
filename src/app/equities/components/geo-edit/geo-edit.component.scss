@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+
+    .instance {
+        display: inline-flex;
+        width: 100%;
+
+        label {
+            font-family: var(--font-family);
+            color: var(--text-color);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        div {
+            margin-left: auto;
+        }
+    }
+}
+
+.submit {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
+:host ::ng-deep input.p-inputtext {
+    width: 60px !important;
+    padding: 0.3rem !important;
+}

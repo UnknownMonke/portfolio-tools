@@ -1,0 +1,33 @@
+:host ::ng-deep .p-button-icon {
+    font-size: 1.2rem;
+}
+
+:host ::ng-deep .p-menubar {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+
+    .p-menubar-root-list > .p-menuitem {
+
+        &:active {
+            background: var(--nav-menu-item-active);
+        }
+
+        .p-menuitem-link {
+
+            &:hover {
+                background: var(--nav-menu-item-hover);
+            }
+
+            &:focus {
+                border: none;
+                box-shadow: none;
+                transition: none;
+            }
+
+            .p-menuitem-icon {
+                margin: 0;
+            }
+        }
+    }
+}

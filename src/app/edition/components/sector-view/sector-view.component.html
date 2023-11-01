@@ -1,0 +1,36 @@
+<div class="cflex a-center h-100 m-4">
+    <div class="cflex a-center h-100 card-dark col-6">
+
+        <div class="mb-5 mt-2">
+            <app-button label="Add Major Sector" class="p-button-raised" icon="pi pi-plus" type="button" (click)="openModal('add')"></app-button>
+            <app-button label="Expand all" class="p-button-text mx-2" type="button" (click)="expand(true)"></app-button>
+            <app-button label="Collapse all" class="p-button-text" type="button" (click)="expand(false)"></app-button>
+        </div>
+
+        <ng-container *ngIf="(data$ | async) as data; else loading">
+
+            <ng-container *ngIf="data.length > 0; else empty">
+                <app-sector-table [data]="data"></app-sector-table>
+            </ng-container>
+
+            <ng-template #empty>
+                <div class="empty-table flex center">
+                    <i class="pi pi-book"></i>
+                </div>
+            </ng-template>
+        </ng-container>
+
+        <ng-template #loading>
+            <div class="spinner-container">
+                <app-progress-spinner></app-progress-spinner>
+            </div>
+
+        </ng-template>
+    </div>
+</div>
+
+<!-- Creation/Edition modal. -->
+<app-edition-modal></app-edition-modal>
+
+<!-- Deletion modal. -->
+<app-confirmation-modal></app-confirmation-modal>

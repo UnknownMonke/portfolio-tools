@@ -12,9 +12,12 @@
 
     --table-value-color: var(--cyan-400);
     --equity-detail-color: rgba(255, 255, 255, 0.87);
+    --text-color: rgba(255, 255, 255, 0.87);;
 
     --card-border: var(--surface-border);
     --card-dark-bg: var(--surface-e);
+
+    --page-not-found-img: url("../images/404_dark.png");
 }
 
 .card-dark {

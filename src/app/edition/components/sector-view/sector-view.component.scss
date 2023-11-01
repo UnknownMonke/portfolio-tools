@@ -1,0 +1,13 @@
+.empty-table {
+    flex-grow: 1;
+
+    i {
+        font-size: 5rem;
+        color: var(--empty-icon-color);
+    }
+}
+
+.spinner-container {
+    flex-grow: 1;
+    margin: auto 0;
+}

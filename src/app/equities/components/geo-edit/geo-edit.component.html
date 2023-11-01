@@ -1,0 +1,24 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div formArrayName="repartitionArray" class="container">
+
+        <div *ngFor="let rep of array; let i=index" class="instance p-2">
+
+            <ng-container formGroupName="{{i}}">
+                <label for="{{rep.value._id}}" class="pr-4">{{rep.value.name}}</label>
+                <div>
+                    <p-inputMask
+                        id="{{rep.value._id}}"
+                        placeholder="00,00"
+                        formControlName="exposure"
+                        mask="99,99"
+                        slotChar="#">
+                    </p-inputMask>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="submit mt-3">
+        <button pButton pRipple class="p-button-sm" label="Save" icon="pi pi-check" iconPos="right" type="submit"></button>
+    </div>
+</form>

@@ -1,25 +1,24 @@
 .header {
-    display: inline-flex;
-    width: 100%;
-    height: 48px;
+    height: var(--header-height);
     background-color: var(--header-bg);
-    box-shadow: rgba(0, 0, 0, 0.03) 0px 4px 10px, rgba(0, 0, 0, 0.06) 0px 0px 2px, rgba(0, 0, 0, 0.12) 0px 2px 6px;
+    box-shadow: var(--header-box-shadow);
 
-    .header-text {
-        color: var(--header-color) !important;
+    .nav-menu {
+        position: absolute;
+        height: var(--header-height);
+        top: 0;
+        padding-left: 6px;
     }
 
     .title {
-        font-family: Heebo, sans-serif;
-        display: inline-flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.2rem;
+        margin: 0 auto;
     }
-}
 
-// Propagates to children to avoid duplicating rule.
-:host ::ng-deep .header-text {
-    color: var(--header-color) !important;
+    .user-menu {
+        position: absolute;
+        height: var(--header-height);
+        top: 0;
+        right: 0;
+        padding-right: 12px;
+    }
 }

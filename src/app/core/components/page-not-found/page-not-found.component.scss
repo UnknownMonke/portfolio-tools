@@ -1,0 +1,8 @@
+.content {
+    height: 50vh;
+    margin: auto;
+
+    img {
+        content: var(--page-not-found-img);
+    }
+}

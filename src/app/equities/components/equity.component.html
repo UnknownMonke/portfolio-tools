@@ -1,0 +1,34 @@
+<div class="container mx-5 my-4" *ngIf="equity$ | async as equity">
+
+    <p-panel header="Summary">
+        <div class="detail">
+            <span>Name: {{equity.name}}</span>
+            <span>Ticker: {{equity.ticker}}</span>
+            <span>Type: {{equity.type}}</span>
+            <span class="font-bold">Quantity: {{equity.quantity}}</span>
+            <span>Amount: <b>{{equity.amount | currency: equity.currency}}</b></span>
+        </div>
+    </p-panel>
+
+    <div class="card card-dark my-4 p-3">
+
+        <div class="panel">
+            <div class="title pb-3">
+                <span>Geographic Exposure</span>
+            </div>
+            <app-geo-edit
+                [repartition]="equity.geography.length > 0 ? equity.geography : null"
+                (repartitionChange)="onGeoSubmit($event)">
+            </app-geo-edit>
+        </div>
+
+        <p-divider layout="vertical"></p-divider>
+
+        <div class="panel">
+
+            <div>
+                bob
+            </div>
+        </div>
+    </div>
+</div>

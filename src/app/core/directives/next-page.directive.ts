@@ -7,12 +7,12 @@ import { Location } from '@angular/common';
 export class NextPageDirective {
 
   constructor(
-    private location: Location
+    private _location: Location
   ) {}
 
   @HostListener('click')
   onClick(): void {
     // location is the current URL, can be navigated forward and back based on the History API.
-    this.location.forward();
+    this._location.forward();
   }
 }

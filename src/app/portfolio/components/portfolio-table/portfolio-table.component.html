@@ -1,4 +1,4 @@
-<p-table
+<p-table id="portfolioTable"
     [columns]="portfolioColumns"
     [value]="portfolioData ?? []"
     [paginator]="true"
@@ -16,28 +16,28 @@
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-portfolioDto let-columns="columns">
+    <ng-template pTemplate="body" let-equity let-columns="columns">
         <tr>
             <td *ngFor="let col of columns" [ngSwitch]="col.field" [ngClass]="{'link': col.field === 'name'}">
 
-                <span *ngSwitchCase="'name'" routerLink="/equity/{{portfolioDto._id}}">
-                    {{portfolioDto.name}}
+                <span *ngSwitchCase="'name'" routerLink="/equity/{{equity._id}}">
+                    {{equity.name}}
                 </span>
 
-                <ng-template *ngSwitchCase="'amount'" [ngIf]="portfolioDto.amount !== null" [ngIfElse]="elseBlock">
+                <ng-template *ngSwitchCase="'amount'" [ngIf]="!!equity.amount" [ngIfElse]="elseBlock">
                     <!-- Angular Pipe to format a value. -->
-                    <span>{{portfolioDto.amount | currency: 'EUR'}}</span>
+                    <span>{{equity.amount | currency: 'EUR'}}</span>
                 </ng-template>
 
                 <ng-template #elseBlock>
                     <span>€0.00</span>
                 </ng-template>
 
-                <span *ngSwitchDefault>{{portfolioDto[col.field]}}</span>
+                <span *ngSwitchDefault>{{equity[col.field]}}</span>
             </td>
         </tr>
     </ng-template>
-    <ng-template pTemplate="emptymessage" let-portfolioData let-columns="columns">
+    <ng-template pTemplate="emptymessage">
         <tr>
             <td [attr.colspan]="portfolioData?.length ?? 0">No records found</td>
         </tr>

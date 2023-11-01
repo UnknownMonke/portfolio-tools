@@ -1,0 +1,65 @@
+<p-treeTable
+    [value]="data?? []"
+    [autoLayout]="true"
+    [sortOrder]="1"
+    sortField="name"
+    styleClass="p-datatable-sm p-0">
+    <ng-template pTemplate="header">
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-sector="rowData">
+        <tr>
+            <td class="p-1">
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                <span *ngIf="sector.level === 0; else elseBlock">
+                    <b>{{sector.name}}</b>
+                </span>
+                <ng-template #elseBlock>
+                    {{sector.name}}
+                </ng-template>
+            </td>
+            <td class="p-1">
+                <div class="button-container">
+                    <app-button *ngIf="sector.level === 0"
+                        pTooltip="Add"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-success"
+                        icon="pi pi-plus"
+                        type="button"
+                        height= "30px"
+                        width= "30px"
+                        (click)="openModal(sector, 'addChild')">
+                    </app-button>
+                    <app-button
+                        pTooltip="Edit"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-success mx-2"
+                        icon="pi pi-pencil"
+                        type="button"
+                        height= "30px"
+                        width= "30px"
+                        (click)="openModal(sector, 'edit')">
+                    </app-button>
+                    <app-button
+                        pTooltip="Delete"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-warning"
+                        icon="pi pi-trash"
+                        type="button"
+                        height= "30px"
+                        width= "30px"
+                        (click)="openModal(sector, 'del')">
+                    </app-button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]="data?.length ?? 0">No records found</td>
+        </tr>
+    </ng-template>
+</p-treeTable>

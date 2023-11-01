@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group p-field">
+        <label for="name" class="inline-block mb-2">Name</label>
+        <input pInputText
+            placeholder="Name"
+            formControlName="name"
+            [ngClass]="{'ng-invalid ng-dirty': f['name'].touched && f['name'].errors}"/>
+
+        <div class="invalid-feedback" *ngIf="f['name'].touched && f['name'].errors">
+            <small class="p-error" *ngIf="f['name'].errors['required']">Name is required</small>
+            <small class="p-error" *ngIf="f['name'].errors['pattern']">Name must only contain spaces and letters</small>
+        </div>
+    </div>
+
+    <div class="lflex w-100 pt-5">
+        <div class="container lflex">
+            <app-button label="Cancel" class="p-button-text p-button-danger" icon="pi pi-times" type="button" (click)="hideModal()"></app-button>
+            <app-button label="Save" class="p-button-text" icon="pi pi-check" type="submit" [disabled]="!f['name'].valid"></app-button>
+        </div>
+    </div>
+</form>

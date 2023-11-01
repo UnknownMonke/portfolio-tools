@@ -1,0 +1,33 @@
+<div class="container cflex h-100 px-5 py-4">
+    <div class="portfolio-header lflex mb-4">
+        <div class="left">
+            <app-button label="Import Data" class="p-button-raised p-button-success" type="button" (click)="import()"></app-button>
+        </div>
+        <div class="right">
+            <app-button label="Sector repartition" class="p-button-rounded p-button-outlined mr-2" type="button" routerLink="/sector"></app-button>
+            <app-button label="Geographic repartition" class="p-button-rounded p-button-outlined" type="button" routerLink="/geography"></app-button>
+        </div>
+   </div>
+
+    <div class="portfolio-container card-dark flex h-100">
+
+        <ng-container *ngIf="(data$ | async) as data; else loading">
+
+            <ng-container *ngIf="data.length > 0; else empty">
+                <app-portfolio-table [portfolioData]="data"></app-portfolio-table>
+            </ng-container>
+
+            <ng-template #empty>
+                <div class="empty-table flex center">
+                    <i class="pi pi-book"></i>
+                </div>
+            </ng-template>
+        </ng-container>
+
+        <ng-template #loading>
+            <div class="spinner-container">
+                <app-progress-spinner></app-progress-spinner>
+            </div>
+        </ng-template>
+    </div>
+</div>

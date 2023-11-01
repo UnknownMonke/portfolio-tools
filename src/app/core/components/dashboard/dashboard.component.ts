@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'src/app/common/components/button/button.component';
 
 /**
  * Home component.
@@ -12,8 +12,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {}
 

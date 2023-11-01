@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { SessionFacade } from 'src/app/auth/services/session.service';
 import { CommonModule } from '@angular/common';
-import { UserMenuModule } from './user-menu/user-menu.component';
-import { ContextMenuModule } from './context-menu/context-menu.component';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Observable, combineLatest, map } from 'rxjs';
+import { SessionService } from 'src/app/auth/services/session.service';
+import { TitleModule } from 'src/app/core/components/title/title.component';
+import { NavigationService } from 'src/app/core/services/navigation.service';
+import { NavMenuModule } from '../nav-menu/nav-menu.component';
+import { UserMenuModule } from '../user-menu/user-menu.component';
 
 /**
  * Application Header container component.
@@ -13,7 +16,7 @@ import { ContextMenuModule } from './context-menu/context-menu.component';
  *
  * Contains various menus and navigation :
  *
- * - Context menu component :
+ * - Navigation menu component :
  *    - Navigate to previous and next page.
  *    - Navigation to Geography and Sector mapping.
  *    - Navigation to dashboard, homepage of the application.
@@ -23,7 +26,7 @@ import { ContextMenuModule } from './context-menu/context-menu.component';
  * - User menu component :
  *    - Access to user menu, settings and logout options.
  *
- * The header is displayed only when user is connected (through sessionFacade), despite being injected independently from the router.
+ * The header is displayed only when user is connected or when the route is valid, despite being injected independently from the router.
  * This logic is handled here rather than inside the root component to prevent header displaying before past-login redirection.
  *
  * Therefore the component is always injected but only displayed when logged in.
@@ -36,9 +39,20 @@ import { ContextMenuModule } from './context-menu/context-menu.component';
 })
 export class HeaderComponent {
 
+  readonly display$: Observable<boolean>;
+
   constructor(
-    public sessionFacade: SessionFacade
-  ) {}
+    private _navigationService: NavigationService,
+    private _sessionService: SessionService
+  ) {
+    this.display$ = combineLatest([
+        this._navigationService.routeValid(),
+        this._sessionService.loggedIn$
+      ])
+      .pipe(
+        map( ([routeValid, loggedIn]: boolean[]) => routeValid && loggedIn)
+      );
+  }
 }
 
 // ------------------------------------------------------------------------------------------------------------------------ //
@@ -48,7 +62,8 @@ export class HeaderComponent {
   exports: [HeaderComponent],
   imports: [
     CommonModule,
-    ContextMenuModule,
+    NavMenuModule,
+    TitleModule,
     UserMenuModule
   ]
 })

@@ -1,0 +1,49 @@
+<p-table
+    [value]="data?? []"
+    [resizableColumns]="true"
+    [autoLayout]="true"
+    [sortOrder]="1"
+    sortField="name"
+    dataKey="id"
+    styleClass="p-datatable-sm p-0">
+    <ng-template pTemplate="header" let-geography>
+        <tr>
+            <th>Geographies</th>
+            <th [ngStyle]="{width: '20%'}"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-geography>
+        <tr>
+            <td><span>{{geography.name}}</span></td>
+            <td>
+                <div class="button-container">
+                    <app-button
+                        pTooltip="Edit"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-success mr-1"
+                        icon="pi pi-pencil"
+                        type="button"
+                        height= "40px"
+                        width= "40px"
+                        (click)="openModal(geography, 'edit')">
+                    </app-button>
+                    <app-button
+                        pTooltip="Delete"
+                        tooltipPosition="top"
+                        class="p-button-outlined p-button-rounded p-button-warning ml-1"
+                        icon="pi pi-trash"
+                        type="button"
+                        height= "40px"
+                        width= "40px"
+                        (click)="openModal(geography, 'del')">
+                    </app-button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]="data?.length ?? 0">No records found</td>
+        </tr>
+    </ng-template>
+</p-table>

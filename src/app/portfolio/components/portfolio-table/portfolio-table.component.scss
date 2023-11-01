@@ -1,0 +1,13 @@
+:host {
+    flex-grow: 1;
+}
+
+td.link {
+    cursor: pointer;
+
+    &:hover {
+        span {
+            color: var(--table-link-color);
+        }
+    }
+}

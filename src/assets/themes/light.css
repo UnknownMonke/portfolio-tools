@@ -4,17 +4,24 @@
 @import "../../../node_modules/primeng/resources/themes/saga-blue/theme.css";
 
 :root {
-    --body: #FFFFFF;
+    --page-bg: #FFFFFF;
 
     --header-bg: #EFEFEF;
-    --header-color: var(--text-800);
-    --header-setting-hr: var(--gray-300);
+    --header-text: var(--text-800);
+    --header-box-shadow: rgba(0, 0, 0, 0.03) 0px 4px 10px, rgba(0, 0, 0, 0.06) 0px 0px 2px, rgba(0, 0, 0, 0.12) 0px 2px 6px;
 
-    --table-value-color: #05389F;
+    --nav-menu-item-hover: var(--gray-300);
+    --nav-menu-item-active: var(--gray-300);
+
+    --table-link-color: #05389F;
     --equity-detail-color: var(--gray-600);
+    --text-color: #495057;
+    --empty-icon-color: var(--gray-500);
 
     --card-border: var(--surface-border);
     --card-dark-bg: var(--surface-e);
+
+    --page-not-found-img: url("../images/404_light.jpg");
 }
 
 .card-dark {

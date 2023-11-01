@@ -1,10 +1,14 @@
-<div class="header" *ngIf="sessionFacade.loggedIn$ | async">
+<div class="header lflex w-100" *ngIf="(display$ | async)">
 
-    <app-context-menu></app-context-menu>
-
-    <div class="title">
-        <ng-content select="[slot=title]"></ng-content>
+    <div class="nav-menu lflex a-center j-start">
+        <app-nav-menu></app-nav-menu>
     </div>
 
-    <app-user-menu></app-user-menu>
+    <div class="title flex a-center">
+        <app-title></app-title>
+    </div>
+
+    <div class="user-menu lflex center">
+        <app-user-menu></app-user-menu>
+    </div>
 </div>

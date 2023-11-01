@@ -1,0 +1,15 @@
+<p-dialog *ngIf="(data$ | async) as data"
+    [(visible)]="show"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{width: '450px'}"
+    styleClass="p-fluid"
+    header="{{data.title}}"
+    (visibleChange)="visibleChange($event)">
+
+    <ng-template pTemplate="content">
+
+        <app-edition-form [selectedName]="data.name"></app-edition-form >
+
+    </ng-template>
+</p-dialog>

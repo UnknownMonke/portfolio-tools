@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map, Observable, tap } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { BehaviorSubject, Observable, filter, map, merge } from 'rxjs';
 
 /**
  * Service to handle various navigation events.
@@ -10,27 +10,50 @@ import { filter, map, Observable, tap } from 'rxjs';
 })
 export class NavigationService {
 
+  private _titleSubject$ = new BehaviorSubject<string>('');
+
   constructor(
-    private _router: Router,
     private _activatedRoute: ActivatedRoute,
+    private _router: Router
   ) {}
 
   /**
-   * Subscribes to the navigation event to update data on route change.
-   * After the navigation is completed, get various data from the current route.
+   * Merger: return the router event observable and the Subject merged, so that the component
+   * can subscribe to the router event AND trigger the getTitle method by emitting in the Subject
+   * at initialization, in a declarative way.
+   * This allows for a single subscription in the component, without directly calling the Subject from the component or handling subscription in the service.
    */
-  observeNavigation(): Observable<string> {
+  title$(): Observable<string> {
+    return merge(
+      this._titleSubject$.asObservable(),
+      this._router.events
+      .pipe(
+        filter( (event: any) => event instanceof NavigationEnd),
+        map(() => this._getTitle()) // Subscribes to the navigation event to update title on route change.
+      )
+    );
+  }
+
+  loadTitle(): void {
+    this._titleSubject$.next(this._getTitle());
+  }
+
+  /**
+   * Watches if the navigated route is valid to display header and footer.
+   */
+  routeValid(): Observable<boolean> {
     return this._router.events
       .pipe(
         filter( (event: any) => event instanceof NavigationEnd),
-        map(() => this.getTitle())
+        map((event: any) =>
+          this._matchRoute(this._router.config, event.url))
       );
   }
 
   /**
    * Returns the current title of the page found in the current route 'data' attribute.
    */
-  getTitle(): string {
+  private _getTitle(): string {
     let child = this._activatedRoute.firstChild;
 
     while(child) {
@@ -46,5 +69,11 @@ export class NavigationService {
       }
     }
     return '';
+  }
+
+  private _matchRoute(routes: Route[], url: string): boolean {
+    return routes
+      .map( (route: Route) => route.path)
+      .includes(url.replace('/', ''));
   }
 }
