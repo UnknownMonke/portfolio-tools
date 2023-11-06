@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { GeographyExposition } from 'src/app/common/models/geography';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
+import { ButtonModule } from 'src/app/common/components/button/button.component';
+import { GeographyExposure } from 'src/app/common/models/geography';
+import { EquityService } from '../../services/equity.service';
 
 /**
- * Composant pour l'édition de la répartition géographique d'une équité.
+ * Presentational component to handle the equity geographic exposure edition.
  *
- * - Récupère la répartition actuelle en input.
- * - Récupère la liste des géographies en base et ajoute l'exposure si trouvée dans la répartition actuelle de l'équité,
- *   pour être à jour (ajout à 0 pour une géographie nouvellement ajoutée).
- * - Emet le résultat de la form en output.
+ * ---
+ *
+ * Receives an array of existing exposures for all current geographies, or 0 if none is set.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,49 +21,53 @@ import { InputMaskModule } from 'primeng/inputmask';
 })
 export class GeoEditComponent implements OnInit {
 
-  submitted: boolean = false;
+  submitted = false;
 
   form: FormGroup = new FormGroup({});
 
-  @Input() repartition: GeographyExposition[] | null = [];
-  @Output() repartitionChange = new EventEmitter<GeographyExposition[]>();
+  // Added geography name mapped from the Geography table.
+  @Input() mappedExposure: { geoExposure: GeographyExposure, name: string }[] = [];
 
   constructor(
-    private fb: FormBuilder
+    private _fb: FormBuilder,
+    private _equityService: EquityService
   ) {}
 
   ngOnInit(): void {
+    console.log(this.mappedExposure)
     this.setForm();
   }
 
   // Getter to shorten the syntax.
-  get f() { return this.form.controls['repartitionArray'] }
+  get f() { return this.form.controls['exposureArray'] }
 
-  get array() { return (this.form.get('repartitionArray') as FormArray).controls }
+  get array() { return (this.form.get('exposureArray') as FormArray).controls }
 
+  /** Fills array then pushes it into the form group. */
   setForm(): void {
-    const repArray: FormArray = this.fb.array([]);
+    const exposureArray: FormArray = this._fb.array([]);
 
-    if(this.repartition && this.repartition.length > 0) {
-      this.repartition.forEach(rep => {
-        repArray.push(this.fb.group({
-          _id: /*rep.geography._id,*/ 0,
-          name: "",
-          exposure: rep.exposure // no validators as input mask validates format
-        }))
+    if(this.mappedExposure && this.mappedExposure.length > 0) {
+
+      this.mappedExposure.forEach(mapped => {
+
+        exposureArray.push(
+          this._fb.group({
+            _id: mapped.geoExposure.geographyId,
+            name: mapped.name,
+            exposure: mapped.geoExposure.exposure // No validators as input mask validates format.
+          })
+        )
       })
     }
-    this.form = this.fb.group({
-      repartitionArray: repArray
-    });
+    this.form = this._fb.group({ exposureArray });
   }
 
-  // Renvoi au parent pour mise à jour.
   onSubmit(): void {
     this.submitted = true;
 
     if(this.form.valid) {
-      this.repartitionChange.emit(this.f.value);
+      this._equityService.exposureSubmit(this.f.value, 'geo');
     }
   }
 }

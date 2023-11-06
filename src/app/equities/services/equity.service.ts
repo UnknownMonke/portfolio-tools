@@ -1,81 +1,61 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { Equity } from '../../common/models/equity';
-import { APIEntry } from '../../common/enums/api';
+import { BehaviorSubject, Observable, concatMap, map, of, switchMap, take, tap } from 'rxjs';
+import { Equity } from 'src/app/common/models/equity';
+import { Geography, GeographyExposure } from 'src/app/common/models/geography';
+import { GeographyService } from 'src/app/edition/services/geography.service';
+import { EquityProvider } from './equity.provider';
 
-// Common headers are defined in a constant.
-const headers: any = new HttpHeaders({
-  'Content-Type':  'application/json',
-});
-
-/**
- * Equities service.
- *
- * ---
- *
- * Handles CRUD operations through the API.
- */
 @Injectable({
   providedIn: 'root'
 })
 export class EquityService {
 
+  private _selectedEquitySubject$ = new BehaviorSubject<Equity>({} as Equity);
+
   constructor(
-    private httpClient: HttpClient
+    private _equityProvider: EquityProvider,
+    private _geographyService: GeographyService
   ) {}
 
-  // Récupère tous les actifs en base.
-  getEquities(): Observable<Equity[]> {
-    return this.httpClient.get<Equity[]>(`${APIEntry.EQUITY_ENTRY}/get`);
-  }
+  equity$(id: string): Observable<Equity> {
 
-  getEquity(id: string): Observable<Equity> {
-    return this.httpClient.get<Equity>(`${APIEntry.EQUITY_ENTRY}/get/${id}`);
-  }
-
-  // using post to delete multiple
-  deleteEquities(): Observable<boolean> {
-    return this.httpClient
-      .delete<HttpResponse<any>>(`${APIEntry.EQUITY_ENTRY}/delete/all`, { headers: headers, observe: 'response' })
+    return this._selectedEquitySubject$.asObservable()
       .pipe(
-        map(response => response.status === 200)
+        switchMap(equity =>
+          equity && Object.keys(equity).length > 0 && equity._id === id
+          ? of(equity)
+          : this._equityProvider.getEquity(id)
+            .pipe(
+              tap( (data: Equity) => this._selectedEquitySubject$.next(data))
+            )
+        )
       );
   }
 
-  // Ajoute une liste d'actif, avec ou sans exposure, et retourne seulement le statut car l'id est générée côté client.
-  addEquities(equities: Equity[]): Observable<boolean> {
-    return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/add`, equities, { headers: headers, observe: 'response' })
+  getExposureGeo(): Observable<{ geoExposure: GeographyExposure, name: string }[]> {
+
+    return this._selectedEquitySubject$.asObservable()
       .pipe(
-        map(response => response.status === 200)
+        take(1),
+        concatMap( (equity: Equity) => {
+          const geographyExposure: GeographyExposure[] = equity.geographyExposure!; // Always present albeit empty.
+
+          return this._geographyService.geographyList$ // Avoid unecessary DB calls by using state value.
+            .pipe(
+              take(1),
+              map( (list: Geography[]) => {
+                return list
+                  .map(geo => {
+                    const exposure = geographyExposure.filter( expo => expo.geographyId === geo._id)[0];
+                    return { geoExposure: exposure ? exposure : { geographyId: geo._id, exposure: 0 }, name: geo.name };
+                  })
+              })
+            );
+        })
       );
   }
 
-  // Edite une liste d'actif en éditant tout sauf l'exposure (non présente dans les données courtier), et retourne seulement le statut car l'id est générée côté client.
-  editEquities(equities: Equity[]): Observable<boolean> {
-    return this.httpClient
-      .post<HttpResponse<Equity[]>>(`${APIEntry.EQUITY_ENTRY}/update`, this.mapEquityWithoutExposure(equities), { headers: headers, observe: 'response' })
-      .pipe(
-        map(response => response.status === 200)
-      );
-  }
-
-  // Edite un actif unique.
-  editEquity(equity: Equity): Observable<boolean> {
-    return this.httpClient
-      .post<HttpResponse<Equity>>(`${APIEntry.EQUITY_ENTRY}/update/${equity._id}`, JSON.stringify(equity), { headers: headers, observe: 'response' })
-      .pipe(
-        map(response => response.status === 200)
-      );
-  }
-
-  // Mapping DTO -> Entité en supprimant les exposure.
-  private mapEquityWithoutExposure(equities: any[]): any[] {
-    equities.forEach(equity => {
-      delete equity.geography;
-      delete equity.sectors;
-    });
-    return equities;
+  exposureSubmit(formArray: any, type: 'geo' | 'sec'): void {
+    console.log(formArray)
   }
 }

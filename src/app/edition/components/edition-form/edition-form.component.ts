@@ -32,7 +32,7 @@ export class EditionFormComponent {
 
   form: FormGroup = new FormGroup({});
 
-  @Input() selectedName: string | null = '';
+  @Input() selectedName: string = '';
 
   constructor(
     private _fb: FormBuilder,

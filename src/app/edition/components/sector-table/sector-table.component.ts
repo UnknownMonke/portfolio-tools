@@ -5,6 +5,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'src/app/common/components/button/button.component';
 import { Sector } from 'src/app/common/models/sector';
 import { EditionService } from '../../services/edition.service';
+import { SectorService } from '../../services/sector.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,14 +15,19 @@ import { EditionService } from '../../services/edition.service';
 })
 export class SectorTableComponent {
 
-  @Input() data: TreeNode<Sector>[] | null = [];
+  @Input() data: TreeNode<Sector>[] = [];
 
   constructor(
-    private _editionService: EditionService
+    private _editionService: EditionService,
+    private _sectorService: SectorService
   ) {}
 
   openModal(sector: Sector, action: 'add' | 'addChild' | 'edit' | 'del'): void {
     this._editionService.openModal(action, 'sec', sector);
+  }
+
+  onExpandChange(event: any): void {
+    this._sectorService.onExpandChange(event.node);
   }
 }
 

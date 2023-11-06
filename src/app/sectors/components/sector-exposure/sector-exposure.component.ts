@@ -4,11 +4,9 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { Equity } from 'src/app/common/models/equity';
-import { EquityService } from 'src/app/equities/services/equity.service';
+import { EquityProvider } from 'src/app/equities/services/equity.provider';
 import { ExposureGraphModule } from 'src/app/graphs/components/exposure-graph/exposure-graph.component';
-import { Sector } from '../../../common/models/sector';
-import { SectorApiService } from '../../../edition/services/sector.provider';
+import { SectorProvider } from '../../../edition/services/sector.provider';
 import { SectorExposureTableModule } from '../sector-exposure-table/sector-exposure-table.component';
 
 //TODO couleur pour chaque catégorie de secteur
@@ -40,8 +38,8 @@ export class SectorExposureComponent implements OnInit {
 
 
   constructor(
-    private equityService: EquityService,
-    private sectorService: SectorApiService
+    private equityService: EquityProvider,
+    private sectorService: SectorProvider
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +47,7 @@ export class SectorExposureComponent implements OnInit {
   }
 
   loadData(): void {
-    this.equityService.getEquities()
+    /*this.equityService.getEquities()
       .subscribe( (equities: Equity[]) => {
 
         if(equities.length > 0) {
@@ -97,7 +95,7 @@ export class SectorExposureComponent implements OnInit {
               }
             });
         }
-      });
+      });*/
   }
 
   // Ajout d'une ligne total par équité dans un objet séparé.

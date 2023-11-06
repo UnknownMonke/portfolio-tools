@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'src/app/common/components/button/button.component';
-import { ProgressSpinnerModule } from 'src/app/common/components/progress-spinner/progress-spinner.component';
 import { Geography } from 'src/app/common/models/geography';
+import { TableModule } from 'src/app/core/components/table/table.component';
 import { EditionService } from '../../services/edition.service';
 import { GeographyService } from '../../services/geography.service';
 import { ConfirmationModalModule } from '../confirmation-modal/confirmation-modal.component';
@@ -36,7 +36,7 @@ import { GeographyTableModule } from '../geography-table/geography-table.compone
   templateUrl: './geography-view.component.html',
   styleUrls: ['./geography-view.component.scss']
 })
-export class GeographyViewComponent implements OnInit {
+export class GeographyViewComponent {
 
   readonly data$: Observable<Geography[]>;
 
@@ -47,14 +47,9 @@ export class GeographyViewComponent implements OnInit {
     this.data$ = this._geographyService.geographyList$;
   }
 
-  ngOnInit(): void {
-    this._geographyService.get();
-  }
-
   openModal(action: 'add' | 'addChild' | 'edit' | 'del'): void {
     this._editionService.openModal(action, 'geo');
   }
-
 }
 
 // ------------------------------------------------------------------------------------------------------------------------ //
@@ -68,7 +63,7 @@ export class GeographyViewComponent implements OnInit {
     ConfirmationModalModule,
     EditionModalModule,
     GeographyTableModule,
-    ProgressSpinnerModule
+    TableModule
   ]
 })
 export class GeographyViewModule {}

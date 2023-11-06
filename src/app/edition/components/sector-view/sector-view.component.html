@@ -1,31 +1,19 @@
-<div class="cflex a-center h-100 m-4">
-    <div class="cflex a-center h-100 card-dark col-6">
+<div class="cflex a-center h-100 p-5">
+    <div class="container card-dark cflex a-center h-100">
 
         <div class="mb-5 mt-2">
-            <app-button label="Add Major Sector" class="p-button-raised" icon="pi pi-plus" type="button" (click)="openModal('add')"></app-button>
-            <app-button label="Expand all" class="p-button-text mx-2" type="button" (click)="expand(true)"></app-button>
-            <app-button label="Collapse all" class="p-button-text" type="button" (click)="expand(false)"></app-button>
+            <app-button label="Add Major Sector" btnClass="p-button-raised" icon="pi pi-plus" type="button" (click)="openModal('add')"></app-button>
+            <app-button label="Expand all" btnClass="p-button-text mx-2" type="button" (click)="expand(true)"></app-button>
+            <app-button label="Collapse all" btnClass="p-button-text" type="button" (click)="expand(false)"></app-button>
         </div>
 
-        <ng-container *ngIf="(data$ | async) as data; else loading">
+        <app-table class="cflex w-100 h-100" [data]="(data$ | async)!">
+            <ng-template #tableTemplate let-tableData>
 
-            <ng-container *ngIf="data.length > 0; else empty">
-                <app-sector-table [data]="data"></app-sector-table>
-            </ng-container>
+                <app-sector-table [data]="tableData"></app-sector-table>
 
-            <ng-template #empty>
-                <div class="empty-table flex center">
-                    <i class="pi pi-book"></i>
-                </div>
             </ng-template>
-        </ng-container>
-
-        <ng-template #loading>
-            <div class="spinner-container">
-                <app-progress-spinner></app-progress-spinner>
-            </div>
-
-        </ng-template>
+        </app-table>
     </div>
 </div>
 

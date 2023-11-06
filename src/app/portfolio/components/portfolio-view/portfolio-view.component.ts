@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ButtonModule } from 'src/app/common/components/button/button.component';
-import { ProgressSpinnerModule } from 'src/app/common/components/progress-spinner/progress-spinner.component';
 import { Equity } from 'src/app/common/models/equity';
+import { TableModule } from 'src/app/core/components/table/table.component';
 import { PortfolioService } from '../../services/portfolio.service';
 import { PortfolioTableModule } from '../portfolio-table/portfolio-table.component';
 
@@ -46,7 +46,11 @@ export class PortfolioViewComponent implements OnInit {
   constructor(
     private _portfolioService: PortfolioService
   ) {
-    this.data$ = this._portfolioService.portfolioData$;
+    this.data$ = this._portfolioService.portfolioData$
+      .pipe(
+        map( (data: Equity[]) =>
+          data.filter( (equity: Equity) => equity.active) )
+      );
   }
 
   ngOnInit(): void {
@@ -66,9 +70,9 @@ export class PortfolioViewComponent implements OnInit {
   imports: [
     CommonModule,
     RouterModule,
-    ProgressSpinnerModule,
     ButtonModule,
-    PortfolioTableModule
+    PortfolioTableModule,
+    TableModule
   ]
 })
 export class PortfolioViewModule {}

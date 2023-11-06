@@ -28,9 +28,12 @@ export class PageNotFoundComponent implements OnInit {
   }
 }
 
+// ------------------------------------------------------------------------------------------------------------------------ //
+
 @NgModule({
   declarations: [PageNotFoundComponent],
   exports: [PageNotFoundComponent],
+  //imports: [NgOptimizedImage],
   providers: [MessageService]
 })
 export class PageNotFoundModule {}

@@ -1,14 +1,14 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <div formArrayName="repartitionArray" class="container">
+    <div formArrayName="exposureArray" class="container">
 
-        <div *ngFor="let rep of array; let i=index" class="instance p-2">
+        <div *ngFor="let exposure of array; let i=index" class="instance p-2">
 
             <ng-container formGroupName="{{i}}">
-                <label for="{{rep.value._id}}" class="pr-4">{{rep.value.name}}</label>
+                <label for="{{exposure.value._id}}" class="pr-4">{{exposure.value.name}}</label>
                 <div>
                     <p-inputMask
-                        id="{{rep.value._id}}"
+                        id="{{exposure.value._id}}"
                         placeholder="00,00"
                         formControlName="exposure"
                         mask="99,99"
@@ -19,6 +19,6 @@
         </div>
     </div>
     <div class="submit mt-3">
-        <button pButton pRipple class="p-button-sm" label="Save" icon="pi pi-check" iconPos="right" type="submit"></button>
+        <app-button label="Save" btnClass="p-button-sm" icon="pi pi-check" type="submit"></app-button>
     </div>
 </form>

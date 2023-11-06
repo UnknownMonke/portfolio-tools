@@ -1,6 +1,4 @@
-/**
- * DTO. Reflects the MongoDB document.
- */
+/** DTO. Reflects the MongoDB document. */
 export interface Sector {
   _id: number, // Handled via counter.
   name: string,
@@ -8,7 +6,7 @@ export interface Sector {
   parentId: number // -1 for main Sector.
 }
 
-export interface SectorExposition {
+export interface SectorExposure {
   sectorId: number,
   exposure: number
 }

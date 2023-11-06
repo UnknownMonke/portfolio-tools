@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { BehaviorSubject, Observable, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Geography } from 'src/app/common/models/geography';
 import { Sector } from 'src/app/common/models/sector';
 import { SectorService } from 'src/app/edition/services/sector.service';
@@ -17,14 +17,14 @@ import { GeographyService } from './geography.service';
 export class EditionService {
 
   private _modalShowSubject = new BehaviorSubject<boolean>(false);
-  private _modalDataSubject = new BehaviorSubject<ModalData>({ title: '', name: '' });
+  private _modalDataSubject = new BehaviorSubject<ModalData>({ title: '', formFields: { name: '' }});
 
-  public _selectedType?: 'geo' | 'sec';
-  public _currentAction?: 'add' | 'addChild' | 'edit' | 'del';
-  public _selectedGeography?: Geography;
-  public _selectedSector?: Sector;
+  private _selectedType?: 'geo' | 'sec';
+  private _currentAction?: 'add' | 'addChild' | 'edit' | 'del';
+  private _selectedGeography?: Geography;
+  private _selectedSector?: Sector;
 
-  modalShow$: Observable<boolean> = this._modalShowSubject.asObservable().pipe(distinctUntilChanged());
+  modalShow$: Observable<boolean> = this._modalShowSubject.asObservable();
   modalData$: Observable<ModalData> = this._modalDataSubject.asObservable();
 
   constructor(
@@ -38,7 +38,7 @@ export class EditionService {
   }
 
   setData(title: string, name: string): void {
-    this._modalDataSubject.next({ title, name });
+    this._modalDataSubject.next({ title, formFields: { name }});
   }
 
   openModal(action: 'add' | 'addChild' | 'edit' | 'del', type: 'geo' | 'sec', data?: Geography | Sector): void {
@@ -125,7 +125,7 @@ export class EditionService {
             header: 'Confirm',
             message: 'Are you sure you want to delete this sector ?',
             rejectButtonStyleClass: 'p-button-text p-button-danger',
-            accept: () => this._sectorService.delete(data._id)
+            accept: () => this._sectorService.delete(data)
           });
         }
         break;
@@ -169,5 +169,7 @@ export class EditionService {
 
 export interface ModalData {
   title: string,
-  name: string
+  formFields: {
+    name: string
+  }
 }

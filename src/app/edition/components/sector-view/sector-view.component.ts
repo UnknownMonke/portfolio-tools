@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/c
 import { TreeNode } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { ButtonModule } from 'src/app/common/components/button/button.component';
-import { ProgressSpinnerModule } from 'src/app/common/components/progress-spinner/progress-spinner.component';
+import { TableModule } from 'src/app/core/components/table/table.component';
 import { Sector } from '../../../common/models/sector';
 import { EditionService } from '../../services/edition.service';
 import { SectorService } from '../../services/sector.service';
@@ -52,11 +52,10 @@ export class SectorViewComponent implements OnInit {
     private _editionService: EditionService,
     private _sectorService: SectorService
   ) {
-    this.data$ = this._sectorService.sectorData$;
+    this.data$ = this._sectorService.sectorData$();
   }
 
   ngOnInit(): void {
-    this._sectorService.get();
     this._sectorService.expand(true); // Opens the tree by default.
   }
 
@@ -80,7 +79,7 @@ export class SectorViewComponent implements OnInit {
     ConfirmationModalModule,
     EditionModalModule,
     SectorTableModule,
-    ProgressSpinnerModule
+    TableModule
   ]
 })
 export class SectorViewModule {}

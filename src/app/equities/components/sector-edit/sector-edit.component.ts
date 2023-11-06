@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TreeNode } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TreeTableModule } from 'primeng/treetable';
-import { Sector, SectorExposition } from 'src/app/common/models/sector';
+import { Sector, SectorExposure } from 'src/app/common/models/sector';
 import { SectorApiService } from 'src/app/edition/services/sector.provider';
 
 /**
@@ -33,7 +33,7 @@ export class SectorEditComponent implements OnInit {
   ngOnInit(): void {}
 
   // Rempli la liste des secteurs avec les valeurs mappées en base et non les valeurs concaténées des equités.
-  fillExposition(sectorRepartition: SectorExposition[]): void {
+  fillExposure(sectorRepartition: SectorExposure[]): void {
     this.sectorService.get()
       .subscribe( (data: Sector[]) => {
 
@@ -72,7 +72,7 @@ export class SectorEditComponent implements OnInit {
   }
 
   // Convertit la liste aplatie des secteurs en arbre pour affichage.
-  private buildTree(sectorRepartition: SectorExposition[]): TreeNode[] {
+  private buildTree(sectorRepartition: SectorExposure[]): TreeNode[] {
     const hashTable = Object.create(null);
 
     sectorRepartition.forEach(repartition => hashTable[0] = {
@@ -119,13 +119,13 @@ export class SectorEditComponent implements OnInit {
   // Reconverti l'arbre en array, et emit pour sauvegarde.
   //TODO TU
   submitRepartition(): void {
-    const sectorRepartition: SectorExposition[] = [];
+    const sectorRepartition: SectorExposure[] = [];
 
     this.mapTreeEmitter(sectorRepartition, this.sectorTree);
     this.sectorRepartitionChange.emit(sectorRepartition);
   }
 
-  private mapTreeEmitter(sectorRepartition: SectorExposition[], tree: TreeNode[]): void {
+  private mapTreeEmitter(sectorRepartition: SectorExposure[], tree: TreeNode[]): void {
     tree.forEach(repartition => {
       sectorRepartition.push(repartition.data);
 

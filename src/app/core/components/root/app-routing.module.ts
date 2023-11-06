@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from 'src/app/core/components/page-not-found/page-not-found.component';
 import { GeographyViewComponent } from 'src/app/edition/components/geography-view/geography-view.component';
 import { SectorViewComponent } from 'src/app/edition/components/sector-view/sector-view.component';
-import { EquityComponent } from 'src/app/equities/components/equity.component';
+import { EquityViewComponent } from 'src/app/equities/components/equity-view/equity-view.component';
 import { GeographicExposureComponent } from 'src/app/geographies/components/geographic-exposure/geographic-exposure.component';
 import { PortfolioViewComponent } from 'src/app/portfolio/components/portfolio-view/portfolio-view.component';
 import { SectorExposureComponent } from 'src/app/sectors/components/sector-exposure/sector-exposure.component';
@@ -81,9 +81,10 @@ const routes: Routes = [
   },
   {
     path: 'equity/:id',
-    component: EquityComponent,
+    component: EquityViewComponent,
     data: {
-      title: 'Equity Detail'
+      title: 'Equity Detail',
+      basePath: '/equity/'
     },
     canActivate: [AuthGuard]
   },

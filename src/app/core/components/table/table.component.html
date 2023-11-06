@@ -1,0 +1,19 @@
+<ng-container *ngIf="data; else loading">
+
+    <ng-container *ngIf="data.length > 0; else empty"
+        [ngTemplateOutlet]="tableTemplate"
+        [ngTemplateOutletContext]="{$implicit: data}">
+    </ng-container>
+
+    <ng-template #empty>
+        <div class="empty-table flex center">
+            <i class="pi pi-book"></i>
+        </div>
+    </ng-template>
+</ng-container>
+
+<ng-template #loading>
+    <div class="spinner-container">
+        <app-progress-spinner></app-progress-spinner>
+    </div>
+</ng-template>

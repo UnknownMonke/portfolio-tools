@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, Observable, filter, map, merge } from 'rxjs';
 
 /**
@@ -27,10 +27,10 @@ export class NavigationService {
     return merge(
       this._titleSubject$.asObservable(),
       this._router.events
-      .pipe(
-        filter( (event: any) => event instanceof NavigationEnd),
-        map(() => this._getTitle()) // Subscribes to the navigation event to update title on route change.
-      )
+        .pipe(
+          filter( (event: any) => event instanceof NavigationEnd),
+          map(() => this._getTitle()) // Subscribes to the navigation event to update title on route change.
+        )
     );
   }
 
@@ -46,7 +46,7 @@ export class NavigationService {
       .pipe(
         filter( (event: any) => event instanceof NavigationEnd),
         map((event: any) =>
-          this._matchRoute(this._router.config, event.url))
+          this._matchRoute(event.url))
       );
   }
 
@@ -71,9 +71,16 @@ export class NavigationService {
     return '';
   }
 
-  private _matchRoute(routes: Route[], url: string): boolean {
-    return routes
-      .map( (route: Route) => route.path)
-      .includes(url.replace('/', ''));
+  //TODO TUs
+  private _matchRoute(url: string): boolean {
+    let path = this._activatedRoute.snapshot.children[0].routeConfig?.path;
+
+    if(path?.includes(':')) {
+      path = path.substring(0, path.indexOf(':'));
+      return url.includes(path);
+
+    } else {
+      return path === url.replace('/', '');
+    }
   }
 }

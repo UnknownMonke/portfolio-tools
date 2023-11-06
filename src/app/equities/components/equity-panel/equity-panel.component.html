@@ -1,0 +1,13 @@
+<div class="container" *ngIf="equity">
+
+    <p-panel header="Summary">
+        <div class="detail cflex w-100">
+            <span>Name: {{equity.name}}</span>
+            <span>Ticker: {{equity.ticker}}</span>
+            <span>Type: {{equity.type}}</span>
+            <span class="font-bold">Quantity: {{equity.quantity || 0}}</span>
+            <span>Amount: <b>{{(equity.amount || 0) | currency: equity.currency}}</b></span>
+        </div>
+    </p-panel>
+
+</div>

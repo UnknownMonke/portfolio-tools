@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, concatMap, first, map, of, take } from 'rxjs';
 import { Equity } from 'src/app/common/models/equity';
-import { EquityService } from 'src/app/equities/services/equity.service';
+import { EquityProvider } from 'src/app/equities/services/equity.provider';
 import { EQUITIES } from '../../common/constants/mock-equities';
 
 /**
- * Service de login et récupération du portfolio et des balances DeGiro, depuis click sur bouton refresh
- * - Récupération des données et conversion en DTO
- * - Persistence du DTO:
- *  - Ajout sans exposure si l'actif n'existe pas en base
- *  - Mise à jour de l'actif sauf l'exposure si l'actif existe
- *
- *
- *
  * Portfolio loading strategy :
  *
  * - On init, loads the data from the session.
@@ -20,10 +12,12 @@ import { EQUITIES } from '../../common/constants/mock-equities';
  *
  * - The data then needs to be imported from a csv file using the import button.
  *
- * - Compare Equities with the portfolio stored in the database, and updates the database :
- *    - Maps Equities to their entity and search for a persisted existing Entity, with same id, name, ticker and type.
- *    - If only the id changed, updates the id.
- *    - Else, adds the equity as new, and deactivates but does not delete the old Equity.
+ * - After import, update the database :
+ *    - Maps Equities to their entity and search for a persisted existing entity, with same id, name, ticker and type.
+ *    - Since we want to keep the existing exposure for the stored equities :
+ *      - Updates existing equities in place, with amount, new brokerId if necessary, etc.
+ *      - Keeps old equities with status inactive.
+ *      - Add new equities with empty exposure.
  */
 @Injectable({
   providedIn: 'root'
@@ -35,7 +29,7 @@ export class PortfolioService {
   portfolioData$: Observable<Equity[]> = this._portfolioDataSubject.asObservable();
 
   constructor(
-    private equityService: EquityService
+    private _equityProvider: EquityProvider
   ) {}
 
   load(): void {
@@ -49,29 +43,13 @@ export class PortfolioService {
   }
 
   import(): void {
-
     const portfolio = EQUITIES;
 
     let portfolioData: Equity[] = portfolio
       .filter(val => val.positionType === "PRODUCT")
-      .map((position) => new Equity(position));
+      .map((position) => new Equity(position)); // Maps only broker values (without exposure by default).
 
-    // Load equities in base and search for a persisted existing Entity, with same id, name, ticker and type.
-    /*const portfolioMap = new Map<string, Equity>();
-    portfolioData.forEach(equity => portfolioMap.set(equity._id, equity));*/
-
-    //console.log(portfolioMap)
-
-    /*this.equityService.getEquities()
-      .pipe(
-        takeUntil(this.isDead$),
-        map( (data: Equity[]) => {
-          this.persistEquities(data, portfolioData, portfolioMap);
-        })
-      ).subscribe();*/
-
-    sessionStorage.setItem('portfolioData', JSON.stringify(portfolioData));
-    this._portfolioDataSubject.next(portfolioData);
+    this._updateEquities(portfolioData);
   }
 
   equals(equity: Equity, other: Equity): boolean {
@@ -81,78 +59,70 @@ export class PortfolioService {
       && equity.type === other.type;
   }
 
-  /**
-   * - Récupère les actifs actuellement en base
-   *  - Actif toujours présent mais activé ou déactivé pour les positions cloturées
-   *  - Actif non présent = nouvelle position à rajouter
-   */
-  persistEquities(equities: Equity[], portfolioData: Equity[], equityMap: Map<string, Equity>): void {
+  //TODO TUs
+  private _updateEquities(importedData: Equity[]): void {
 
-    if(equities) {
-      const dataMap = new Map<string, Equity>();
-      equities.map(equity => dataMap.set(equity._id, equity));
+    let newEquities: Equity[] = [];
 
-      // For each loaded equity
-      portfolioData.forEach(candidate => {
-        this.updateEquityMap(candidate, equities, equityMap);
-      });
+    this._equityProvider.getEquities()
+      .pipe(
+        first(), // Terminates after one value.
+        concatMap( (equities: Equity[]) => { // concatMap will execute Observables only when previous one emits (in order).
 
-      this.equityService.deleteEquities() //pas de subscribe dans les subscribe
-        .pipe(
-          //takeUntil(this.isDead$),
-          map( (success: boolean) => {
+          if(equities && equities.length > 0) {
 
-            if(success) {
-              this.equityService.addEquities([...dataMap.values()])
-                .pipe(
-                  //takeUntil(this.isDead$),
-                  map( (success: boolean) => {
-                    if(success) {
-                      this._portfolioDataSubject.next(portfolioData);
-                    }
-                  })
-                ).subscribe();
-            }
-          })
-        ).subscribe();
+            // Set to map.
+            const existingMap = new Map<string, Equity>(equities.map( equity => [equity._id, equity] ));
+            const importedMap = new Map<string, Equity>(importedData.map( equity => [equity._id, equity] ));
 
-    } else {
-      this.equityService.addEquities(portfolioData)
-        .pipe(
-          //takeUntil(this.isDead$),
-          map( (success: boolean) => {
-            if(success) {
-              this._portfolioDataSubject.next(portfolioData);
-            }
-          })
-        ).subscribe();
-    }
-  }
+            importedData.forEach( (importedEquity: Equity) => {
+              // Transferts exposure and update the equity with new values.
+              if(existingMap.has(importedEquity._id)) {
 
-  updateEquityMap(candidate: Equity, equities: Equity[], equityMap: Map<string, Equity>): Map<string, Equity> {
-    // if an existing id is found
-    if(equityMap.has(candidate._id)) {
-      const equity: Equity | undefined = equityMap.get(candidate._id);
+                const existingEquity = existingMap.get(importedEquity._id);
+                importedEquity.setExposure(existingEquity?.geographyExposure?? [], existingEquity?.sectorExposure?? []);
+              }
+              existingMap.set(importedEquity._id, importedEquity);
+            });
 
-      //console.log(equity);
-      //console.log(candidate);
+            // Finds unused equities and set them to inactive.
+            equities.forEach( (existingEquity: Equity) => {
 
-      // verify that the equity is the same, else
-      //TODO using class property doesnt work
-      if(equity && !this.equals(equity, candidate)) {
-        throw new Error(`Error: The equity with id ${equity?._id} clashes with an existing one.`);
-      }
+              if(!importedMap.has(existingEquity._id) && existingEquity.active) {
+                existingEquity.active = false;
 
-    } else { // no id is found, id may have changed or equity is new.
-      const possibleEquity = equities.filter(equity => candidate.simpleEquals(equity));
+                existingMap.set(existingEquity._id, existingEquity);
+              }
+            });
+            newEquities = [...existingMap.values()];
 
-      if(possibleEquity && possibleEquity.length > 0) {
-        equityMap.set(candidate._id, possibleEquity[0]); // replace the old equity with the new one
-        equityMap.delete(possibleEquity[0]._id);
-      } else {
-        equityMap.set(candidate._id, candidate);
-      }
-    }
-    return equityMap;
+          } else { // Adds all with empty exposure.
+            importedData = importedData
+              .map( (equity: Equity) => equity.setExposure([], []));
+
+              newEquities = importedData;
+          }
+
+          // Delete all existing equities and persists the updated one. Only 3 DB operations required.
+          return this._equityProvider.deleteEquities()
+            .pipe(
+              take(1),
+              concatMap( (success: boolean) =>
+                success ?
+                  this._equityProvider.addEquities(newEquities)
+                    .pipe(
+                      take(1),
+                      map( (success: boolean) => {
+                        if(success) {
+                          sessionStorage.setItem('portfolioData', JSON.stringify(newEquities));
+                          this._portfolioDataSubject.next(newEquities);
+                        }
+                      })
+                    )
+                  : of() //TODO launch error
+              )
+            );
+        })
+      ).subscribe();
   }
 }

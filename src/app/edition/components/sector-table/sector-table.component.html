@@ -3,7 +3,9 @@
     [autoLayout]="true"
     [sortOrder]="1"
     sortField="name"
-    styleClass="p-datatable-sm p-0">
+    styleClass="p-datatable-sm p-0"
+    (onNodeExpand)="onExpandChange($event)"
+    (onNodeCollapse)="onExpandChange($event)">
     <ng-template pTemplate="header">
         <tr>
             <td></td>
@@ -26,7 +28,7 @@
                     <app-button *ngIf="sector.level === 0"
                         pTooltip="Add"
                         tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-success"
+                        btnClass="p-button-outlined p-button-rounded p-button-success"
                         icon="pi pi-plus"
                         type="button"
                         height= "30px"
@@ -36,7 +38,7 @@
                     <app-button
                         pTooltip="Edit"
                         tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-success mx-2"
+                        btnClass="p-button-outlined p-button-rounded p-button-success mx-2"
                         icon="pi pi-pencil"
                         type="button"
                         height= "30px"
@@ -46,7 +48,7 @@
                     <app-button
                         pTooltip="Delete"
                         tooltipPosition="top"
-                        class="p-button-outlined p-button-rounded p-button-warning"
+                        btnClass="p-button-outlined p-button-rounded p-button-warning"
                         icon="pi pi-trash"
                         type="button"
                         height= "30px"

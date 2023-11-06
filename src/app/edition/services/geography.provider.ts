@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Geography } from '../../common/models/geography';
 import { APIEntry } from '../../common/enums/api';
+import { Geography } from '../../common/models/geography';
 
 // Common headers are defined in a constant.
 const headers: any = new HttpHeaders({
@@ -19,7 +19,7 @@ const headers: any = new HttpHeaders({
 @Injectable({
   providedIn: 'root'
 })
-export class GeographyApiService {
+export class GeographyProvider {
 
   constructor(
     private _httpClient: HttpClient

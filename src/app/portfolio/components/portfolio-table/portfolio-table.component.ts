@@ -30,7 +30,7 @@ export class PortfolioTableComponent {
     { field: 'source', header: 'Source'}
   ];
 
-  @Input() portfolioData: Equity[] | null = [];
+  @Input() portfolioData: Equity[] = [];
 }
 
 // ------------------------------------------------------------------------------------------------------------------------ //

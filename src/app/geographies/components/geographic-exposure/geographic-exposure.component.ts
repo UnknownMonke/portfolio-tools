@@ -4,10 +4,8 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { Equity } from 'src/app/common/models/equity';
-import { Geography } from 'src/app/common/models/geography';
-import { GeographyApiService } from 'src/app/edition/services/geography.provider';
-import { EquityService } from 'src/app/equities/services/equity.service';
+import { GeographyProvider } from 'src/app/edition/services/geography.provider';
+import { EquityProvider } from 'src/app/equities/services/equity.provider';
 import { ExposureGraphModule } from 'src/app/graphs/components/exposure-graph/exposure-graph.component';
 import { GeographicExposureTableModule } from '../geographic-exposure-table/geographic-exposure-table.component';
 
@@ -37,8 +35,8 @@ export class GeographicExposureComponent implements OnInit {
   loaded: boolean = false;
 
   constructor(
-    private equityService: EquityService,
-    private geographyService: GeographyApiService
+    private equityService: EquityProvider,
+    private geographyService: GeographyProvider
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +44,7 @@ export class GeographicExposureComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.equityService.getEquities()
+    /*this.equityService.getEquities()
       .subscribe( (equities: Equity[]) => {
 
         if(equities.length > 0) {
@@ -90,7 +88,7 @@ export class GeographicExposureComponent implements OnInit {
               }
             });
         }
-      });
+      });*/
   }
 
   // Ajout d'une ligne total par équité dans un objet séparé.

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Sector } from '../../common/models/sector';
 import { APIEntry } from 'src/app/common/enums/api';
+import { Sector } from '../../common/models/sector';
 
 // Common headers are defined in a constant.
 const headers: any = new HttpHeaders({
@@ -19,7 +19,7 @@ const headers: any = new HttpHeaders({
 @Injectable({
   providedIn: 'root'
 })
-export class SectorApiService {
+export class SectorProvider {
 
   constructor(
     private _httpClient: HttpClient

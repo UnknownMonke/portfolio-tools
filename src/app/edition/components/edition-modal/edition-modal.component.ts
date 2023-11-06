@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from "@angular/core";
 import { DialogModule } from 'primeng/dialog';
-import { Observable, Subject, takeUntil } from "rxjs";
+import { Observable, Subject, distinctUntilChanged, takeUntil } from "rxjs";
 import { EditionService, ModalData } from "../../services/edition.service";
 import { EditionFormModule } from "../edition-form/edition-form.component";
 
@@ -39,7 +39,8 @@ export class EditionModalComponent implements OnDestroy {
   ) {
     this._editionService.modalShow$
       .pipe(
-        takeUntil(this._isDead$)
+        takeUntil(this._isDead$),
+        distinctUntilChanged()
       ).subscribe(val => this.show = val);
 
     this.data$ = this._editionService.modalData$;

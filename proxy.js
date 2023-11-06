@@ -1,4 +1,4 @@
-/** A link dans Angular.json pour dire à Angular de passer par un proxy en particulier (proxy entreprise par exemple) */
+/** Link in Angular.json ("proxyConfig": "proxy.conf.json") to use a proxy (eg : company proxy). */
 var HttpsProxyAgent = require('https-proxy-agent');
 var proxyConfig = [{
   context: '/api',

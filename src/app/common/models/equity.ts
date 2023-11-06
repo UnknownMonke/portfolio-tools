@@ -1,5 +1,5 @@
-import { GeographyExposition } from "./geography";
-import { SectorExposition } from "./sector";
+import { GeographyExposure } from "./geography";
+import { SectorExposure } from "./sector";
 
 /**
  * DTO. Reflects the MongoDB document.
@@ -13,7 +13,7 @@ import { SectorExposition } from "./sector";
  */
 export class Equity {
   _id: string;
-  brokerId: String;
+  brokerId: string;
   name: string;
   ticker: string;
   type: string; // Share, ETF...
@@ -22,15 +22,16 @@ export class Equity {
   quantity: number;
   amount: number;
   source: string;
+  markForUpdate: boolean = false;
 
-  geography: GeographyExposition[];
-  sectors: SectorExposition[];
+  geographyExposure?: GeographyExposure[];
+  sectorExposure?: SectorExposure[];
 
   //TODO handle change in raw material
   //TODO factory for different raw equities
   constructor(equityRaw: any) {
     try {
-      this._id = this.createId('DeGiro', equityRaw.id);
+      this._id = this.createId('DeGiro', equityRaw.id); // Negative id when the Equity has not been persisted yet.
       this.brokerId = this.createId('DeGiro', equityRaw.id);
       this.name = equityRaw.productData.name;
       this.ticker = equityRaw.productData.symbol;
@@ -41,23 +42,26 @@ export class Equity {
       this.amount =  equityRaw.value;
       this.source = 'DeGiro';
 
-      this.geography = [];
-      this.sectors = [];
-
     } catch(e) {
       console.debug(e);
       throw new Error('Error parsing raw Equity.');
     }
   }
 
-  public equals(other: Equity): boolean {
+  setExposure(geographyExposure?: GeographyExposure[], sectorExposure?: SectorExposure[]): Equity {
+    this.geographyExposure = geographyExposure;
+    this.sectorExposure = sectorExposure;
+    return this;
+  }
+
+  equals(other: Equity): boolean {
     return this._id === other._id
       && this.name === other.name
       && this.ticker === other.ticker
       && this.type === other.type;
   }
 
-  public simpleEquals(other: Equity): boolean {
+  simpleEquals(other: Equity): boolean {
     return this.name === other.name
       && this.ticker === other.ticker
       && this.type === other.type;
@@ -66,6 +70,4 @@ export class Equity {
   private createId(source: string, localId: string): string {
     return source + '-' + localId;
   }
-
-
 }

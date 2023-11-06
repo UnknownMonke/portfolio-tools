@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EquityComponent } from './equity.component';
+import { EquityViewComponent } from './equity-view.component';
 
-describe('EquityComponent', () => {
-  let component: EquityComponent;
-  let fixture: ComponentFixture<EquityComponent>;
+describe('EquityViewComponent', () => {
+  let component: EquityViewComponent;
+  let fixture: ComponentFixture<EquityViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EquityComponent ]
+      declarations: [ EquityViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EquityComponent);
+    fixture = TestBed.createComponent(EquityViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

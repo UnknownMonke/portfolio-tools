@@ -1,0 +1,23 @@
+<div class="container cflex w-100" *ngIf="(equity$ | async) as equity">
+
+    <app-equity-panel [equity]="equity"></app-equity-panel>
+
+    <div class="card card-dark lflex m-4 p-3">
+
+        <div class="panel">
+            <div class="title pb-3">
+                <span>Geographic Exposure</span>
+            </div>
+            <app-geo-edit [mappedExposure]="(mappedExposure$ | async)!"></app-geo-edit>
+        </div>
+
+        <p-divider layout="vertical"></p-divider>
+
+        <div class="panel">
+            <div class="title pb-3">
+                <span>Sector Exposure</span>
+            </div>
+        </div>
+    </div>
+
+</div>

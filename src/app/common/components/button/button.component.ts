@@ -18,7 +18,7 @@ import { ButtonModule as PrimeButtonModule } from 'primeng/button';
 export class ButtonComponent {
 
   @Input() label? = '';
-  @Input() class? = '';
+  @Input() btnClass? = ''; // Different name to be able to use custom css classes on the component itself.
   @Input() icon? = '';
   @Input() type? = 'button';
   @Input() height? = '';

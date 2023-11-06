@@ -1,11 +1,11 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NgModule, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 import * as HighCharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
 
 /**
  * Composant graphique pour l'affichage des répartitions par secteur / géographie.
  *
- * - Récupère les expositions totals par secteur / géographie depuis le parent.
+ * - Récupère les exposures totals par secteur / géographie depuis le parent.
  * - Utilise Highcharts via la librairie highcharts-angular.
  */
 @Component({

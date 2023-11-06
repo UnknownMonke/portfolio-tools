@@ -8,8 +8,6 @@
     (visibleChange)="visibleChange($event)">
 
     <ng-template pTemplate="content">
-
-        <app-edition-form [selectedName]="data.name"></app-edition-form >
-
+        <app-edition-form [selectedName]="data.formFields.name"></app-edition-form >
     </ng-template>
 </p-dialog>
